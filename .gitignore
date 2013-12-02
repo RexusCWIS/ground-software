@@ -11,3 +11,6 @@
 *.lai
 *.la
 *.a
+
+# Build directories
+build-src-Desktop_Qt_5_1_1_clang_64bit-Debug
