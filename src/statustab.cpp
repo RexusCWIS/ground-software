@@ -1,6 +1,6 @@
 #include "statustab.h"
 
-static inline void setStatusText(QLabel *label, bool status) {
+static inline void setStatusText(QLabel *label, unsigned char status) {
 
     if(status == true) {
         label->setText("ON");
@@ -23,6 +23,10 @@ StatusTab::StatusTab(QWidget *parent) :
     m_cameraStatus = new QLabel(this);
     m_laserStatus  = new QLabel(this);
     m_powerStatus  = new QLabel(this);
+
+    statusLabels[0] = m_powerStatus;
+    statusLabels[1] = m_laserStatus;
+    statusLabels[2] = m_cameraStatus;
 
     m_cameraLabel->setText("Camera:");
     m_laserLabel->setText("Laser:");
@@ -52,5 +56,18 @@ StatusTab::StatusTab(QWidget *parent) :
 }
 
 void StatusTab::statusUpdate(const unsigned char status) {
-    (void) status;
+
+    unsigned char diff = m_status ^ status;
+
+    if(diff == 0) {
+        return;
+    }
+
+    unsigned int bit = 0;
+
+    while(diff != 0) {
+        bit = __builtin_ffs((unsigned int) diff) - 1;
+        setStatusText(statusLabels[bit], (status & bit));
+        diff &= ~bit;
+    }
 }

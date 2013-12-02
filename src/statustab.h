@@ -21,16 +21,18 @@ public slots:
     void statusUpdate(const unsigned char status);
 
 private:
-    QLabel *m_cameraLabel;        /**< @brief Camera label. */
-    QLabel *m_laserLabel;         /**< @brief Laser power label. */
-    QLabel *m_powerLabel;         /**< @brief General power label. */
+    QLabel *m_cameraLabel;      /**< @brief Camera label. */
+    QLabel *m_laserLabel;       /**< @brief Laser power label. */
+    QLabel *m_powerLabel;       /**< @brief General power label. */
 
     QLabel *m_cameraStatus;
     QLabel *m_laserStatus;
     QLabel *m_powerStatus;
 
-    QGridLayout *m_layout;        /**< @brief Layout of the status tab. */
+    QGridLayout *m_layout;      /**< @brief Layout of the status tab. */
 
+    unsigned char m_status;     /**< @brief Current experiment status. */
+    QLabel * statusLabels[3];
 };
 
 #endif // STATUSTAB_H
