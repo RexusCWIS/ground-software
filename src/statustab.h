@@ -25,6 +25,10 @@ private:
     QLabel *m_laserLabel;         /**< @brief Laser power label. */
     QLabel *m_powerLabel;         /**< @brief General power label. */
 
+    QLabel *m_cameraStatus;
+    QLabel *m_laserStatus;
+    QLabel *m_powerStatus;
+
     QGridLayout *m_layout;        /**< @brief Layout of the status tab. */
 
 };
