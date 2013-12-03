@@ -70,4 +70,6 @@ void StatusTab::statusUpdate(const unsigned char status) {
         setStatusText(statusLabels[bit], (status & bit));
         diff &= ~bit;
     }
+
+    m_status = status;
 }
