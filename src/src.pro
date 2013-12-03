@@ -9,7 +9,8 @@ HEADERS += \
     graphtab.h \
     timelinetab.h \
     experiment.h \
-    serialportlistener.h
+    serialportlistener.h \
+    serialportselector.h
 
 SOURCES += \
     mainwindow.cpp \
@@ -18,4 +19,5 @@ SOURCES += \
     qcustomplot.cpp \
     graphtab.cpp \
     timelinetab.cpp \
-    serialportlistener.cpp
+    serialportlistener.cpp \
+    serialportselector.cpp
