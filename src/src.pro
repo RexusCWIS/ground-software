@@ -7,7 +7,8 @@ HEADERS += \
     statustab.h \
     qcustomplot.h \
     graphtab.h \
-    timelinetab.h
+    timelinetab.h \
+    experiment.h
 
 SOURCES += \
     mainwindow.cpp \
