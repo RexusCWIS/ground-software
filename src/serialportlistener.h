@@ -17,6 +17,11 @@ class SerialPortListener: public QThread {
 
     public slots:
         void setSerialPort(const QString &device);
+        void setSerialPort(const QSerialPortInfo &port);
+
+    signals:
+        void newStatus(unsigned char);
+        void newSensorData(unsigned int, unsigned int, unsigned int, unsigned int);
 
     protected:
         void run(void);
