@@ -1,4 +1,5 @@
 #include "statustab.h"
+#include <QSpacerItem>
 
 static inline void setStatusText(QLabel *label, unsigned char status) {
 
@@ -32,7 +33,9 @@ StatusTab::StatusTab(QWidget *parent) :
     m_laserLabel->setText("Laser:");
     m_powerLabel->setText("Power:");
 
-
+    m_cameraStatus->setStyleSheet("QLabel {color : red; }");
+    m_laserStatus->setStyleSheet("QLabel {color : red; }");
+    m_powerStatus->setStyleSheet("QLabel {color : red; }");
     m_cameraStatus->setText("OFF");
     m_laserStatus->setText("OFF");
     m_powerStatus->setText("OFF");
@@ -53,6 +56,7 @@ StatusTab::StatusTab(QWidget *parent) :
     m_layout->addWidget(m_cameraStatus, 2, 1);
 
     this->setLayout(m_layout);
+    this->setMaximumSize(120, 100);
 }
 
 void StatusTab::refresh(const unsigned char status) {

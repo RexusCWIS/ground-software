@@ -5,6 +5,7 @@
 #include <QGridLayout>
 
 #include "statustab.h"
+#include "graphtab.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -15,6 +16,7 @@ class MainWindow : public QMainWindow {
 
     private:
         StatusTab *m_statusTab;
+        GraphTab  *m_graphTab;
         QGridLayout *m_layout;
         QWidget *m_centralWidget;
 };

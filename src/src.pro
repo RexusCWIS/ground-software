@@ -5,10 +5,12 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += printsupport
 HEADERS += \
     mainwindow.h \
     statustab.h \
-    qcustomplot.h
+    qcustomplot.h \
+    graphtab.h
 
 SOURCES += \
     mainwindow.cpp \
     main.cpp \
     statustab.cpp \
-    qcustomplot.cpp
+    qcustomplot.cpp \
+    graphtab.cpp
