@@ -18,7 +18,7 @@ public slots:
      * @brief Updates the displayed informations to match the given @p status.
      * @param status    Status bitfield.
      */
-    void statusUpdate(const unsigned char status);
+    void refresh(const unsigned char status);
 
 private:
     QLabel *m_cameraLabel;      /**< @brief Camera label. */

@@ -55,7 +55,7 @@ StatusTab::StatusTab(QWidget *parent) :
     this->setLayout(m_layout);
 }
 
-void StatusTab::statusUpdate(const unsigned char status) {
+void StatusTab::refresh(const unsigned char status) {
 
     unsigned char diff = m_status ^ status;
 
