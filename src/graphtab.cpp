@@ -34,7 +34,7 @@ GraphTab::GraphTab(QWidget *parent) :
     m_temperaturePlot3->replot();
 
     m_pressurePlot->xAxis->setLabel("Time [s]");
-    m_pressurePlot->yAxis->setLabel("Temperature [°C]");
+    m_pressurePlot->yAxis->setLabel("Pressure [atm]");
     m_pressurePlot->xAxis->setRange(0, 1000);
     m_pressurePlot->yAxis->setRange(-20, 100);
     m_pressurePlot->plotLayout()->insertRow(0);
@@ -49,5 +49,5 @@ GraphTab::GraphTab(QWidget *parent) :
     m_layout->addWidget(m_pressurePlot, 1, 1);
 
     this->setLayout(m_layout);
-    this->setMinimumSize(600, 600);
+    this->setMinimumSize(800, 600);
 }

@@ -2,6 +2,7 @@
 #define TIMELINETAB_H
 
 #include <QWidget>
+#include <QVBoxLayout>
 #include "qcustomplot.h"
 
 class TimelineTab : public QWidget
@@ -16,6 +17,8 @@ class TimelineTab : public QWidget
 
     private:
         QCustomPlot *m_timeline;
+        QVBoxLayout *m_layout;
+
 };
 
 #endif // TIMELINETAB_H

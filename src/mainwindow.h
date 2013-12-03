@@ -6,6 +6,7 @@
 
 #include "statustab.h"
 #include "graphtab.h"
+#include "timelinetab.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -17,6 +18,7 @@ class MainWindow : public QMainWindow {
     private:
         StatusTab *m_statusTab;
         GraphTab  *m_graphTab;
+        TimelineTab *m_timelineTab;
         QGridLayout *m_layout;
         QWidget *m_centralWidget;
 };

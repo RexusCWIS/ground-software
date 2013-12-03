@@ -7,7 +7,14 @@ TimelineTab::TimelineTab(QWidget *parent) :
 
     m_timeline->xAxis->setLabel("Time [s]");
     m_timeline->xAxis->setRange(0, 1000);
+    m_timeline->yAxis->setVisible(false);
     m_timeline->plotLayout()->insertRow(0);
     m_timeline->plotLayout()->addElement(0, 0, new QCPPlotTitle(m_timeline, "Experiment timeline"));
     m_timeline->replot();
+
+    m_layout = new QVBoxLayout(this);
+    m_layout->addWidget(m_timeline);
+
+    this->setLayout(m_layout);
+    this->setMinimumSize(800, 200);
 }
