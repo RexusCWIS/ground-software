@@ -1,6 +1,6 @@
+#CONFIG += serialport
 QT      += core gui
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-greaterThan(QT_MAJOR_VERSION, 4): QT += printsupport
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport serialport
 
 HEADERS += \
     mainwindow.h \
@@ -8,7 +8,8 @@ HEADERS += \
     qcustomplot.h \
     graphtab.h \
     timelinetab.h \
-    experiment.h
+    experiment.h \
+    serialportlistener.h
 
 SOURCES += \
     mainwindow.cpp \
@@ -16,4 +17,5 @@ SOURCES += \
     statustab.cpp \
     qcustomplot.cpp \
     graphtab.cpp \
-    timelinetab.cpp
+    timelinetab.cpp \
+    serialportlistener.cpp
