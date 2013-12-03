@@ -40,11 +40,12 @@ StatusTab::StatusTab(QWidget *parent) :
     m_laserStatus->setText("OFF");
     m_powerStatus->setText("OFF");
 
-
     m_cameraStatus->setFont(f);
     m_laserStatus->setFont(f);
     m_powerStatus->setFont(f);
 
+    m_portLabel = new QLabel("Serial port:", this);
+    m_portSelector = new SerialPortSelector(this);
 
     m_layout = new QGridLayout(this);
     m_layout->addWidget(m_powerLabel, 0, 0);
@@ -55,8 +56,12 @@ StatusTab::StatusTab(QWidget *parent) :
     m_layout->addWidget(m_laserStatus, 1, 1);
     m_layout->addWidget(m_cameraStatus, 2, 1);
 
+    m_layout->addWidget(m_portLabel, 4, 0);
+    m_layout->addWidget(m_portSelector, 4, 1);
+
     this->setLayout(m_layout);
-    this->setMaximumSize(120, 100);
+    this->setMinimumSize(120, 100);
+    this->setMaximumSize(200, 100);
 }
 
 void StatusTab::refresh(const unsigned char status) {

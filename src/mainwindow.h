@@ -19,6 +19,7 @@ class MainWindow : public QMainWindow {
         StatusTab *m_statusTab;
         GraphTab  *m_graphTab;
         TimelineTab *m_timelineTab;
+
         QGridLayout *m_layout;
         QWidget *m_centralWidget;
 };

@@ -5,6 +5,9 @@
 #include <QLabel>
 #include <QGridLayout>
 
+#include "serialportselector.h"
+#include "serialportlistener.h"
+
 class StatusTab : public QWidget
 {
     Q_OBJECT
@@ -33,6 +36,10 @@ private:
 
     unsigned char m_status;     /**< @brief Current experiment status. */
     QLabel * statusLabels[3];
+
+    /* Serial port */
+    QLabel *m_portLabel;
+    SerialPortSelector *m_portSelector;
 };
 
 #endif // STATUSTAB_H

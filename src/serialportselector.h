@@ -7,7 +7,7 @@ class SerialPortSelector: public QComboBox {
     Q_OBJECT
 
 public:
-    SerialPortSelector();
+    SerialPortSelector(QWidget *parent);
 };
 
 #endif // SERIALPORTSELECTOR_H
