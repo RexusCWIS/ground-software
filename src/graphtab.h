@@ -4,7 +4,10 @@
 #include <QWidget>
 #include <QLabel>
 #include <QGridLayout>
+
 #include "qcustomplot.h"
+
+#include "experiment.h"
 
 class GraphTab : public QWidget
 {
@@ -15,6 +18,7 @@ class GraphTab : public QWidget
     signals:
 
     public slots:
+        void refresh(const ExperimentData_s &data);
 
     private:
         QCustomPlot *m_temperaturePlot1;

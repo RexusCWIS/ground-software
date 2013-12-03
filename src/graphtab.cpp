@@ -52,3 +52,16 @@ GraphTab::GraphTab(QWidget *parent) :
     this->setLayout(m_layout);
     this->setMinimumSize(800, 600);
 }
+
+void GraphTab::refresh(const ExperimentData_s &data) {
+
+    m_temperaturePlot1->graph(0)->addData(data.time, data.temperature[0]);
+    m_temperaturePlot2->graph(0)->addData(data.time, data.temperature[1]);
+    m_temperaturePlot3->graph(0)->addData(data.time, data.temperature[2]);
+    m_pressurePlot->graph(0)->addData(data.time, data.pressure);
+
+    m_temperaturePlot1->replot();
+    m_temperaturePlot2->replot();
+    m_temperaturePlot3->replot();
+    m_pressurePlot->replot();
+}

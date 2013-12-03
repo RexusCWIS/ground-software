@@ -17,28 +17,21 @@ StatusTab::StatusTab(QWidget *parent) :
 {
     QFont f("Arial", 10, QFont::Bold);
 
-    m_cameraLabel = new QLabel(this);
-    m_laserLabel  = new QLabel(this);
-    m_powerLabel  = new QLabel(this);
+    m_cameraLabel = new QLabel("Camera:", this);
+    m_laserLabel  = new QLabel("Laser:", this);
+    m_powerLabel  = new QLabel("Power:", this);
 
-    m_cameraStatus = new QLabel(this);
-    m_laserStatus  = new QLabel(this);
-    m_powerStatus  = new QLabel(this);
+    m_cameraStatus = new QLabel("OFF", this);
+    m_laserStatus  = new QLabel("OFF", this);
+    m_powerStatus  = new QLabel("OFF", this);
 
     statusLabels[0] = m_powerStatus;
     statusLabels[1] = m_laserStatus;
     statusLabels[2] = m_cameraStatus;
 
-    m_cameraLabel->setText("Camera:");
-    m_laserLabel->setText("Laser:");
-    m_powerLabel->setText("Power:");
-
     m_cameraStatus->setStyleSheet("QLabel {color : red; }");
     m_laserStatus->setStyleSheet("QLabel {color : red; }");
     m_powerStatus->setStyleSheet("QLabel {color : red; }");
-    m_cameraStatus->setText("OFF");
-    m_laserStatus->setText("OFF");
-    m_powerStatus->setText("OFF");
 
     m_cameraStatus->setFont(f);
     m_laserStatus->setFont(f);
