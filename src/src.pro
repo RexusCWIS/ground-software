@@ -6,11 +6,13 @@ HEADERS += \
     mainwindow.h \
     statustab.h \
     qcustomplot.h \
-    graphtab.h
+    graphtab.h \
+    timelinetab.h
 
 SOURCES += \
     mainwindow.cpp \
     main.cpp \
     statustab.cpp \
     qcustomplot.cpp \
-    graphtab.cpp
+    graphtab.cpp \
+    timelinetab.cpp
