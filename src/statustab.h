@@ -8,6 +8,7 @@
 #include "serialportselector.h"
 #include "serialportlistener.h"
 
+/** @todo Add images taken by the camera, camera framerate...*/
 class StatusTab : public QWidget
 {
     Q_OBJECT

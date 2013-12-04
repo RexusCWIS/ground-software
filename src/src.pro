@@ -10,7 +10,8 @@ HEADERS += \
     timelinetab.h \
     experiment.h \
     serialportlistener.h \
-    serialportselector.h
+    serialportselector.h \
+    experimentdatagenerator.h
 
 SOURCES += \
     mainwindow.cpp \
@@ -20,4 +21,5 @@ SOURCES += \
     graphtab.cpp \
     timelinetab.cpp \
     serialportlistener.cpp \
-    serialportselector.cpp
+    serialportselector.cpp \
+    experimentdatagenerator.cpp
