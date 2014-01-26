@@ -26,7 +26,7 @@ class SerialPortListener: public QThread {
         void newSensorData(unsigned int, unsigned int, unsigned int, unsigned int);
 
     protected:
-        void run(void);
+        void run();
 
     private:
         QSerialPort *m_serial;

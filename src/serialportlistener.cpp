@@ -1,5 +1,6 @@
 #include "serialportlistener.h"
 
+#include <QDebug>
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 #include <QByteArray>
@@ -23,7 +24,7 @@ SerialPortListener::~SerialPortListener() {
 void SerialPortListener::start() {
 
     m_stop = false;
-    QThread::run();
+    QThread::start();
 }
 
 void SerialPortListener::stop() {
@@ -50,6 +51,8 @@ void SerialPortListener::setSerialPort(const QSerialPortInfo &port) {
 void SerialPortListener::run() {
 
     char dataFrame[24];
+
+    qDebug() << "Thread started";
 
     bool outOfSync = true;
     int time = 0;
@@ -85,7 +88,9 @@ void SerialPortListener::run() {
             }
         }
 
-        while(m_serial->bytesAvailable() < 22)
+        while(m_serial->bytesAvailable() < 22) {
+            m_serial->waitForReadyRead(100);
+        }
         /* Read the remaining 22 bytes */
         m_serial->read(&dataFrame[2], 22);
 

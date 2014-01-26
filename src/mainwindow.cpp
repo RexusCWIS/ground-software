@@ -19,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_layout->addWidget(m_timelineTab, 1, 1);
     m_centralWidget->setLayout(m_layout);
 
+    QObject::connect(m_spListener, SIGNAL(newStatus(unsigned char)), m_statusTab, SLOT(refresh(unsigned char)));
+
     this->setCentralWidget(m_centralWidget);
 }
 
