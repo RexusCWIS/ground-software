@@ -57,6 +57,11 @@ StatusTab::StatusTab(QWidget *parent) :
     this->setMaximumSize(200, 100);
 }
 
+void StatusTab::setSerialPortListener(const SerialPortListener *spListener) {
+
+    QObject::connect(this->m_portSelector, SIGNAL(currentIndexChanged(QString)), spListener, SLOT(setSerialPort(QString)));
+}
+
 void StatusTab::refresh(const unsigned char status) {
 
     unsigned char diff = m_status ^ status;

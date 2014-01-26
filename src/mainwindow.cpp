@@ -9,6 +9,10 @@ MainWindow::MainWindow(QWidget *parent) :
     m_graphTab    = new GraphTab(m_centralWidget);
     m_timelineTab = new TimelineTab(m_centralWidget);
 
+    m_spListener  = new SerialPortListener();
+
+    m_statusTab->setSerialPortListener(m_spListener);
+
     m_layout = new QGridLayout(m_centralWidget);
     m_layout->addWidget(m_statusTab, 0, 0);
     m_layout->addWidget(m_graphTab, 0, 1);

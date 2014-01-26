@@ -7,6 +7,7 @@
 #include "statustab.h"
 #include "graphtab.h"
 #include "timelinetab.h"
+#include "serialportlistener.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -22,6 +23,8 @@ class MainWindow : public QMainWindow {
 
         QGridLayout *m_layout;
         QWidget *m_centralWidget;
+
+        SerialPortListener *m_spListener;
 };
 
 #endif // MAINWINDOW_H
