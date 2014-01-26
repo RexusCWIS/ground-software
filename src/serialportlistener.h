@@ -8,6 +8,8 @@
 
 class SerialPortListener: public QThread {
 
+    Q_OBJECT
+
     public:
         SerialPortListener();
         virtual ~SerialPortListener();
