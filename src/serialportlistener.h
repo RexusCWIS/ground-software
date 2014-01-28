@@ -3,7 +3,6 @@
 
 #include <QThread>
 
-#include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 
 class SerialPortListener: public QThread {
@@ -11,7 +10,7 @@ class SerialPortListener: public QThread {
     Q_OBJECT
 
     public:
-        SerialPortListener();
+        SerialPortListener(QObject *parent);
         virtual ~SerialPortListener();
 
         void start(void);
@@ -29,7 +28,7 @@ class SerialPortListener: public QThread {
         void run();
 
     private:
-        QSerialPort *m_serial;
+        QString m_serialPort;
         volatile bool m_stop;
 };
 

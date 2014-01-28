@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_graphTab    = new GraphTab(m_centralWidget);
     m_timelineTab = new TimelineTab(m_centralWidget);
 
-    m_spListener  = new SerialPortListener();
+    m_spListener  = new SerialPortListener(this);
 
     m_statusTab->setSerialPortListener(m_spListener);
 
