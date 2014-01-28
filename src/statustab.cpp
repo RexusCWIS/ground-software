@@ -3,12 +3,14 @@
 
 static inline void setStatusText(QLabel *label, unsigned char status) {
 
-    if(status == true) {
+    if(status) {
         label->setText("ON");
+        label->setStyleSheet("QLabel {color : green; }");
     }
 
     else {
         label->setText("OFF");
+        label->setStyleSheet("QLabel {color : red; }");
     }
 }
 
@@ -55,6 +57,8 @@ StatusTab::StatusTab(QWidget *parent) :
     this->setLayout(m_layout);
     this->setMinimumSize(120, 100);
     this->setMaximumSize(200, 100);
+
+    m_status = 0;
 }
 
 void StatusTab::setSerialPortListener(const SerialPortListener *spListener) {
@@ -74,8 +78,8 @@ void StatusTab::refresh(const unsigned char status) {
 
     while(diff != 0) {
         bit = __builtin_ffs((unsigned int) diff) - 1;
-        setStatusText(statusLabels[bit], (status & bit));
-        diff &= ~bit;
+        setStatusText(statusLabels[bit], (status & (1 << bit)));
+        diff &= ~(1 << bit);
     }
 
     m_status = status;
