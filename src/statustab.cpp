@@ -21,21 +21,30 @@ StatusTab::StatusTab(QWidget *parent) :
     m_laserLabel  = new QLabel("Laser:", this);
     m_powerLabel  = new QLabel("Power:", this);
 
-    m_cameraStatus = new QLabel("OFF", this);
-    m_laserStatus  = new QLabel("OFF", this);
-    m_powerStatus  = new QLabel("OFF", this);
+    m_statusLabels[0] = new QLabel("OFF", this);
+    m_statusLabels[1] = new QLabel("OFF", this);
+    m_statusLabels[2] = new QLabel("OFF", this);
 
-    statusLabels[0] = m_powerStatus;
-    statusLabels[1] = m_laserStatus;
-    statusLabels[2] = m_cameraStatus;
+    m_statusLabels[0]->setAlignment(Qt::AlignCenter);
+    m_statusLabels[1]->setAlignment(Qt::AlignCenter);
+    m_statusLabels[2]->setAlignment(Qt::AlignCenter);
 
-    m_cameraStatus->setStyleSheet("QLabel {color : red; }");
-    m_laserStatus->setStyleSheet("QLabel {color : red; }");
-    m_powerStatus->setStyleSheet("QLabel {color : red; }");
+    m_statusLabels[0]->setStyleSheet("QLabel {color : red; }");
+    m_statusLabels[1]->setStyleSheet("QLabel {color : red; }");
+    m_statusLabels[2]->setStyleSheet("QLabel {color : red; }");
 
-    m_cameraStatus->setFont(f);
-    m_laserStatus->setFont(f);
-    m_powerStatus->setFont(f);
+    m_statusLabels[0]->setFont(f);
+    m_statusLabels[1]->setFont(f);
+    m_statusLabels[2]->setFont(f);
+
+    m_imagesLabel   = new QLabel("Images acquired:");
+    m_acquiredLabel = new QLabel("0", this);
+    m_acquiredLabel->setAlignment(Qt::AlignCenter);
+
+    m_cpuTempLabel = new QLabel("CPU temperature:", this);
+    m_thermometer  = new ThermoMeter(this);
+    m_thermometer->setMinimum(0);
+    m_thermometer->setMaximum(100);
 
     m_portLabel = new QLabel("Serial port:", this);
     m_portSelector = new SerialPortSelector(this);
@@ -45,16 +54,23 @@ StatusTab::StatusTab(QWidget *parent) :
     m_layout->addWidget(m_laserLabel, 1, 0);
     m_layout->addWidget(m_cameraLabel, 2, 0);
 
-    m_layout->addWidget(m_powerStatus, 0, 1);
-    m_layout->addWidget(m_laserStatus, 1, 1);
-    m_layout->addWidget(m_cameraStatus, 2, 1);
+    m_layout->addWidget(m_statusLabels[0], 0, 1);
+    m_layout->addWidget(m_statusLabels[1], 1, 1);
+    m_layout->addWidget(m_statusLabels[2], 2, 1);
 
-    m_layout->addWidget(m_portLabel, 4, 0);
-    m_layout->addWidget(m_portSelector, 4, 1);
+    m_layout->addWidget(m_imagesLabel, 3, 0);
+    m_layout->addWidget(m_acquiredLabel, 3, 1);
+
+    m_layout->addWidget(m_cpuTempLabel, 5, 0, 1, 2);
+
+    m_layout->addWidget(m_thermometer, 4, 1, 6, 2);
+
+    m_layout->addWidget(m_portLabel, 11, 0);
+    m_layout->addWidget(m_portSelector, 11, 1);
 
     this->setLayout(m_layout);
     this->setMinimumSize(120, 100);
-    this->setMaximumSize(200, 100);
+    this->setMaximumSize(250, 350);
 }
 
 void StatusTab::refresh(const unsigned char status) {
@@ -69,7 +85,7 @@ void StatusTab::refresh(const unsigned char status) {
 
     while(diff != 0) {
         bit = __builtin_ffs((unsigned int) diff) - 1;
-        setStatusText(statusLabels[bit], (status & bit));
+        setStatusText(m_statusLabels[bit], (status & bit));
         diff &= ~bit;
     }
 

@@ -2,11 +2,14 @@
 #define STATUSTAB_H
 
 #include <QWidget>
+#include <QFrame>
 #include <QLabel>
 #include <QGridLayout>
 
 #include "serialportselector.h"
 #include "serialportlistener.h"
+
+#include "thermometer/thermometer.h"
 
 /** @todo Add images taken by the camera, camera framerate...*/
 class StatusTab : public QWidget
@@ -28,15 +31,16 @@ private:
     QLabel *m_cameraLabel;      /**< @brief Camera label. */
     QLabel *m_laserLabel;       /**< @brief Laser power label. */
     QLabel *m_powerLabel;       /**< @brief General power label. */
+    QLabel *m_imagesLabel;      /**< @brief Acquired images label. */
+    QLabel *m_acquiredLabel;    /**< @brief Displays the number of acquired images. */
+    QLabel *m_cpuTempLabel;     /**< @brief CPU temperature label. */
 
-    QLabel *m_cameraStatus;
-    QLabel *m_laserStatus;
-    QLabel *m_powerStatus;
+    ThermoMeter *m_thermometer; /**< @brief Thermometer indicating the CPU temperature. */
 
     QGridLayout *m_layout;      /**< @brief Layout of the status tab. */
 
     unsigned char m_status;     /**< @brief Current experiment status. */
-    QLabel * statusLabels[3];
+    QLabel * m_statusLabels[3];
 
     /* Serial port */
     QLabel *m_portLabel;
