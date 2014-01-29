@@ -12,5 +12,8 @@
 *.la
 *.a
 
+# Qt user files
+*.user.pro*
+
 # Build directories
 build-*
