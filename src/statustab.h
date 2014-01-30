@@ -18,6 +18,8 @@ class StatusTab : public QWidget
 public:
     explicit StatusTab(QWidget *parent = 0);
 
+    void setSerialPortListener(const SerialPortListener *spListener);
+
 signals:
 
 public slots:
