@@ -37,7 +37,7 @@ GraphTab::GraphTab(QWidget *parent) :
     m_pressurePlot->xAxis->setLabel("Time [s]");
     m_pressurePlot->yAxis->setLabel("Pressure [atm]");
     m_pressurePlot->xAxis->setRange(0, EXPERIMENT_DURATION);
-    m_pressurePlot->yAxis->setRange(-20, 100);
+    m_pressurePlot->yAxis->setRange(0, 2);
     m_pressurePlot->plotLayout()->insertRow(0);
     m_pressurePlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(m_pressurePlot, "Ambient pressure"));
     m_pressurePlot->replot();
@@ -53,7 +53,7 @@ GraphTab::GraphTab(QWidget *parent) :
     this->setMinimumSize(800, 600);
 }
 
-void GraphTab::refresh(const ExperimentData_s &data) {
+void GraphTab::refresh(const ExperimentData_s data) {
 
     m_temperaturePlot1->graph(0)->addData(data.time, data.temperature[0]);
     m_temperaturePlot2->graph(0)->addData(data.time, data.temperature[1]);

@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_centralWidget->setLayout(m_layout);
 
     QObject::connect(m_spListener, SIGNAL(newStatus(unsigned char)), m_statusTab, SLOT(refresh(unsigned char)));
+    QObject::connect(m_spListener, SIGNAL(newSensorData(ExperimentData_s)), m_graphTab, SLOT(refresh(ExperimentData_s)));
 
     this->setCentralWidget(m_centralWidget);
 }

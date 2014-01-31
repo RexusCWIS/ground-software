@@ -1,8 +1,9 @@
 #ifndef SERIALPORTLISTENER_H
 #define SERIALPORTLISTENER_H
 
-#include <QThread>
+#include "experiment.h"
 
+#include <QThread>
 #include <QtSerialPort/QSerialPortInfo>
 
 class SerialPortListener: public QThread {
@@ -22,7 +23,7 @@ class SerialPortListener: public QThread {
 
     signals:
         void newStatus(unsigned char);
-        void newSensorData(unsigned int, unsigned int, unsigned int, unsigned int);
+        void newSensorData(ExperimentData_s);
 
     protected:
         void run();
