@@ -57,15 +57,6 @@ GraphTab::GraphTab(QWidget *parent) :
 
     this->setLayout(m_layout);
     this->setMinimumSize(800, 600);
-
-    /* Data simulation */
-    /*
-    ExperimentDataGenerator *serialSimulator = new ExperimentDataGenerator();
-    serialSimulator->moveToThread(&m_workerThread);
-    QObject::connect(&m_workerThread, &QThread::started, serialSimulator, &ExperimentDataGenerator::generateData);
-    QObject::connect(&m_workerThread, &QThread::finished, this, &QObject::deleteLater);
-    QObject::connect(serialSimulator, &ExperimentDataGenerator::newSensorData, this, &GraphTab::refresh);
-    m_workerThread.start(); */
 }
 
 GraphTab::~GraphTab() {
