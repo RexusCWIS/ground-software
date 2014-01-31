@@ -11,7 +11,8 @@ HEADERS += \
     experiment.h \
     serialportlistener.h \
     serialportselector.h \
-    experimentdatagenerator.h
+    experimentdatagenerator.h \
+    crc.h
 
 SOURCES += \
     mainwindow.cpp \
@@ -22,4 +23,6 @@ SOURCES += \
     timelinetab.cpp \
     serialportlistener.cpp \
     serialportselector.cpp \
-    experimentdatagenerator.cpp
+    experimentdatagenerator.cpp \
+    crc_table.c \
+    crc.c

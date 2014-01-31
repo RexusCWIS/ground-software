@@ -1,5 +1,7 @@
 #include "serialportlistener.h"
 
+#include "crc.h"
+
 #include <QDebug>
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
@@ -53,7 +55,8 @@ void SerialPortListener::run() {
 
     qDebug() << "Thread started";
 
-    bool outOfSync = true;
+    bool outOfSync  = true,
+         validFrame = true;
     unsigned int time = 0;
     unsigned int sensorData[4] = {0, 0, 0, 0};
     unsigned char status[2] = {0, 0};
@@ -94,23 +97,27 @@ void SerialPortListener::run() {
         serial.read((char *) &dataFrame[2], 22);
 
         /** @todo Implement checksum computation */
+        validFrame = (crc(dataFrame, 24) == 0);
 
-        /* Separate data and emit related signals */
-        /** @todo Implement unit conversion */
-        time = (((unsigned int) dataFrame[5]) << 24) + (((unsigned int) dataFrame[4]) << 16) +
-               (((unsigned int) dataFrame[3]) << 8) + ((unsigned int) dataFrame[2]);
+        if(validFrame) {
 
-        for(int index = 6; index < 14; index += 2) {
-            sensorData[(index >> 1) - 3] = (((unsigned int) dataFrame[index + 1]) << 8) +
-                                            ((unsigned int) dataFrame[index]);
+            /* Separate data and emit related signals */
+            /** @todo Implement unit conversion */
+            time = (((unsigned int) dataFrame[5]) << 24) + (((unsigned int) dataFrame[4]) << 16) +
+                   (((unsigned int) dataFrame[3]) << 8) + ((unsigned int) dataFrame[2]);
+
+            for(int index = 6; index < 14; index += 2) {
+                sensorData[(index >> 1) - 3] = (((unsigned int) dataFrame[index + 1]) << 8) +
+                                                ((unsigned int) dataFrame[index]);
+            }
+
+            status[0] = dataFrame[14];
+            status[1] = dataFrame[15];
+
+            qDebug() << time << ": " << status[0] << "\n";
+            emit newStatus((status[0] & 0x7));
+            emit newSensorData(sensorData[0], sensorData[1], sensorData[2], sensorData[3]);
         }
-
-        status[0] = dataFrame[14];
-        status[1] = dataFrame[15];
-
-        qDebug() << time << ": " << status[0] << "\n";
-        emit newStatus((status[0] & 0x7));
-        emit newSensorData(sensorData[0], sensorData[1], sensorData[2], sensorData[3]);
     }
 
     serial.close();
