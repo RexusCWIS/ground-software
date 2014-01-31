@@ -55,6 +55,7 @@ void SerialPortListener::run() {
 
     ExperimentData_s experimentData;
 
+    qRegisterMetaType<ExperimentData_s>("ExperimentData_s");
     qDebug() << "Thread started";
 
     bool outOfSync  = true,

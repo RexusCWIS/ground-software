@@ -2,6 +2,7 @@
 #define EXPERIMENTDATAGENERATOR_H
 
 #include <QObject>
+#include <QThread>
 
 #include "experiment.h"
 
@@ -15,5 +16,6 @@ class ExperimentDataGenerator: public QObject {
         void newSensorData(ExperimentData_s const&);
         void send(int);
 };
+
 
 #endif // EXPERIMENTDATAGENERATOR_H
