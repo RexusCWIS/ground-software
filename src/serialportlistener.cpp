@@ -3,6 +3,7 @@
 #include "crc.h"
 
 #include <QDebug>
+#include <QFile>
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 #include <QByteArray>
@@ -14,11 +15,13 @@ SerialPortListener::SerialPortListener(QObject *parent) :
         QThread(parent) {
 
     m_stop   = false;
+    m_recordedData = new QVector<ExperimentData_s>(0);
 }
 
 SerialPortListener::~SerialPortListener() {
 
     stop();
+    delete m_recordedData;
 }
 
 void SerialPortListener::start() {
@@ -44,8 +47,31 @@ void SerialPortListener::setSerialPort(const QString &device) {
 /** @todo Fix this */
 void SerialPortListener::setSerialPort(const QSerialPortInfo &port) {
 
+    (void) port;
     stop();
     start();
+}
+
+void SerialPortListener::clearRecordedData(void) {
+
+    m_recordedData->clear();
+}
+
+void SerialPortListener::saveRecordedData(const QString &filename) const {
+
+    QFile file(filename);
+    if(file.open(QFile::WriteOnly | QFile::Truncate)) {
+        QTextStream out(&file);
+        out << "Time [ms]\tTemperature 1\tTemperature2\tTemperature3\tPressure\tStatus Flags\n";
+
+        QVector<ExperimentData_s>::iterator it;
+        for(it = m_recordedData->begin(); it != m_recordedData->end(); it++) {
+            out << it->time << "\t" << it->temperature[0] << "\t" << it->temperature[1] << "\t" <<
+                   it->temperature[2] << "\t" << it->pressure << "\t" << it->status << "\n";
+        }
+
+        file.close();
+    }
 }
 
 void SerialPortListener::run() {
@@ -60,8 +86,6 @@ void SerialPortListener::run() {
 
     bool outOfSync  = true,
          validFrame = true;
-    unsigned int time = 0;
-    unsigned int sensorData[4] = {0, 0, 0, 0};
     unsigned char status[2] = {0, 0};
 
     serial.open(QIODevice::ReadOnly);
@@ -119,7 +143,9 @@ void SerialPortListener::run() {
             status[0] = dataFrame[14];
             status[1] = dataFrame[15];
 
-            qDebug() << experimentData.time << ": " << status[0] << "\n";
+            m_recordedData->append(experimentData);
+
+            qDebug() << experimentData.time << ": " << experimentData.pressure << "\n";
             emit newStatus((status[0] & 0x7));
             emit newSensorData(experimentData);
         }

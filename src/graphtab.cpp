@@ -55,6 +55,11 @@ GraphTab::GraphTab(QWidget *parent) :
     m_layout->addWidget(m_temperaturePlot3, 1, 0);
     m_layout->addWidget(m_pressurePlot, 1, 1);
 
+    QObject::connect(m_temperaturePlot1->xAxis, SIGNAL(rangeChanged(QCPRange)), m_temperaturePlot1->xAxis2, SLOT(setRange(QCPRange)));
+    QObject::connect(m_temperaturePlot2->xAxis, SIGNAL(rangeChanged(QCPRange)), m_temperaturePlot2->xAxis2, SLOT(setRange(QCPRange)));
+    QObject::connect(m_temperaturePlot3->xAxis, SIGNAL(rangeChanged(QCPRange)), m_temperaturePlot3->xAxis2, SLOT(setRange(QCPRange)));
+    QObject::connect(m_pressurePlot->xAxis, SIGNAL(rangeChanged(QCPRange)), m_pressurePlot->xAxis2, SLOT(setRange(QCPRange)));
+
     this->setLayout(m_layout);
     this->setMinimumSize(800, 600);
 }
@@ -66,10 +71,25 @@ GraphTab::~GraphTab() {
 
 void GraphTab::refresh(const ExperimentData_s data) {
 
-    m_temperaturePlot1->graph(0)->addData(data.time, data.temperature[0]);
-    m_temperaturePlot2->graph(0)->addData(data.time, data.temperature[1]);
-    m_temperaturePlot3->graph(0)->addData(data.time, data.temperature[2]);
-    m_pressurePlot->graph(0)->addData(data.time, data.pressure);
+    float time = data.getTime();
+
+    m_temperaturePlot1->graph(0)->addData(time, data.getTemperature(0u));
+    m_temperaturePlot2->graph(0)->addData(time, data.getTemperature(1u));
+    m_temperaturePlot3->graph(0)->addData(time, data.getTemperature(2u));
+    m_pressurePlot->graph(0)->addData(time, data.getPressure());
+
+    m_temperaturePlot1->replot();
+    m_temperaturePlot2->replot();
+    m_temperaturePlot3->replot();
+    m_pressurePlot->replot();
+}
+
+void GraphTab::clear(void) {
+
+    m_temperaturePlot1->graph(0)->clearData();
+    m_temperaturePlot2->graph(0)->clearData();
+    m_temperaturePlot3->graph(0)->clearData();
+    m_pressurePlot->graph(0)->clearData();
 
     m_temperaturePlot1->replot();
     m_temperaturePlot2->replot();

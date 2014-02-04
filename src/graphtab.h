@@ -21,6 +21,7 @@ class GraphTab : public QWidget
 
     public slots:
         void refresh(const ExperimentData_s data);
+        void clear(void);
 
     private:
         QCustomPlot *m_temperaturePlot1;

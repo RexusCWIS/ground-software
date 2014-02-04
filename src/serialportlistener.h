@@ -3,6 +3,7 @@
 
 #include "experiment.h"
 
+#include <QVector>
 #include <QThread>
 #include <QtSerialPort/QSerialPortInfo>
 
@@ -20,6 +21,8 @@ class SerialPortListener: public QThread {
     public slots:
         void setSerialPort(const QString &device);
         void setSerialPort(const QSerialPortInfo &port);
+        void clearRecordedData(void);
+        void saveRecordedData(const QString &filename) const;
 
     signals:
         void newStatus(unsigned char);
@@ -29,6 +32,7 @@ class SerialPortListener: public QThread {
         void run();
 
     private:
+        QVector<ExperimentData_s> *m_recordedData;
         QString m_serialPort;
         volatile bool m_stop;
 };
