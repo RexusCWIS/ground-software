@@ -59,6 +59,10 @@ void SerialPortListener::clearRecordedData(void) {
 
 void SerialPortListener::saveRecordedData(const QString &filename) const {
 
+    if(m_recordedData->isEmpty()) {
+        return;
+    }
+
     QFile file(filename);
     if(file.open(QFile::WriteOnly | QFile::Truncate)) {
         QTextStream out(&file);
@@ -83,6 +87,8 @@ void SerialPortListener::run() {
 
     qRegisterMetaType<ExperimentData_s>("ExperimentData_s");
     qDebug() << "Thread started";
+
+    unsigned int invalidFrames = 0;
 
     bool outOfSync  = true,
          validFrame = true;
@@ -148,6 +154,11 @@ void SerialPortListener::run() {
             qDebug() << experimentData.time << ": " << experimentData.pressure << "\n";
             emit newStatus((status[0] & 0x7));
             emit newSensorData(experimentData);
+        }
+
+        else {
+            invalidFrames++;
+            qDebug() << "Invalid Frames: " << invalidFrames << "\n";
         }
     }
 

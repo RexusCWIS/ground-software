@@ -17,5 +17,5 @@ TimelineTab::TimelineTab(QWidget *parent) :
     m_layout->addWidget(m_timeline);
 
     this->setLayout(m_layout);
-    this->setMinimumSize(800, 200);
+    this->setMinimumSize(800, 100);
 }

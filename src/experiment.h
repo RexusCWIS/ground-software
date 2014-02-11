@@ -2,7 +2,7 @@
 #define EXPERIMENT_H
 
 /** @brief Experiment duration, in seconds. */
-#define EXPERIMENT_DURATION 1000
+#define EXPERIMENT_DURATION 300
 
 struct ExperimentData_s {
     unsigned int time;
@@ -12,7 +12,7 @@ struct ExperimentData_s {
     unsigned char events;
 
     float getTime(void) const {
-        return (time / 100.0);
+        return (time / 1000.0f);
     }
 
     float getTemperature(const unsigned int sensor) const {
@@ -26,7 +26,7 @@ struct ExperimentData_s {
 
     float getPressure(void) const {
 
-        return ((pressure * 4.899f / 1024.0f) - 0.25515f);
+        return ((pressure * 1.276f / 1024.0f) - 0.255f);
     }
 };
 

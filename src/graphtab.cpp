@@ -55,10 +55,10 @@ GraphTab::GraphTab(QWidget *parent) :
     m_layout->addWidget(m_temperaturePlot3, 1, 0);
     m_layout->addWidget(m_pressurePlot, 1, 1);
 
-    QObject::connect(m_temperaturePlot1->xAxis, SIGNAL(rangeChanged(QCPRange)), m_temperaturePlot1->xAxis2, SLOT(setRange(QCPRange)));
-    QObject::connect(m_temperaturePlot2->xAxis, SIGNAL(rangeChanged(QCPRange)), m_temperaturePlot2->xAxis2, SLOT(setRange(QCPRange)));
-    QObject::connect(m_temperaturePlot3->xAxis, SIGNAL(rangeChanged(QCPRange)), m_temperaturePlot3->xAxis2, SLOT(setRange(QCPRange)));
-    QObject::connect(m_pressurePlot->xAxis, SIGNAL(rangeChanged(QCPRange)), m_pressurePlot->xAxis2, SLOT(setRange(QCPRange)));
+    QObject::connect(m_temperaturePlot1->xAxis, SIGNAL(rangeChanged(QCPRange)), m_temperaturePlot1->xAxis, SLOT(setRange(QCPRange)));
+    QObject::connect(m_temperaturePlot2->xAxis, SIGNAL(rangeChanged(QCPRange)), m_temperaturePlot2->xAxis, SLOT(setRange(QCPRange)));
+    QObject::connect(m_temperaturePlot3->xAxis, SIGNAL(rangeChanged(QCPRange)), m_temperaturePlot3->xAxis, SLOT(setRange(QCPRange)));
+    QObject::connect(m_pressurePlot->xAxis, SIGNAL(rangeChanged(QCPRange)), m_pressurePlot->xAxis, SLOT(setRange(QCPRange)));
 
     this->setLayout(m_layout);
     this->setMinimumSize(800, 600);
@@ -77,6 +77,8 @@ void GraphTab::refresh(const ExperimentData_s data) {
     m_temperaturePlot2->graph(0)->addData(time, data.getTemperature(1u));
     m_temperaturePlot3->graph(0)->addData(time, data.getTemperature(2u));
     m_pressurePlot->graph(0)->addData(time, data.getPressure());
+
+    qDebug() << "Actual pressure: " << data.getPressure() << "\n";
 
     m_temperaturePlot1->replot();
     m_temperaturePlot2->replot();
