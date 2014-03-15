@@ -22,22 +22,37 @@ StatusTab::StatusTab(QWidget *parent) :
     m_cameraLabel = new QLabel("Camera:", this);
     m_laserLabel  = new QLabel("Laser:", this);
     m_powerLabel  = new QLabel("Power:", this);
+    m_loLabel   = new QLabel("LO:", this);
+    m_sodsLabel = new QLabel("SODS:", this);
+    m_soeLabel  = new QLabel("SOE:", this);
 
     m_statusLabels[0] = new QLabel("OFF", this);
     m_statusLabels[1] = new QLabel("OFF", this);
     m_statusLabels[2] = new QLabel("OFF", this);
+    m_statusLabels[3] = new QLabel("OFF", this);
+    m_statusLabels[4] = new QLabel("OFF", this);
+    m_statusLabels[5] = new QLabel("OFF", this);
 
     m_statusLabels[0]->setAlignment(Qt::AlignCenter);
     m_statusLabels[1]->setAlignment(Qt::AlignCenter);
     m_statusLabels[2]->setAlignment(Qt::AlignCenter);
+    m_statusLabels[3]->setAlignment(Qt::AlignCenter);
+    m_statusLabels[4]->setAlignment(Qt::AlignCenter);
+    m_statusLabels[5]->setAlignment(Qt::AlignCenter);
 
     m_statusLabels[0]->setStyleSheet("QLabel {color : red; }");
     m_statusLabels[1]->setStyleSheet("QLabel {color : red; }");
     m_statusLabels[2]->setStyleSheet("QLabel {color : red; }");
+    m_statusLabels[3]->setStyleSheet("QLabel {color : red; }");
+    m_statusLabels[4]->setStyleSheet("QLabel {color : red; }");
+    m_statusLabels[5]->setStyleSheet("QLabel {color : red; }");
 
     m_statusLabels[0]->setFont(f);
     m_statusLabels[1]->setFont(f);
     m_statusLabels[2]->setFont(f);
+    m_statusLabels[3]->setFont(f);
+    m_statusLabels[4]->setFont(f);
+    m_statusLabels[5]->setFont(f);
 
     m_imagesLabel   = new QLabel("Images acquired:");
     m_acquiredLabel = new QLabel("0", this);
@@ -55,20 +70,26 @@ StatusTab::StatusTab(QWidget *parent) :
     m_layout->addWidget(m_powerLabel, 0, 0);
     m_layout->addWidget(m_laserLabel, 1, 0);
     m_layout->addWidget(m_cameraLabel, 2, 0);
+    m_layout->addWidget(m_loLabel, 3, 0);
+    m_layout->addWidget(m_sodsLabel, 4, 0);
+    m_layout->addWidget(m_soeLabel, 5, 0);
 
     m_layout->addWidget(m_statusLabels[0], 0, 1);
     m_layout->addWidget(m_statusLabels[1], 1, 1);
     m_layout->addWidget(m_statusLabels[2], 2, 1);
+    m_layout->addWidget(m_statusLabels[3], 3, 1);
+    m_layout->addWidget(m_statusLabels[4], 4, 1);
+    m_layout->addWidget(m_statusLabels[5], 5, 1);
 
-    m_layout->addWidget(m_imagesLabel, 3, 0);
-    m_layout->addWidget(m_acquiredLabel, 3, 1);
+    m_layout->addWidget(m_imagesLabel, 6, 0);
+    m_layout->addWidget(m_acquiredLabel, 6, 1);
 
-    m_layout->addWidget(m_cpuTempLabel, 5, 0, 1, 2);
+    m_layout->addWidget(m_cpuTempLabel, 8, 0, 1, 2);
 
-    m_layout->addWidget(m_thermometer, 4, 1, 6, 2);
+    m_layout->addWidget(m_thermometer, 7, 1, 6, 2);
 
-    m_layout->addWidget(m_portLabel, 11, 0);
-    m_layout->addWidget(m_portSelector, 11, 1);
+    m_layout->addWidget(m_portLabel, 14, 0);
+    m_layout->addWidget(m_portSelector, 14, 1);
 
     this->setLayout(m_layout);
     this->setMinimumSize(200, 100);

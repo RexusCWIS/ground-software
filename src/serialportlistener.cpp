@@ -152,7 +152,7 @@ void SerialPortListener::run() {
             m_recordedData->append(experimentData);
 
             qDebug() << experimentData.time << ": " << experimentData.pressure << "\n";
-            emit newStatus((status[0] & 0x7));
+            emit newStatus((status[0] & 0x7F));
             emit newSensorData(experimentData);
         }
 

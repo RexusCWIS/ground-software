@@ -33,6 +33,9 @@ private:
     QLabel *m_cameraLabel;      /**< @brief Camera label. */
     QLabel *m_laserLabel;       /**< @brief Laser power label. */
     QLabel *m_powerLabel;       /**< @brief General power label. */
+    QLabel *m_loLabel;
+    QLabel *m_sodsLabel;
+    QLabel *m_soeLabel;
     QLabel *m_imagesLabel;      /**< @brief Acquired images label. */
     QLabel *m_acquiredLabel;    /**< @brief Displays the number of acquired images. */
     QLabel *m_cpuTempLabel;     /**< @brief CPU temperature label. */
@@ -42,7 +45,7 @@ private:
     QGridLayout *m_layout;      /**< @brief Layout of the status tab. */
 
     unsigned char m_status;     /**< @brief Current experiment status. */
-    QLabel * m_statusLabels[3];
+    QLabel * m_statusLabels[6];
 
     /* Serial port */
     QLabel *m_portLabel;

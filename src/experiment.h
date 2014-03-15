@@ -2,7 +2,7 @@
 #define EXPERIMENT_H
 
 /** @brief Experiment duration, in seconds. */
-#define EXPERIMENT_DURATION 300
+#define EXPERIMENT_DURATION 1600
 
 struct ExperimentData_s {
     unsigned int time;
