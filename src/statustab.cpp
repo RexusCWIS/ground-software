@@ -17,7 +17,7 @@ static inline void setStatusText(QLabel *label, unsigned char status) {
 StatusTab::StatusTab(QWidget *parent) :
     QWidget(parent)
 {
-    QFont f("Arial", 10, QFont::Bold);
+    QFont f("Helvetica", 10, QFont::Bold);
 
     m_cameraLabel = new QLabel("Camera:", this);
     m_laserLabel  = new QLabel("Laser:", this);
@@ -58,11 +58,6 @@ StatusTab::StatusTab(QWidget *parent) :
     m_acquiredLabel = new QLabel("0", this);
     m_acquiredLabel->setAlignment(Qt::AlignCenter);
 
-    m_cpuTempLabel = new QLabel("CPU temperature:", this);
-    m_thermometer  = new ThermoMeter(this);
-    m_thermometer->setMinimum(0);
-    m_thermometer->setMaximum(100);
-
     m_portLabel = new QLabel("Serial port:", this);
     m_portSelector = new SerialPortSelector(this);
 
@@ -84,16 +79,12 @@ StatusTab::StatusTab(QWidget *parent) :
     m_layout->addWidget(m_imagesLabel, 6, 0);
     m_layout->addWidget(m_acquiredLabel, 6, 1);
 
-    m_layout->addWidget(m_cpuTempLabel, 8, 0, 1, 2);
-
-    m_layout->addWidget(m_thermometer, 7, 1, 6, 2);
-
-    m_layout->addWidget(m_portLabel, 14, 0);
-    m_layout->addWidget(m_portSelector, 14, 1);
+    m_layout->addWidget(m_portLabel, 7, 0);
+    m_layout->addWidget(m_portSelector, 7, 1);
 
     this->setLayout(m_layout);
     this->setMinimumSize(200, 100);
-    this->setMaximumSize(250, 350);
+    this->setMaximumSize(250, 250);
 
     m_status = 0;
 }

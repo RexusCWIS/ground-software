@@ -12,11 +12,7 @@ HEADERS += \
     serialportlistener.h \
     serialportselector.h \
     experimentdatagenerator.h \
-    crc.h \
-    thermometer/thermometer.h \
-    thermometer/abstractmeter.h \
-    thermometer/widgetwithbackground.h \
-    thermometer/functions.h
+    crc.h
 
 SOURCES += \
     mainwindow.cpp \
@@ -29,9 +25,5 @@ SOURCES += \
     serialportselector.cpp \
     experimentdatagenerator.cpp \
     crc_table.c \
-    crc.c \
-    thermometer/thermometer.cpp \
-    thermometer/abstractmeter.cpp \
-    thermometer/widgetwithbackground.cpp \
-    thermometer/functions.cpp
+    crc.c
 
