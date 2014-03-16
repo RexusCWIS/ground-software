@@ -58,9 +58,6 @@ StatusTab::StatusTab(QWidget *parent) :
     m_acquiredLabel = new QLabel("0", this);
     m_acquiredLabel->setAlignment(Qt::AlignCenter);
 
-    m_portLabel = new QLabel("Serial port:", this);
-    m_portSelector = new SerialPortSelector(this);
-
     m_layout = new QGridLayout(this);
     m_layout->addWidget(m_powerLabel, 0, 0);
     m_layout->addWidget(m_laserLabel, 1, 0);
@@ -79,19 +76,11 @@ StatusTab::StatusTab(QWidget *parent) :
     m_layout->addWidget(m_imagesLabel, 6, 0);
     m_layout->addWidget(m_acquiredLabel, 6, 1);
 
-    m_layout->addWidget(m_portLabel, 7, 0);
-    m_layout->addWidget(m_portSelector, 7, 1);
-
     this->setLayout(m_layout);
     this->setMinimumSize(200, 100);
     this->setMaximumSize(250, 250);
 
     m_status = 0;
-}
-
-void StatusTab::setSerialPortListener(const SerialPortListener *spListener) {
-
-    QObject::connect(this->m_portSelector, SIGNAL(currentIndexChanged(QString)), spListener, SLOT(setSerialPort(QString)));
 }
 
 void StatusTab::refresh(const unsigned char status) {

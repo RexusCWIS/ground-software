@@ -6,17 +6,12 @@
 #include <QLabel>
 #include <QGridLayout>
 
-#include "serialportselector.h"
-#include "serialportlistener.h"
-
 /** @todo Add images taken by the camera, camera framerate...*/
 class StatusTab : public QWidget
 {
     Q_OBJECT
 public:
     explicit StatusTab(QWidget *parent = 0);
-
-    void setSerialPortListener(const SerialPortListener *spListener);
 
 signals:
 
@@ -41,10 +36,6 @@ private:
 
     unsigned char m_status;     /**< @brief Current experiment status. */
     QLabel * m_statusLabels[6];
-
-    /* Serial port */
-    QLabel *m_portLabel;
-    SerialPortSelector *m_portSelector;
 };
 
 #endif // STATUSTAB_H

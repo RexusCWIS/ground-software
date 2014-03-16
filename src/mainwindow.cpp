@@ -15,8 +15,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_spListener  = new SerialPortListener(this);
 
-    m_statusTab->setSerialPortListener(m_spListener);
-
     m_layout = new QGridLayout(m_centralWidget);
     m_layout->addWidget(m_statusTab, 0, 0);
     m_layout->addWidget(m_graphTab, 0, 1);
