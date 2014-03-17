@@ -1,6 +1,4 @@
 #include "graphtab.h"
-#include "experiment.h"
-#include "experimentdatagenerator.h"
 
 #include <QVector>
 
@@ -69,7 +67,7 @@ GraphTab::~GraphTab() {
     m_workerThread.wait();
 }
 
-void GraphTab::refresh(const ExperimentData_s data) {
+void GraphTab::refresh(const ControlModuleData data) {
 
     float time = data.getTime();
 

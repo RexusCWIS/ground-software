@@ -80,24 +80,28 @@ StatusTab::StatusTab(QWidget *parent) :
     this->setMinimumSize(200, 100);
     this->setMaximumSize(250, 250);
 
-    m_status = 0;
+    m_controlStatus = 0;
+    m_cameraStatus  = 0;
 }
 
-void StatusTab::refresh(const unsigned char status) {
+void StatusTab::refresh(const unsigned char controlStatus, const unsigned char cameraStatus) {
 
-    unsigned char diff = m_status ^ status;
+    unsigned char controlDiff = m_controlStatus ^ controlStatus,
+                  cameraDiff  = m_cameraStatus ^ cameraStatus;
 
-    if(diff == 0) {
+    if((controlDiff == 0) & (cameraDiff == 0)) {
         return;
     }
 
     unsigned int bit = 0;
 
-    while(diff != 0) {
-        bit = __builtin_ffs((unsigned int) diff) - 1;
-        setStatusText(m_statusLabels[bit], (status & (1 << bit)));
-        diff &= ~(1 << bit);
+    while(controlDiff != 0) {
+        bit = __builtin_ffs((unsigned int) controlDiff) - 1;
+        setStatusText(m_statusLabels[bit], (controlStatus & (1 << bit)));
+        controlDiff &= ~(1 << bit);
     }
 
-    m_status = status;
+    m_controlStatus = controlStatus;
+
+    setStatusText(m_statusLabels[2], m_cameraStatus & 0x2);
 }

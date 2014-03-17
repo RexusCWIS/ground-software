@@ -7,10 +7,13 @@ HEADERS += \
     statustab.h \
     qcustomplot.h \
     graphtab.h \
-    timelinetab.h \
-    experiment.h \
-    experimentdatagenerator.h \
-    crc.h
+    crc.h \
+    serial/serialframedescriptor.h \
+    serial/serialportlistener.h \
+    serial/serialportdialog.h \
+    serial/serialportconfig.h \
+    controlmoduleserialportlistener.h \
+    controlmoduledata.h
 
 SOURCES += \
     mainwindow.cpp \
@@ -18,8 +21,10 @@ SOURCES += \
     statustab.cpp \
     qcustomplot.cpp \
     graphtab.cpp \
-    timelinetab.cpp \
-    experimentdatagenerator.cpp \
     crc_table.c \
-    crc.c
+    crc.c \
+    serial/serialportlistener.cpp \
+    serial/serialportdialog.cpp \
+    serial/serialframedescriptor.cpp \
+    controlmoduleserialportlistener.cpp
 

@@ -8,7 +8,7 @@
 
 #include "qcustomplot.h"
 
-#include "experiment.h"
+#include "controlmoduledata.h"
 
 class GraphTab : public QWidget
 {
@@ -20,7 +20,7 @@ class GraphTab : public QWidget
     signals:
 
     public slots:
-        void refresh(const ExperimentData_s data);
+        void refresh(const ControlModuleData data);
         void clear(void);
 
     private:
