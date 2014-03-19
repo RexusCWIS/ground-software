@@ -4,8 +4,9 @@
 #include <QWidget>
 
 #include <QCheckBox>
+#include <QGroupBox>
 #include <QHBoxLayout>
-#include <QGridLayout>
+#include <QVBoxLayout>
 
 #include "qcustomplot.h"
 
@@ -20,9 +21,16 @@ signals:
 public slots:
 
 private:
+    void plotSetup(void);
+    void sidePanelSetup(void);
+
     QCustomPlot *m_plot;
+
     QHBoxLayout *m_mainLayout;
-    QGridLayout *m_checkBoxLayout;
+    QVBoxLayout *m_sidePanelLayout;
+    QVBoxLayout *m_checkBoxLayout;
+
+    QGroupBox *m_graphBox;
 
     QCheckBox *m_temp1CheckBox;
     QCheckBox *m_temp2CheckBox;
