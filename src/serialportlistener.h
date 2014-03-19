@@ -1,8 +1,10 @@
 #ifndef SERIALPORTLISTENER_H
 #define SERIALPORTLISTENER_H
 
-#include <QThread>
+#include "experiment.h"
 
+#include <QVector>
+#include <QThread>
 #include <QtSerialPort/QSerialPortInfo>
 
 class SerialPortListener: public QThread {
@@ -19,15 +21,18 @@ class SerialPortListener: public QThread {
     public slots:
         void setSerialPort(const QString &device);
         void setSerialPort(const QSerialPortInfo &port);
+        void clearRecordedData(void);
+        void saveRecordedData(const QString &filename) const;
 
     signals:
         void newStatus(unsigned char);
-        void newSensorData(unsigned int, unsigned int, unsigned int, unsigned int);
+        void newSensorData(ExperimentData_s);
 
     protected:
         void run();
 
     private:
+        QVector<ExperimentData_s> *m_recordedData;
         QString m_serialPort;
         volatile bool m_stop;
 };

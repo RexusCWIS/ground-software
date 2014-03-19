@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QGridLayout>
+#include <QFileDialog>
 
 #include "statustab.h"
 #include "graphtab.h"
@@ -15,6 +16,9 @@ class MainWindow : public QMainWindow {
     public:
         explicit MainWindow(QWidget *parent = 0);
         ~MainWindow();
+
+    public slots:
+        void openSaveFileDialog(void);
 
     private:
         StatusTab *m_statusTab;
