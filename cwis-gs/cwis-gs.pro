@@ -15,10 +15,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     qcustomplot.cpp \
-    graphtab.cpp
+    graphtab.cpp \
+    statuspanel.cpp
 
 HEADERS  += mainwindow.h \
     qcustomplot.h \
-    graphtab.h
+    graphtab.h \
+    statuspanel.h
 
 FORMS    +=
