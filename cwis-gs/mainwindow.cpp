@@ -9,7 +9,9 @@ MainWindow::MainWindow(QWidget *parent) :
     m_layout = new QGridLayout(m_centralWidget);
 
     m_graphTab = new GraphTab();
-    m_tabWidget->addTab(m_graphTab, "Timeline");
+    m_tableTab = new TableTab();
+    m_tabWidget->addTab(m_graphTab, tr("Timeline"));
+    m_tabWidget->addTab(m_tableTab, tr("Data"));
 
     m_layout->addWidget(m_tabWidget, 0, 1);
 
@@ -20,4 +22,5 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete m_graphTab;
+    delete m_tableTab;
 }

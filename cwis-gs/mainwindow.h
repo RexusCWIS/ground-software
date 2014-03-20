@@ -7,6 +7,7 @@
 #include <QGridLayout>
 
 #include "graphtab.h"
+#include "tabletab.h"
 
 namespace Ui {
 class MainWindow;
@@ -23,7 +24,8 @@ public:
 private:
     QWidget *m_centralWidget;
     QTabWidget *m_tabWidget;
-    GraphTab   *m_graphTab;
+    GraphTab *m_graphTab;
+    TableTab *m_tableTab;
 
     QGridLayout *m_layout;
 };

@@ -16,11 +16,13 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     qcustomplot.cpp \
     graphtab.cpp \
-    statuspanel.cpp
+    statuspanel.cpp \
+    tabletab.cpp
 
 HEADERS  += mainwindow.h \
     qcustomplot.h \
     graphtab.h \
-    statuspanel.h
+    statuspanel.h \
+    tabletab.h
 
 FORMS    +=
