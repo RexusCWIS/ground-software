@@ -12,17 +12,19 @@ TARGET = cwis-gs
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    qcustomplot.cpp \
-    graphtab.cpp \
-    statuspanel.cpp \
-    tabletab.cpp
+SOURCES += main.cpp             \
+    mainwindow.cpp              \
+    interface/tabletab.cpp      \
+    interface/statuspanel.cpp   \
+    interface/statusflag.cpp    \
+    interface/qcustomplot.cpp   \
+    interface/graphtab.cpp
 
-HEADERS  += mainwindow.h \
-    qcustomplot.h \
-    graphtab.h \
-    statuspanel.h \
-    tabletab.h
+HEADERS  += mainwindow.h        \
+    interface/tabletab.h        \
+    interface/statuspanel.h     \
+    interface/statusflag.h      \
+    interface/qcustomplot.h     \
+    interface/graphtab.h
 
 FORMS    +=

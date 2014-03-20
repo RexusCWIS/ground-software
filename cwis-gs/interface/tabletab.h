@@ -13,6 +13,8 @@ signals:
 
 public slots:
 
+private:
+
 };
 
 #endif // TABLETAB_H

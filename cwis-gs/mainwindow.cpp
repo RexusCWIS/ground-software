@@ -4,7 +4,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
     m_centralWidget = new QWidget(this);
-    m_tabWidget = new QTabWidget(this);
+    m_statusPanel = new StatusPanel(this);
+    m_tabWidget   = new QTabWidget(this);
 
     m_layout = new QGridLayout(m_centralWidget);
 
@@ -13,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_tabWidget->addTab(m_graphTab, tr("Timeline"));
     m_tabWidget->addTab(m_tableTab, tr("Data"));
 
+    m_layout->addWidget(m_statusPanel, 0, 0);
     m_layout->addWidget(m_tabWidget, 0, 1);
 
     m_centralWidget->setLayout(m_layout);

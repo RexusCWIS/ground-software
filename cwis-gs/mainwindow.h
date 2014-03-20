@@ -6,8 +6,9 @@
 #include <QTableWidget>
 #include <QGridLayout>
 
-#include "graphtab.h"
-#include "tabletab.h"
+#include "interface/graphtab.h"
+#include "interface/tabletab.h"
+#include "interface/statuspanel.h"
 
 namespace Ui {
 class MainWindow;
@@ -23,6 +24,9 @@ public:
 
 private:
     QWidget *m_centralWidget;
+
+    StatusPanel *m_statusPanel;
+
     QTabWidget *m_tabWidget;
     GraphTab *m_graphTab;
     TableTab *m_tableTab;
