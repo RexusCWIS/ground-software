@@ -44,6 +44,7 @@ void SerialSim::run()
             counter = 0;
         }
 
+        data.currentTime = QTime::currentTime();
         emit newData(data);
         usleep(100000);
     }

@@ -1,9 +1,17 @@
 #include "statuspanel.h"
 
+#include <QDate>
+
 StatusPanel::StatusPanel(QWidget *parent) :
     QWidget(parent)
 {
     m_layout = new QVBoxLayout(this);
+
+    QDate currentDate = QDate::currentDate();
+    m_dateLabel    = new QLabel(currentDate.toString(), this);
+    m_dateLabel->setAlignment(Qt::AlignCenter);
+    m_analogClock  = new ClockWidget(this);
+    m_digitalClock = new DigitalClockWidget(this);
 
     m_controlStatusBox = new QGroupBox(tr("Control Module"), this);
     m_rexusSignalsBox  = new QGroupBox(tr("RXSM signals"), this);
@@ -40,6 +48,9 @@ StatusPanel::StatusPanel(QWidget *parent) :
     m_controlStatusBox->setLayout(m_controlStatusLayout);
     m_rexusSignalsBox->setLayout(m_rexusSignalsLayout);
 
+    m_layout->addWidget(m_dateLabel);
+    m_layout->addWidget(m_analogClock);
+    m_layout->addWidget(m_digitalClock);
     m_layout->addWidget(m_controlStatusBox);
     m_layout->addWidget(m_rexusSignalsBox);
     m_layout->addStretch(1);

@@ -1,10 +1,10 @@
 #ifndef DEF_CONTROL_MODULE_DATA_H
 #define DEF_CONTROL_MODULE_DATA_H
 
-/** @brief Experiment duration, in seconds. */
-#define EXPERIMENT_DURATION 1600
+#include <QTime>
 
 struct ControlModuleData {
+    QTime currentTime;
     unsigned int time;
     unsigned int temperatures[3];
     unsigned int pressure;

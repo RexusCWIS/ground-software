@@ -9,6 +9,7 @@
 #include <QLabel>
 
 #include "statusflag.h"
+#include "clockwidget.h"
 
 class StatusPanel : public QWidget
 {
@@ -21,6 +22,10 @@ signals:
 public slots:
 
 private:
+    QLabel *m_dateLabel;
+    ClockWidget *m_analogClock;
+    DigitalClockWidget *m_digitalClock;
+
     QGroupBox *m_controlStatusBox;
     QGroupBox *m_rexusSignalsBox;
     QGroupBox *m_cameraStatusBox;
