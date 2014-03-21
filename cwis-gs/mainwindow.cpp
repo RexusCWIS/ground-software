@@ -35,4 +35,5 @@ MainWindow::~MainWindow()
 void MainWindow::newData(ControlModuleData data)
 {
     m_tableTab->addData(data);
+    m_graphTab->addData(data);
 }

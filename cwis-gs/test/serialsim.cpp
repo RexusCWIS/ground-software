@@ -33,11 +33,15 @@ void SerialSim::run()
     data.temperatures[2] = 293;
     data.pressure = 766;
 
+    int counter = 0;
+
     while(!m_stop)
     {
-        data.time++;
-        if((data.time % 4) == 0) {
+        data.time += 100;
+        counter++;
+        if(counter == 3) {
             data.nbOfImages++;
+            counter = 0;
         }
 
         emit newData(data);
