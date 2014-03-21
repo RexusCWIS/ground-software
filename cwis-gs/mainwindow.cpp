@@ -19,10 +19,20 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_centralWidget->setLayout(m_layout);
     this->setCentralWidget(m_centralWidget);
+
+    m_sim = new SerialSim(this);
+    QObject::connect(m_sim, SIGNAL(newData(ControlModuleData)),
+                     this, SLOT(newData(ControlModuleData)));
+    m_sim->start();
 }
 
 MainWindow::~MainWindow()
 {
     delete m_graphTab;
     delete m_tableTab;
+}
+
+void MainWindow::newData(ControlModuleData data)
+{
+    m_tableTab->addData(data);
 }

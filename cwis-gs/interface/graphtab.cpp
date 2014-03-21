@@ -13,6 +13,11 @@ GraphTab::GraphTab(QWidget *parent) :
     this->setLayout(m_mainLayout);
 }
 
+void GraphTab::addData(const ControlModuleData &data)
+{
+    (void) data;
+}
+
 void GraphTab::plotSetup(void)
 {
     m_plot = new QCustomPlot(this);

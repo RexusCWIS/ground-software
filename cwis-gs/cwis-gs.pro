@@ -18,13 +18,16 @@ SOURCES += main.cpp             \
     interface/statuspanel.cpp   \
     interface/statusflag.cpp    \
     interface/qcustomplot.cpp   \
-    interface/graphtab.cpp
+    interface/graphtab.cpp      \
+    test/serialsim.cpp
 
 HEADERS  += mainwindow.h        \
     interface/tabletab.h        \
     interface/statuspanel.h     \
     interface/statusflag.h      \
     interface/qcustomplot.h     \
-    interface/graphtab.h
+    interface/graphtab.h        \
+    experiment/controlmoduledata.h  \
+    test/serialsim.h
 
 FORMS    +=

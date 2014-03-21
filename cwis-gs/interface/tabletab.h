@@ -3,6 +3,8 @@
 
 #include <QTableWidget>
 
+#include "experiment/controlmoduledata.h"
+
 class TableTab : public QTableWidget
 {
     Q_OBJECT
@@ -12,6 +14,7 @@ public:
 signals:
 
 public slots:
+    void addData(const ControlModuleData &data);
 
 private:
 

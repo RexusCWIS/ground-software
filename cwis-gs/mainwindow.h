@@ -10,6 +10,10 @@
 #include "interface/tabletab.h"
 #include "interface/statuspanel.h"
 
+#include "experiment/controlmoduledata.h"
+
+#include "test/serialsim.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -22,6 +26,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+public slots:
+    void newData(ControlModuleData data);
+
 private:
     QWidget *m_centralWidget;
 
@@ -32,6 +39,8 @@ private:
     TableTab *m_tableTab;
 
     QGridLayout *m_layout;
+
+    SerialSim *m_sim;
 };
 
 #endif // MAINWINDOW_H

@@ -10,6 +10,8 @@
 
 #include "qcustomplot.h"
 
+#include "experiment/controlmoduledata.h"
+
 class GraphTab : public QWidget
 {
     Q_OBJECT
@@ -19,6 +21,7 @@ public:
 signals:
 
 public slots:
+    void addData(const ControlModuleData &data);
 
 private:
     void plotSetup(void);
