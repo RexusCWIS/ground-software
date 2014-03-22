@@ -42,12 +42,18 @@ private:
     QLabel *m_sodsStatusLabel;
     QLabel *m_soeStatusLabel;
 
+    QLabel *m_cameraPowerLabel;
+    QLabel *m_cameraImagesLabel;
+
     StatusFlag *m_powerStatusFlag;
     StatusFlag *m_laserStatusFlag;
 
     StatusFlag *m_loStatusFlag;
     StatusFlag *m_sodsStatusFlag;
     StatusFlag *m_soeStatusFlag;
+
+    StatusFlag *m_cameraPowerStatusFlag;
+    QLabel *m_cameraImagesStatus;
 };
 
 #endif // STATUSPANEL_H
