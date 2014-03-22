@@ -58,6 +58,8 @@ void GraphTab::clear()
     for(int index = 0; index < 8; index++) {
         m_plot->graph(index)->clearData();
     }
+
+    m_plot->replot();
 }
 
 void GraphTab::showCellTemperature(bool show)

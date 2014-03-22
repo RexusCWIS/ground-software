@@ -48,8 +48,11 @@ private:
     QGridLayout *m_layout;
 
     QMenu *m_fileMenu;
+    QMenu *m_serialMenu;
 
     QAction *m_clearAction;
+    QAction *m_serialStartAction;
+    QAction *m_serialStopAction;
 
     SerialSim *m_sim;
 };

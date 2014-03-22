@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 
+#include <QMessageBox>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
@@ -22,13 +24,12 @@ MainWindow::MainWindow(QWidget *parent) :
     m_centralWidget->setLayout(m_layout);
     this->setCentralWidget(m_centralWidget);
 
-    this->createActions();
-    this->createMenus();
-
     m_sim = new SerialSim(this);
     QObject::connect(m_sim, SIGNAL(newData(ControlModuleData)),
                      this, SLOT(newData(ControlModuleData)));
-    m_sim->start();
+
+    this->createActions();
+    this->createMenus();
 }
 
 MainWindow::~MainWindow()
@@ -49,16 +50,32 @@ void MainWindow::newData(ControlModuleData data)
 
 void MainWindow::clear()
 {
-    m_dataBuffer->clear();
+    if(m_dataBuffer->isEmpty()) {
+        return;
+    }
 
-    m_tableTab->clear();
-    m_graphTab->clear();
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, tr("Clear acquired data"),
+                                  tr("Are you sure you want to discard all acquired data?"),
+                                  QMessageBox::Yes | QMessageBox::No);
+
+    if(reply == QMessageBox::Yes) {
+        m_dataBuffer->clear();
+        m_tableTab->clear();
+        m_graphTab->clear();
+    }
 }
 
 void MainWindow::createMenus()
 {
     m_fileMenu = this->menuBar()->addMenu(tr("&File"));
     m_fileMenu->addAction(m_clearAction);
+
+    m_serialMenu = this->menuBar()->addMenu(tr("&Serial"));
+    m_serialMenu->addAction(m_serialStartAction);
+    m_serialMenu->addAction(m_serialStopAction);
+    m_serialStartAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_R));
+    m_serialStopAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_T));
 }
 
 void MainWindow::createActions()
@@ -66,4 +83,11 @@ void MainWindow::createActions()
     m_clearAction = new QAction(tr("Clear"), this);
     QObject::connect(m_clearAction, SIGNAL(triggered()),
                      this, SLOT(clear()));
+
+    m_serialStartAction = new QAction(tr("Sta&rt"), this);
+    m_serialStopAction  = new QAction(tr("S&top"), this);
+    QObject::connect(m_serialStartAction, SIGNAL(triggered()),
+                     m_sim, SLOT(start()));
+    QObject::connect(m_serialStopAction, SIGNAL(triggered()),
+                     m_sim, SLOT(stop()));
 }

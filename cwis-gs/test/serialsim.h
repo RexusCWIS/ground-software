@@ -13,6 +13,7 @@ public:
 
     virtual ~SerialSim();
 
+public slots:
     void start(void);
 
     void stop(void);
