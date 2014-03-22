@@ -5,6 +5,7 @@
 
 #include <QTableWidget>
 #include <QGridLayout>
+#include <QList>
 
 #include "interface/graphtab.h"
 #include "interface/tabletab.h"
@@ -28,8 +29,14 @@ public:
 
 public slots:
     void newData(ControlModuleData data);
+    void clear();
 
 private:
+    void createMenus();
+    void createActions();
+
+    QList<ControlModuleData> *m_dataBuffer;
+
     QWidget *m_centralWidget;
 
     StatusPanel *m_statusPanel;
@@ -39,6 +46,10 @@ private:
     TableTab *m_tableTab;
 
     QGridLayout *m_layout;
+
+    QMenu *m_fileMenu;
+
+    QAction *m_clearAction;
 
     SerialSim *m_sim;
 };

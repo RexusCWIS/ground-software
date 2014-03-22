@@ -53,6 +53,13 @@ void GraphTab::addData(const ControlModuleData &data)
     m_plot->replot();
 }
 
+void GraphTab::clear()
+{
+    for(int index = 0; index < 8; index++) {
+        m_plot->graph(index)->clearData();
+    }
+}
+
 void GraphTab::showCellTemperature(bool show)
 {
     m_plot->graph(0)->setVisible(show);

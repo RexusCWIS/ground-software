@@ -23,6 +23,7 @@ signals:
 
 public slots:
     void addData(const ControlModuleData &data);
+    void clear(void);
 
     void showCellTemperature(bool show);
     void showRoomTemperature(bool show);

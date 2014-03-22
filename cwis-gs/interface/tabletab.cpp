@@ -52,3 +52,9 @@ void TableTab::addData(const ControlModuleData &data) {
 
     this->scrollToBottom();
 }
+
+void TableTab::clear()
+{
+    QTableWidget::clear();
+    this->setRowCount(0);
+}

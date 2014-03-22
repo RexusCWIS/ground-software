@@ -15,6 +15,7 @@ signals:
 
 public slots:
     void addData(const ControlModuleData &data);
+    void clear(void);
 
 private:
 
