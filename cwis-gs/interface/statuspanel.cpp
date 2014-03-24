@@ -1,11 +1,25 @@
 #include "statuspanel.h"
 
 #include <QDate>
+#include <QImage>
+#include <QSizePolicy>
 
 StatusPanel::StatusPanel(QWidget *parent) :
     QWidget(parent)
 {
     m_layout = new QVBoxLayout(this);
+
+    /*
+    m_logoLabel  = new QLabel(this);
+    QImage logo;
+    logo.load("/Users/olivierdez/Documents/PhD/CWIS/code/ground-software/cwis-gs/images/cwis_logo.png");
+    m_logoLabel->setPixmap(QPixmap::fromImage(logo));
+    m_logoLabel->setScaledContents(true);
+    m_logoLabel->setAlignment(Qt::AlignCenter);
+    m_logoLabel->setMinimumSize(100, 100);
+    m_logoLabel->setMaximumSize(250, 250);
+    m_logoLabel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    //m_logoLabel->setFixedSize(100, 100);*/
 
     QDate currentDate = QDate::currentDate();
     m_dateLabel    = new QLabel(currentDate.toString(), this);
@@ -17,15 +31,15 @@ StatusPanel::StatusPanel(QWidget *parent) :
     m_rexusSignalsBox  = new QGroupBox(tr("RXSM signals"), this);
     m_cameraStatusBox  = new QGroupBox(tr("Camera module"), this);
 
-    m_powerStatusLabel = new QLabel(tr("Power:"), m_controlStatusBox);
-    m_laserStatusLabel = new QLabel(tr("Laser:"), m_controlStatusBox);
+    m_powerStatusLabel = new QLabel(tr("Power"), m_controlStatusBox);
+    m_laserStatusLabel = new QLabel(tr("Laser"), m_controlStatusBox);
 
-    m_loStatusLabel   = new QLabel(tr("LO:"), m_rexusSignalsBox);
-    m_sodsStatusLabel = new QLabel(tr("SODS:"), m_rexusSignalsBox);
-    m_soeStatusLabel  = new QLabel(tr("SOE:"), m_rexusSignalsBox);
+    m_loStatusLabel   = new QLabel(tr("LO"), m_rexusSignalsBox);
+    m_sodsStatusLabel = new QLabel(tr("SODS"), m_rexusSignalsBox);
+    m_soeStatusLabel  = new QLabel(tr("SOE"), m_rexusSignalsBox);
 
-    m_cameraPowerLabel  = new QLabel(tr("Power:"), m_cameraStatusBox);
-    m_cameraImagesLabel = new QLabel(tr("Images:"), m_cameraStatusBox);
+    m_cameraPowerLabel  = new QLabel(tr("Power"), m_cameraStatusBox);
+    m_cameraImagesLabel = new QLabel(tr("Images"), m_cameraStatusBox);
 
     m_powerStatusFlag = new StatusFlag(m_controlStatusBox);
     m_laserStatusFlag = new StatusFlag(m_controlStatusBox);
@@ -62,6 +76,7 @@ StatusPanel::StatusPanel(QWidget *parent) :
     m_rexusSignalsBox->setLayout(m_rexusSignalsLayout);
     m_cameraStatusBox->setLayout(m_cameraStatusLayout);
 
+    //m_layout->addWidget(m_logoLabel);
     m_layout->addWidget(m_dateLabel);
     m_layout->addWidget(m_analogClock);
     m_layout->addWidget(m_digitalClock);

@@ -41,7 +41,7 @@ void GraphTab::addData(const ControlModuleData &data)
     m_plot->graph(7)->clearData();
     m_plot->graph(7)->addData(time, pressure);
 
-    if(data.getTime() > m_xAxisRange - 5) {
+    if(time > m_xAxisRange - 5) {
         if(m_rangeAutoScroll) {
             m_plot->xAxis->setRange(time + 5, m_xAxisRange, Qt::AlignRight);
         }

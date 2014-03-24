@@ -13,9 +13,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_layout = new QGridLayout(m_centralWidget);
 
-    m_graphTab = new GraphTab();
-    m_tableTab = new TableTab();
+    m_graphTab  = new GraphTab();
+    m_heaterTab = new HeaterControlTab();
+    m_tableTab  = new TableTab();
     m_tabWidget->addTab(m_graphTab, tr("Timeline"));
+    m_tabWidget->addTab(m_heaterTab, tr("Heater"));
     m_tabWidget->addTab(m_tableTab, tr("Data"));
 
     m_layout->addWidget(m_statusPanel, 0, 0);
@@ -45,6 +47,7 @@ void MainWindow::newData(ControlModuleData data)
     m_dataBuffer->append(data);
 
     m_tableTab->addData(data);
+    m_heaterTab->addData(data);
     m_graphTab->addData(data);
 }
 
@@ -61,7 +64,8 @@ void MainWindow::clear()
 
     if(reply == QMessageBox::Yes) {
         m_dataBuffer->clear();
-        m_tableTab->clear();
+        m_tableTab->setRowCount(0);
+        m_heaterTab->clear();
         m_graphTab->clear();
     }
 }

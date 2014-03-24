@@ -22,6 +22,8 @@ signals:
 public slots:
 
 private:
+    QLabel *m_logoLabel;
+
     QLabel *m_dateLabel;
     ClockWidget *m_analogClock;
     DigitalClockWidget *m_digitalClock;

@@ -8,6 +8,7 @@
 #include <QList>
 
 #include "interface/graphtab.h"
+#include "interface/heatercontroltab.h"
 #include "interface/tabletab.h"
 #include "interface/statuspanel.h"
 
@@ -43,6 +44,7 @@ private:
 
     QTabWidget *m_tabWidget;
     GraphTab *m_graphTab;
+    HeaterControlTab *m_heaterTab;
     TableTab *m_tableTab;
 
     QGridLayout *m_layout;

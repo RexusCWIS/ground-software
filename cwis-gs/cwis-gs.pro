@@ -19,8 +19,9 @@ SOURCES += main.cpp             \
     interface/statusflag.cpp    \
     interface/qcustomplot.cpp   \
     interface/graphtab.cpp      \
-    test/serialsim.cpp \
-    interface/clockwidget.cpp
+    test/serialsim.cpp          \
+    interface/clockwidget.cpp   \
+    interface/heatercontroltab.cpp
 
 HEADERS  += mainwindow.h        \
     interface/tabletab.h        \
@@ -29,8 +30,9 @@ HEADERS  += mainwindow.h        \
     interface/qcustomplot.h     \
     interface/graphtab.h        \
     experiment/controlmoduledata.h  \
-    test/serialsim.h \
-    clockwidget.h \
-    interface/clockwidget.h
+    test/serialsim.h            \
+    clockwidget.h               \
+    interface/clockwidget.h     \
+    interface/heatercontroltab.h
 
 FORMS    +=
