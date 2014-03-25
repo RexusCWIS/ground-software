@@ -183,6 +183,8 @@ void GraphTab::plotSetup(void)
     m_plot->plotLayout()->addElement(0, 0, new QCPPlotTitle(m_plot, "Experiment Timeline"));
     m_plot->setMinimumSize(400, 300);
 
+    m_plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
+
     this->rangeAutoScroll(true);
 
     m_plot->replot();

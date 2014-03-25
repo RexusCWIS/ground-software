@@ -12,27 +12,29 @@ TARGET = cwis-gs
 TEMPLATE = app
 
 
-SOURCES += main.cpp             \
-    mainwindow.cpp              \
-    interface/tabletab.cpp      \
-    interface/statuspanel.cpp   \
-    interface/statusflag.cpp    \
-    interface/qcustomplot.cpp   \
-    interface/graphtab.cpp      \
-    test/serialsim.cpp          \
-    interface/clockwidget.cpp   \
-    interface/heatercontroltab.cpp
+SOURCES += main.cpp                 \
+    mainwindow.cpp                  \
+    interface/tabletab.cpp          \
+    interface/statuspanel.cpp       \
+    interface/statusflag.cpp        \
+    interface/qcustomplot.cpp       \
+    interface/graphtab.cpp          \
+    test/serialsim.cpp              \
+    interface/clockwidget.cpp       \
+    interface/heatercontroltab.cpp  \
+    interface/dataplot.cpp
 
-HEADERS  += mainwindow.h        \
-    interface/tabletab.h        \
-    interface/statuspanel.h     \
-    interface/statusflag.h      \
-    interface/qcustomplot.h     \
-    interface/graphtab.h        \
+HEADERS  += mainwindow.h            \
+    interface/tabletab.h            \
+    interface/statuspanel.h         \
+    interface/statusflag.h          \
+    interface/qcustomplot.h         \
+    interface/graphtab.h            \
     experiment/controlmoduledata.h  \
-    test/serialsim.h            \
-    clockwidget.h               \
-    interface/clockwidget.h     \
-    interface/heatercontroltab.h
+    test/serialsim.h                \
+    clockwidget.h                   \
+    interface/clockwidget.h         \
+    interface/heatercontroltab.h    \
+    interface/dataplot.h
 
 FORMS    +=
