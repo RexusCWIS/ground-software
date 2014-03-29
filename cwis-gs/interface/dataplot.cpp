@@ -32,10 +32,16 @@ void DataPlot::setAutoRange(bool on)
 
     if(m_autoRange) {
         this->setInteractions(QCP::iSelectPlottables);
+        this->xAxis->setAutoTickStep(false);
+        this->xAxis->setTickStep(m_autoRangeValue/5.0);
+        this->xAxis->setAutoSubTicks(false);
+        this->xAxis->setSubTickCount(10);
     }
 
     else {
         this->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
+        this->xAxis->setAutoTickStep(true);
+        this->xAxis->setAutoSubTicks(true);
     }
 
     this->updateRange(xAxis->range().upper - m_autoRangeOffset);

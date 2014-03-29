@@ -9,7 +9,7 @@
 #include <QVBoxLayout>
 #include <QRadioButton>
 
-#include "qcustomplot.h"
+#include "dataplot.h"
 
 #include "experiment/controlmoduledata.h"
 
@@ -30,15 +30,11 @@ public slots:
     void showTemperature3(bool show);
     void showPressure(bool show);
 
-    void rangeAutoScroll(bool scroll);
-
 private:
     void plotSetup(void);
     void sidePanelSetup(void);
 
-    QCustomPlot *m_plot;
-    int m_xAxisRange;
-    bool m_rangeAutoScroll;
+    DataPlot *m_plot;
 
     QHBoxLayout *m_mainLayout;
     QVBoxLayout *m_sidePanelLayout;

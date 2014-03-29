@@ -41,15 +41,8 @@ void GraphTab::addData(const ControlModuleData &data)
     m_plot->graph(7)->clearData();
     m_plot->graph(7)->addData(time, pressure);
 
-    if(time > m_xAxisRange - 5) {
-        if(m_rangeAutoScroll) {
-            m_plot->xAxis->setRange(time + 5, m_xAxisRange, Qt::AlignRight);
-        }
+    m_plot->updateRange(time);
 
-        else {
-            m_plot->xAxis->setRange(0, time + 5);
-        }
-    }
     m_plot->replot();
 }
 
@@ -86,28 +79,9 @@ void GraphTab::showPressure(bool show)
     m_plot->graph(7)->setVisible(show);
 }
 
-void GraphTab::rangeAutoScroll(bool scroll)
-{
-    m_rangeAutoScroll = scroll;
-
-    if(scroll) {
-        m_plot->xAxis->setAutoSubTicks(false);
-        m_plot->xAxis->setSubTickCount(10);
-        m_plot->xAxis->setAutoTickStep(false);
-        m_plot->xAxis->setTickStep(10.0);
-    }
-
-    else {
-        m_plot->xAxis->setAutoSubTicks(true);
-        m_plot->xAxis->setAutoTickStep(true);
-    }
-}
-
 void GraphTab::plotSetup(void)
 {
-    m_xAxisRange = 50;
-
-    m_plot = new QCustomPlot(this);
+    m_plot = new DataPlot(this);
 
     QFont legendFont = this->font();
     legendFont.setPointSize(9);
@@ -115,7 +89,7 @@ void GraphTab::plotSetup(void)
     // m_plot->legend->setVisible(true);
 
     m_plot->xAxis->setLabel("Time [s]");
-    m_plot->xAxis->setRange(0, m_xAxisRange);
+    m_plot->xAxis->setRange(0, 50);
     m_plot->yAxis->setLabel("Temperature [Celsius]");
     m_plot->yAxis->setRange(0, 60);
     m_plot->yAxis->setAutoTickStep(false);
@@ -126,39 +100,39 @@ void GraphTab::plotSetup(void)
     m_plot->yAxis2->setTickStep(0.2);
     m_plot->yAxis2->setVisible(true);
 
-    /* Cell temperature line */
+    /* Cell temperature 1 line */
     m_plot->addGraph();
     m_plot->graph(0)->setPen(QPen(Qt::darkRed));
-    m_plot->graph(0)->setName(tr("Cell temperature"));
+    m_plot->graph(0)->setName(tr("Cell temperature 1"));
     m_plot->graph(0)->addToLegend();
 
-    /* Cell temperature dot */
+    /* Cell temperature 1 dot */
     m_plot->addGraph();
     m_plot->graph(1)->setPen(QPen(Qt::darkRed));
     m_plot->graph(1)->setLineStyle(QCPGraph::lsNone);
     m_plot->graph(1)->setScatterStyle(QCPScatterStyle::ssDisc);
     m_plot->graph(1)->removeFromLegend();
 
-    /* Room temperature line */
+    /* Cell temperature 2 line */
     m_plot->addGraph();
     m_plot->graph(2)->setPen(QPen(Qt::darkCyan));
-    m_plot->graph(2)->setName(tr("Room temperature"));
+    m_plot->graph(2)->setName(tr("Cell temperature 2"));
     m_plot->graph(2)->addToLegend();
 
-    /* Room temperature dot */
+    /* Cell temperature 2 dot */
     m_plot->addGraph();
     m_plot->graph(3)->setPen(QPen(Qt::darkCyan));
     m_plot->graph(3)->setLineStyle(QCPGraph::lsNone);
     m_plot->graph(3)->setScatterStyle(QCPScatterStyle::ssDisc);
     m_plot->graph(3)->removeFromLegend();
 
-    /* Third temperature line */
+    /* Room temperature line */
     m_plot->addGraph();
     m_plot->graph(4)->setPen(QPen(Qt::darkGreen));
-    m_plot->graph(4)->setName(tr("Temperature 3"));
+    m_plot->graph(4)->setName(tr("Room temperature"));
     m_plot->graph(4)->addToLegend();
 
-    /* Third temperature dot */
+    /* Room temperature dot */
     m_plot->addGraph();
     m_plot->graph(5)->setPen(QPen(Qt::darkGreen));
     m_plot->graph(5)->setLineStyle(QCPGraph::lsNone);
@@ -183,10 +157,7 @@ void GraphTab::plotSetup(void)
     m_plot->plotLayout()->addElement(0, 0, new QCPPlotTitle(m_plot, "Experiment Timeline"));
     m_plot->setMinimumSize(400, 300);
 
-    m_plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
-    m_plot->axisRect()->setRangeDrag(Qt::Horizontal);
-
-    this->rangeAutoScroll(true);
+    m_plot->setAutoRange(50, 5);
 
     m_plot->replot();
 }
@@ -203,7 +174,7 @@ void GraphTab::sidePanelSetup(void)
     m_autoScrollView = new QRadioButton(tr("Auto-scroll"), m_graphBox);
 
     QObject::connect(m_autoScrollView, SIGNAL(toggled(bool)),
-                     this, SLOT(rangeAutoScroll(bool)));
+                     m_plot, SLOT(setAutoRange(bool)));
 
     m_autoScrollView->setChecked(true);
 
