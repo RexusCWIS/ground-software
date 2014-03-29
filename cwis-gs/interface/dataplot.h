@@ -9,8 +9,6 @@ class DataPlot: public QCustomPlot
 public:
     DataPlot(QWidget *parent = 0);
 
-    void addGraph(QCPAxis *keyAxis, QCPAxis *valueAxis);
-
     void setAutoRangeValue(double range);
     void setAutoRangeOffset(double offset);
 

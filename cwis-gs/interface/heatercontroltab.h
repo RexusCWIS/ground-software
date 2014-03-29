@@ -8,7 +8,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-#include "qcustomplot.h"
+#include "dataplot.h"
 
 #include "experiment/controlmoduledata.h"
 
@@ -28,7 +28,7 @@ public slots:
 private:
     void plotSetup();
 
-    QCustomPlot *m_plot;
+    DataPlot *m_plot;
     int m_xAxisRange;
     bool m_rangeAutoScroll;
 

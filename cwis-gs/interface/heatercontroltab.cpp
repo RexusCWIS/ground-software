@@ -27,16 +27,7 @@ void HeaterControlTab::addData(const ControlModuleData &data)
     m_plot->graph(3)->clearData();
     m_plot->graph(3)->addData(time, cellTemp2);
 
-    if(time > m_xAxisRange - 5) {
-        if(m_rangeAutoScroll) {
-            m_plot->xAxis->setRange(time + 5, m_xAxisRange, Qt::AlignRight);
-        }
-
-        else {
-            m_plot->xAxis->setRange(0, time + 5);
-        }
-    }
-    m_plot->replot();
+    m_plot->updateRange(time);
 }
 
 void HeaterControlTab::clear()
@@ -67,9 +58,7 @@ void HeaterControlTab::rangeAutoScroll(bool scroll)
 
 void HeaterControlTab::plotSetup()
 {
-    m_xAxisRange = 50;
-
-    m_plot = new QCustomPlot(this);
+    m_plot = new DataPlot(this);
 
     QFont legendFont = this->font();
     legendFont.setPointSize(9);
@@ -119,7 +108,12 @@ void HeaterControlTab::plotSetup()
     m_plot->plotLayout()->addElement(0, 0, new QCPPlotTitle(m_plot, "Heater control"));
     m_plot->setMinimumSize(400, 300);
 
-    this->rangeAutoScroll(true);
+    m_plot->setAutoRange(50, 5);
+
+    m_plot->xAxis->setAutoSubTicks(false);
+    m_plot->xAxis->setSubTickCount(10);
+    m_plot->xAxis->setAutoTickStep(false);
+    m_plot->xAxis->setTickStep(10.0);
 
     m_plot->replot();
 }
