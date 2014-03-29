@@ -16,6 +16,7 @@ public:
 
 public slots:
     void setAutoRange(bool on);
+    void setAutoRange(double range, double offset);
     void updateRange(double max);
 
 protected:

@@ -184,6 +184,7 @@ void GraphTab::plotSetup(void)
     m_plot->setMinimumSize(400, 300);
 
     m_plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
+    m_plot->axisRect()->setRangeDrag(Qt::Horizontal);
 
     this->rangeAutoScroll(true);
 

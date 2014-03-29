@@ -7,6 +7,7 @@ DataPlot::DataPlot(QWidget *parent) :
     m_autoRangeValue  = 10.0;
     m_autoRangeOffset = 1.0;
     this->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
+    this->axisRect()->setRangeDrag(Qt::Horizontal);
 }
 
 void DataPlot::setAutoRangeValue(double range)
@@ -36,6 +37,14 @@ void DataPlot::setAutoRange(bool on)
     }
 
     this->updateRange(xAxis->range().upper - m_autoRangeOffset);
+}
+
+void DataPlot::setAutoRange(double range, double offset)
+{
+    m_autoRangeValue  = range;
+    m_autoRangeOffset = offset;
+
+    this->setAutoRange(true);
 }
 
 void DataPlot::updateRange(double max)
