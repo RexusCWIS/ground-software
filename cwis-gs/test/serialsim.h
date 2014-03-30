@@ -3,6 +3,8 @@
 
 #include <QThread>
 
+#include <QTimer>
+
 #include "experiment/controlmoduledata.h"
 
 class SerialSim: public QThread
@@ -24,7 +26,11 @@ signals:
 protected:
     void run();
 
+    QTimer *m_eventTimer;
     bool m_stop;
+
+protected slots:
+    void updateControlModuleStatus();
 };
 
 #endif // SERIALSIM_H

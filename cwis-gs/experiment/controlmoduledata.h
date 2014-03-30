@@ -3,6 +3,14 @@
 
 #include <QTime>
 
+/* Control module status bitfield */
+#define CM_POWER_ON     (1 << 0)
+#define CM_LASER_ON     (1 << 1)
+#define CM_CAMERA_ON    (1 << 2)
+#define CM_LO           (1 << 3)
+#define CM_SODS         (1 << 4)
+#define CM_SOE          (1 << 5)
+
 struct ControlModuleData {
     QTime currentTime;
     unsigned int time;
@@ -32,6 +40,6 @@ struct ControlModuleData {
     }
 };
 
-Q_DECLARE_METATYPE(ControlModuleData);
+Q_DECLARE_METATYPE(ControlModuleData)
 
 #endif  /* DEF_CONTROL_MODULE_DATA_H */
