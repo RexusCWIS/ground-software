@@ -35,6 +35,7 @@ public slots:
 private:
     void createMenus();
     void createActions();
+    void createStatusBar();
 
     QList<ControlModuleData> *m_dataBuffer;
 
@@ -57,6 +58,20 @@ private:
     QAction *m_serialStopAction;
 
     SerialSim *m_sim;
+
+    QLabel *m_serialStatusLabel;
+    QLabel *m_receivedFramesLabel;
+    QLabel *m_invalidFramesLabel;
+
+    int m_framesReceived;
+    int m_framesDropped;
+
+    bool m_downlinkActive;
+
+private slots:
+    void updateStatusBar();
+    // void processSerialFrameDrop();
+
 };
 
 #endif // MAINWINDOW_H

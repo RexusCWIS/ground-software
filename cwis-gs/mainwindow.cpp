@@ -29,9 +29,15 @@ MainWindow::MainWindow(QWidget *parent) :
     m_sim = new SerialSim(this);
     QObject::connect(m_sim, SIGNAL(newData(ControlModuleData)),
                      this, SLOT(newData(ControlModuleData)));
+    QObject::connect(m_sim, SIGNAL(started()),
+                     this, SLOT(updateStatusBar()));
+    QObject::connect(m_sim, SIGNAL(finished()),
+                     this, SLOT(updateStatusBar()));
 
     this->createActions();
     this->createMenus();
+
+    this->createStatusBar();
 }
 
 MainWindow::~MainWindow()
@@ -49,6 +55,10 @@ void MainWindow::newData(ControlModuleData data)
     m_tableTab->addData(data);
     m_heaterTab->addData(data);
     m_graphTab->addData(data);
+
+    m_downlinkActive = true;
+    m_framesReceived++;
+    this->updateStatusBar();
 }
 
 void MainWindow::clear()
@@ -68,6 +78,10 @@ void MainWindow::clear()
         m_heaterTab->clear();
         m_graphTab->clear();
     }
+
+    m_framesReceived = 0;
+    m_framesDropped  = 0;
+    this->updateStatusBar();
 }
 
 void MainWindow::createMenus()
@@ -94,4 +108,42 @@ void MainWindow::createActions()
                      m_sim, SLOT(start()));
     QObject::connect(m_serialStopAction, SIGNAL(triggered()),
                      m_sim, SLOT(stop()));
+}
+
+void MainWindow::createStatusBar()
+{
+    m_serialStatusLabel   = new QLabel(this);
+    m_receivedFramesLabel = new QLabel(this);
+    m_invalidFramesLabel  = new QLabel(this);
+
+
+    statusBar()->addWidget(m_serialStatusLabel, 2);
+    statusBar()->addWidget(m_receivedFramesLabel);
+    statusBar()->addWidget(m_invalidFramesLabel, 3);
+
+    m_downlinkActive = false;
+    m_framesReceived = 0;
+    m_framesDropped  = 0;
+    this->updateStatusBar();
+}
+
+void MainWindow::updateStatusBar()
+{
+    if(m_sim->isRunning()) {
+
+        if(m_sim->isActive()) {
+            m_serialStatusLabel->setText(tr("Serial communication status: Active"));
+        }
+
+        else {
+            m_serialStatusLabel->setText(tr("Serial communication status: Waiting"));
+        }
+    }
+
+    else {
+        m_serialStatusLabel->setText(tr("Serial communication status: Stopped"));
+    }
+
+    m_receivedFramesLabel->setText(tr("Frames received: %1").arg(m_framesReceived));
+    m_invalidFramesLabel->setText(tr("Dropped: %1").arg(m_framesDropped));
 }

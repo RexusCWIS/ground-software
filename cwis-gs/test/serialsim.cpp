@@ -19,6 +19,8 @@ SerialSim::SerialSim(QObject *parent): QThread(parent)
 {
     qRegisterMetaType<ControlModuleData>("ControlModuleData");
 
+    m_active = false;
+
     m_eventTimer = new QTimer(this);
     m_eventTimer->setSingleShot(true);
 
@@ -29,6 +31,10 @@ SerialSim::SerialSim(QObject *parent): QThread(parent)
 SerialSim::~SerialSim()
 {
     this->stop();
+}
+
+bool SerialSim::isActive() const {
+    return m_active;
 }
 
 void SerialSim::start()
@@ -58,6 +64,8 @@ void SerialSim::run()
     data.controlModuleStatus = 0x1;
 
     int counter = 0;
+
+    m_active = true;
 
     while(!m_stop)
     {

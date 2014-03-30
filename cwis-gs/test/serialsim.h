@@ -15,6 +15,8 @@ public:
 
     virtual ~SerialSim();
 
+    bool isActive() const;
+
 public slots:
     void start(void);
 
@@ -22,12 +24,14 @@ public slots:
 
 signals:
     void newData(ControlModuleData data);
+    void timeout();
 
 protected:
     void run();
 
     QTimer *m_eventTimer;
     bool m_stop;
+    bool m_active;
 
 protected slots:
     void updateControlModuleStatus();
