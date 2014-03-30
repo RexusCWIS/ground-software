@@ -7,6 +7,7 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QGridLayout>
 #include <QRadioButton>
 
 #include "dataplot.h"
@@ -39,8 +40,10 @@ private:
     QHBoxLayout *m_mainLayout;
     QVBoxLayout *m_sidePanelLayout;
     QVBoxLayout *m_checkBoxLayout;
+    QGridLayout *m_dataBoxLayout;
 
     QGroupBox *m_graphBox;
+    QGroupBox *m_dataBox;
 
     QRadioButton *m_globalView;
     QRadioButton *m_autoScrollView;
@@ -49,6 +52,16 @@ private:
     QCheckBox *m_temp2CheckBox;
     QCheckBox *m_temp3CheckBox;
     QCheckBox *m_pressureCheckBox;
+
+    QLabel *m_temp1TextLabel;
+    QLabel *m_temp2TextLabel;
+    QLabel *m_temp3TextLabel;
+    QLabel *m_pressureTextLabel;
+
+    QLabel *m_temp1ValueLabel;
+    QLabel *m_temp2ValueLabel;
+    QLabel *m_temp3ValueLabel;
+    QLabel *m_pressureValueLabel;
 };
 
 #endif // GRAPHTAB_H

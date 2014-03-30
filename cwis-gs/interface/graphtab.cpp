@@ -1,5 +1,7 @@
 #include "graphtab.h"
 
+#include "interface.h"
+
 GraphTab::GraphTab(QWidget *parent) :
     QWidget(parent)
 {
@@ -16,20 +18,20 @@ GraphTab::GraphTab(QWidget *parent) :
 void GraphTab::addData(const ControlModuleData &data)
 {
     double time = data.getTime();
-    double cellTemp = data.getTemperature(0);
-    double roomTemp = data.getTemperature(1);
-    double temp3    = data.getTemperature(2);
+    double temp1 = data.getTemperature(0);
+    double temp2 = data.getTemperature(1);
+    double temp3 = data.getTemperature(2);
     double pressure = data.getPressure();
 
     /* Cell temperature */
-    m_plot->graph(0)->addData(time, cellTemp);
+    m_plot->graph(0)->addData(time, temp1);
     m_plot->graph(1)->clearData();
-    m_plot->graph(1)->addData(time, cellTemp);
+    m_plot->graph(1)->addData(time, temp1);
 
     /* Room temperature */
-    m_plot->graph(2)->addData(time, roomTemp);
+    m_plot->graph(2)->addData(time, temp2);
     m_plot->graph(3)->clearData();
-    m_plot->graph(3)->addData(time, roomTemp);
+    m_plot->graph(3)->addData(time, temp2);
 
     /* Room temperature */
     m_plot->graph(4)->addData(time, temp3);
@@ -44,6 +46,14 @@ void GraphTab::addData(const ControlModuleData &data)
     m_plot->updateRange(time);
 
     m_plot->replot();
+
+    m_temp1ValueLabel->setText(tr("%1").arg(temp1, 0, 'f', 1) +
+                               QString::fromUtf8(" \u00B0C"));
+    m_temp2ValueLabel->setText(tr("%1").arg(temp2, 0, 'f', 1) +
+                               QString::fromUtf8(" \u00B0C"));
+    m_temp3ValueLabel->setText(tr("%1").arg(temp3, 0, 'f', 1) +
+                               QString::fromUtf8(" \u00B0C"));
+    m_pressureValueLabel->setText(tr("%1 atm").arg(pressure, 0, 'f', 2));
 }
 
 void GraphTab::clear()
@@ -53,6 +63,11 @@ void GraphTab::clear()
     }
 
     m_plot->replot();
+
+    m_temp1ValueLabel->setText(tr("N/A"));
+    m_temp2ValueLabel->setText(tr("N/A"));
+    m_temp3ValueLabel->setText(tr("N/A"));
+    m_pressureValueLabel->setText(tr("N/A"));
 }
 
 void GraphTab::showCellTemperature(bool show)
@@ -103,7 +118,7 @@ void GraphTab::plotSetup(void)
     /* Cell temperature 1 line */
     m_plot->addGraph();
     m_plot->graph(0)->setPen(QPen(Qt::darkRed));
-    m_plot->graph(0)->setName(tr("Cell temperature 1"));
+    m_plot->graph(0)->setName(TEMPERATURE1_STRING);
     m_plot->graph(0)->addToLegend();
 
     /* Cell temperature 1 dot */
@@ -116,7 +131,7 @@ void GraphTab::plotSetup(void)
     /* Cell temperature 2 line */
     m_plot->addGraph();
     m_plot->graph(2)->setPen(QPen(Qt::darkCyan));
-    m_plot->graph(2)->setName(tr("Cell temperature 2"));
+    m_plot->graph(2)->setName(TEMPERATURE2_STRING);
     m_plot->graph(2)->addToLegend();
 
     /* Cell temperature 2 dot */
@@ -129,7 +144,7 @@ void GraphTab::plotSetup(void)
     /* Room temperature line */
     m_plot->addGraph();
     m_plot->graph(4)->setPen(QPen(Qt::darkGreen));
-    m_plot->graph(4)->setName(tr("Room temperature"));
+    m_plot->graph(4)->setName(TEMPERATURE3_STRING);
     m_plot->graph(4)->addToLegend();
 
     /* Room temperature dot */
@@ -142,7 +157,7 @@ void GraphTab::plotSetup(void)
     /* Pressure line */
     m_plot->addGraph(m_plot->xAxis, m_plot->yAxis2);
     m_plot->graph(6)->setPen(QPen(Qt::darkMagenta));
-    m_plot->graph(6)->setName(tr("Pressure"));
+    m_plot->graph(6)->setName(PRESSURE_STRING);
     m_plot->graph(6)->addToLegend();
 
     /* Pressure dot */
@@ -178,10 +193,10 @@ void GraphTab::sidePanelSetup(void)
 
     m_autoScrollView->setChecked(true);
 
-    m_temp1CheckBox = new QCheckBox(tr("Cell temperature"), m_graphBox);
-    m_temp2CheckBox = new QCheckBox(tr("Ambient temperature"), m_graphBox);
-    m_temp3CheckBox = new QCheckBox(tr("Temperature 3"), m_graphBox);
-    m_pressureCheckBox = new QCheckBox(tr("Pressure"), m_graphBox);
+    m_temp1CheckBox = new QCheckBox(TEMPERATURE1_STRING, m_graphBox);
+    m_temp2CheckBox = new QCheckBox(TEMPERATURE2_STRING, m_graphBox);
+    m_temp3CheckBox = new QCheckBox(TEMPERATURE3_STRING, m_graphBox);
+    m_pressureCheckBox = new QCheckBox(PRESSURE_STRING, m_graphBox);
 
     m_temp1CheckBox->setChecked(true);
     m_temp2CheckBox->setChecked(true);
@@ -205,6 +220,47 @@ void GraphTab::sidePanelSetup(void)
     m_checkBoxLayout->addWidget(m_temp3CheckBox);
     m_checkBoxLayout->addWidget(m_pressureCheckBox);
 
+    m_dataBox = new QGroupBox(trUtf8("Real-time values"), this);
+    m_dataBoxLayout = new QGridLayout(m_dataBox);
+    m_dataBox->setLayout(m_dataBoxLayout);
+
+    m_temp1TextLabel = new QLabel(TEMPERATURE1_STRING, m_dataBox);
+    m_temp2TextLabel = new QLabel(TEMPERATURE2_STRING, m_dataBox);
+    m_temp3TextLabel = new QLabel(TEMPERATURE3_STRING, m_dataBox);
+    m_pressureTextLabel = new QLabel(PRESSURE_STRING, m_dataBox);
+
+    m_temp1ValueLabel = new QLabel(m_dataBox);
+    m_temp2ValueLabel = new QLabel(m_dataBox);
+    m_temp3ValueLabel = new QLabel(m_dataBox);
+    m_pressureValueLabel = new QLabel(m_dataBox);
+
+    m_temp1TextLabel->setBuddy(m_temp1ValueLabel);
+    m_temp2TextLabel->setBuddy(m_temp2ValueLabel);
+    m_temp3TextLabel->setBuddy(m_temp3ValueLabel);
+    m_pressureTextLabel->setBuddy(m_pressureValueLabel);
+
+    QFont font = m_temp1ValueLabel->font();
+    font.setBold(true);
+    m_temp1ValueLabel->setFont(font);
+    m_temp2ValueLabel->setFont(font);
+    m_temp3ValueLabel->setFont(font);
+    m_pressureValueLabel->setFont(font);
+
+    m_temp1ValueLabel->setText(tr("N/A"));
+    m_temp2ValueLabel->setText(tr("N/A"));
+    m_temp3ValueLabel->setText(tr("N/A"));
+    m_pressureValueLabel->setText(tr("N/A"));
+
+    m_dataBoxLayout->addWidget(m_temp1TextLabel, 0, 0);
+    m_dataBoxLayout->addWidget(m_temp1ValueLabel, 0, 1);
+    m_dataBoxLayout->addWidget(m_temp2TextLabel, 1, 0);
+    m_dataBoxLayout->addWidget(m_temp2ValueLabel, 1, 1);
+    m_dataBoxLayout->addWidget(m_temp3TextLabel, 2, 0);
+    m_dataBoxLayout->addWidget(m_temp3ValueLabel, 2, 1);
+    m_dataBoxLayout->addWidget(m_pressureTextLabel, 3, 0);
+    m_dataBoxLayout->addWidget(m_pressureValueLabel, 3, 1);
+
     m_sidePanelLayout->addWidget(m_graphBox);
+    m_sidePanelLayout->addWidget(m_dataBox);
     m_sidePanelLayout->addStretch(1);
 }

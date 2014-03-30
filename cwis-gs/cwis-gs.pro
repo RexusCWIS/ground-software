@@ -35,6 +35,7 @@ HEADERS  += mainwindow.h            \
     clockwidget.h                   \
     interface/clockwidget.h         \
     interface/heatercontroltab.h    \
-    interface/dataplot.h
+    interface/dataplot.h \
+    interface.h
 
 FORMS    +=

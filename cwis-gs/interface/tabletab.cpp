@@ -1,5 +1,7 @@
 #include "tabletab.h"
 
+#include "interface.h"
+
 #include <QStringList>
 #include <QHeaderView>
 
@@ -12,10 +14,10 @@ TableTab::TableTab(QWidget *parent) :
     QStringList header;
     header.append(tr("Current time"));
     header.append(tr("Module time"));
-    header.append(tr("Cell temperature"));
-    header.append(tr("Room temperature"));
-    header.append(tr("Temperature 3"));
-    header.append(tr("Pressure"));
+    header.append(TEMPERATURE1_STRING);
+    header.append(TEMPERATURE2_STRING);
+    header.append(TEMPERATURE3_STRING);
+    header.append(PRESSURE_STRING);
     header.append(tr("Control status"));
     header.append(tr("Camera status"));
     header.append(tr("Number of images"));

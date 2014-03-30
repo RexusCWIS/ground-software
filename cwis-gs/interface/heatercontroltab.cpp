@@ -1,5 +1,7 @@
 #include "heatercontroltab.h"
 
+#include "interface.h"
+
 HeaterControlTab::HeaterControlTab(QWidget *parent) :
     QWidget(parent)
 {
@@ -80,7 +82,7 @@ void HeaterControlTab::plotSetup()
     /* Cell temperature 1 line */
     m_plot->addGraph();
     m_plot->graph(0)->setPen(QPen(Qt::darkRed));
-    m_plot->graph(0)->setName(tr("Cell temperature 1"));
+    m_plot->graph(0)->setName(TEMPERATURE1_STRING);
     m_plot->graph(0)->addToLegend();
 
     /* Cell temperature 1 dot */
@@ -93,7 +95,7 @@ void HeaterControlTab::plotSetup()
     /* Cell temperature 2 line */
     m_plot->addGraph();
     m_plot->graph(2)->setPen(QPen(Qt::darkCyan));
-    m_plot->graph(2)->setName(tr("Cell temperature 2"));
+    m_plot->graph(2)->setName(TEMPERATURE2_STRING);
     m_plot->graph(2)->addToLegend();
 
     /* Cell temperature 2 dot */
