@@ -26,6 +26,18 @@ void DataPlot::setAutoRangeOffset(double offset)
     m_autoRangeOffset = offset;
 }
 
+void DataPlot::enterEvent(QEvent *event)
+{
+    (void) event;
+    this->legend->setVisible(true);
+}
+
+void DataPlot::leaveEvent(QEvent *event)
+{
+    (void) event;
+    this->legend->setVisible(false);
+}
+
 void DataPlot::setAutoRange(bool on)
 {
     m_autoRange = on;
@@ -72,4 +84,9 @@ void DataPlot::updateRange(double max)
     }
 
     this->replot();
+}
+
+void DataPlot::displayToolTipOnSelectedGraph()
+{
+
 }

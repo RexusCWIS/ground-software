@@ -98,10 +98,11 @@ void GraphTab::plotSetup(void)
 {
     m_plot = new DataPlot(this);
 
+    m_plot->setMouseTracking(true);
+
     QFont legendFont = this->font();
     legendFont.setPointSize(9);
     m_plot->legend->setFont(legendFont);
-    // m_plot->legend->setVisible(true);
 
     m_plot->xAxis->setLabel("Time [s]");
     m_plot->xAxis->setRange(0, 50);

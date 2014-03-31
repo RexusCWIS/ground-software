@@ -12,6 +12,9 @@ public:
     void setAutoRangeValue(double range);
     void setAutoRangeOffset(double offset);
 
+    void enterEvent(QEvent *event);
+    void leaveEvent(QEvent *event);
+
 public slots:
     void setAutoRange(bool on);
     void setAutoRange(double range, double offset);
@@ -21,6 +24,9 @@ protected:
     bool m_autoRange;
     double m_autoRangeValue;
     double m_autoRangeOffset;
+
+protected slots:
+    void displayToolTipOnSelectedGraph();
 };
 
 #endif // DATAPLOT_H
