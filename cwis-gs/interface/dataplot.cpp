@@ -8,7 +8,7 @@ DataPlot::DataPlot(QWidget *parent) :
     m_autoRangeOffset = 1.0;
     xAxis->setRange(0, m_autoRangeValue);
 
-    this->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
+    this->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables | QCP::iSelectLegend);
     this->axisRect()->setRangeDrag(Qt::Horizontal);
 
     QObject::connect(this, SIGNAL(selectionChangedByUser()),
@@ -112,24 +112,31 @@ void DataPlot::displayToolTipOnSelectedGraph(QMouseEvent *event)
     }
 
     QCPGraph *selected = list.first();
-
     double x = this->xAxis->pixelToCoord(event->pos().x());
+
     double time = 0, value = 0;
+    bool ok  = false, notAvailable = false;
 
-    bool ok  = false;
-    double m = std::numeric_limits<double>::max();
+    if(x > (selected->data()->constEnd() -1)->key) {
+        time = x;
+        notAvailable = true;
+        ok = true;
+    }
 
-    foreach(QCPData data, selected->data()->values())
-    {
-        double d = qAbs(x - data.key);
+    else {
+        double m = std::numeric_limits<double>::max();
 
-        if(d < m)
-        {
-            time = data.key;
-            value = data.value;
+        foreach(QCPData data, selected->data()->values()) {
 
-            ok = true;
-            m = d;
+            double d = qAbs(x - data.key);
+
+            if(d < m) {
+                time = data.key;
+                value = data.value;
+
+                ok = true;
+                m = d;
+            }
         }
     }
 
@@ -149,7 +156,7 @@ void DataPlot::displayToolTipOnSelectedGraph(QMouseEvent *event)
                               "</table>").
                            arg(selected->name().isEmpty() ? "..." : selected->name()).
                            arg(time, 0, 'f', 2).
-                           arg(value, 0, 'f', 2));
+                           arg(notAvailable ? tr("N/A") : tr("%1").arg(value, 0, 'f', 2)));
     }
 }
 

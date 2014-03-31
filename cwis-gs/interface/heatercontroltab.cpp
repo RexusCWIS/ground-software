@@ -65,6 +65,9 @@ void HeaterControlTab::plotSetup()
     QFont legendFont = this->font();
     legendFont.setPointSize(9);
     m_plot->legend->setFont(legendFont);
+    legendFont.setItalic(true);
+    m_plot->legend->setSelectedFont(legendFont);
+    m_plot->legend->setSelectedTextColor(QColor(Qt::black));
     m_plot->legend->setVisible(true);
 
     m_plot->xAxis->setLabel("Time [s]");
