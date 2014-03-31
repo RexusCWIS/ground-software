@@ -246,6 +246,11 @@ void GraphTab::sidePanelSetup(void)
     m_temp3ValueLabel->setFont(font);
     m_pressureValueLabel->setFont(font);
 
+    /* Avoid ulterior size changes due to larger texts */
+    m_pressureValueLabel->setText("1.00 atm");
+    QSize sizeHint = m_pressureValueLabel->sizeHint();
+    m_pressureValueLabel->setMinimumSize(sizeHint);
+
     m_temp1ValueLabel->setText(tr("N/A"));
     m_temp2ValueLabel->setText(tr("N/A"));
     m_temp3ValueLabel->setText(tr("N/A"));
