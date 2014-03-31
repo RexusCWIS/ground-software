@@ -17,6 +17,8 @@ class StatusPanel : public QWidget
 public:
     explicit StatusPanel(QWidget *parent = 0);
 
+    void updateStatus(int controlModule, int cameraModule);
+    void updateNumberOfImages(int numberOfImages);
 signals:
 
 public slots:

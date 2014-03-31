@@ -50,12 +50,19 @@ MainWindow::~MainWindow()
 
 void MainWindow::newData(ControlModuleData data)
 {
+    /* Store acquired data */
     m_dataBuffer->append(data);
 
+    /* Display data */
     m_tableTab->addData(data);
     m_heaterTab->addData(data);
     m_graphTab->addData(data);
 
+    /* Update status labels */
+    m_statusPanel->updateStatus((int) data.controlModuleStatus, (int) data.cameraModuleStatus);
+    m_statusPanel->updateNumberOfImages((int) data.nbOfImages);
+
+    /* Serial communication status */
     m_downlinkActive = true;
     m_framesReceived++;
     this->updateStatusBar();
@@ -177,7 +184,7 @@ void MainWindow::saveRecordedData()
 
             out << (*item).currentTime.toString("hh:mm:ss.zzz") << "\t" << (*item).time << "\t" << (*item).temperatures[0] << "\t" <<
                    (*item).temperatures[1] << "\t" << (*item).temperatures[2] << "\t" <<
-                   (*item).pressure << (*item).controlModuleStatus << "\t" << (*item).cameraModuleStatus << "\n";
+                   (*item).pressure << "\t" << (*item).controlModuleStatus << "\t" << (*item).cameraModuleStatus << "\n";
         }
 
         file.close();

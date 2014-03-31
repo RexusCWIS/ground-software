@@ -14,6 +14,7 @@ typedef enum {
 } ControlModuleState;
 
 static ControlModuleData data;
+static ControlModuleState currentStatus = POWER;
 
 SerialSim::SerialSim(QObject *parent): QThread(parent)
 {
@@ -70,10 +71,12 @@ void SerialSim::run()
     while(!m_stop)
     {
         data.time += 100;
-        counter++;
-        if(counter == 3) {
-            data.nbOfImages++;
-            counter = 0;
+        if(currentStatus == START_OF_EXPERIMENT) {
+            counter++;
+            if(counter == 3) {
+                data.nbOfImages++;
+                counter = 0;
+            }
         }
 
         data.currentTime = QTime::currentTime();
@@ -84,8 +87,6 @@ void SerialSim::run()
 
 void SerialSim::updateControlModuleStatus()
 {
-    static ControlModuleState currentStatus = POWER;
-
     int callbackTime = 0;
 
     switch(currentStatus) {

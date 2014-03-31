@@ -1,5 +1,7 @@
 #include "statuspanel.h"
 
+#include "experiment/controlmoduledata.h"
+
 #include <QDate>
 #include <QImage>
 #include <QSizePolicy>
@@ -81,9 +83,28 @@ StatusPanel::StatusPanel(QWidget *parent) :
     m_layout->addWidget(m_analogClock);
     m_layout->addWidget(m_digitalClock);
     m_layout->addWidget(m_controlStatusBox);
-    m_layout->addWidget(m_rexusSignalsBox);
     m_layout->addWidget(m_cameraStatusBox);
+    m_layout->addWidget(m_rexusSignalsBox);
     m_layout->addStretch(1);
 
     this->setLayout(m_layout);
+}
+
+void StatusPanel::updateStatus(int controlModule, int cameraModule)
+{
+    (void) cameraModule;
+
+    m_powerStatusFlag->setStatus((controlModule & CM_POWER_ON) != 0);
+    m_laserStatusFlag->setStatus((controlModule & CM_LASER_ON) != 0);
+    m_cameraPowerStatusFlag->setStatus((controlModule & CM_CAMERA_ON) != 0);
+    m_loStatusFlag->setStatus((controlModule & CM_LO) != 0);
+    m_sodsStatusFlag->setStatus((controlModule & CM_SODS) != 0);
+    m_soeStatusFlag->setStatus((controlModule & CM_SOE) != 0);
+}
+
+void StatusPanel::updateNumberOfImages(int numberOfImages)
+{
+    if(numberOfImages > 0) {
+        m_cameraImagesStatus->setText(tr("%1").arg(numberOfImages));
+    }
 }
