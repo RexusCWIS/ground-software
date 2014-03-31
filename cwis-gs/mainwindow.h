@@ -53,6 +53,7 @@ private:
     QMenu *m_fileMenu;
     QMenu *m_serialMenu;
 
+    QAction *m_saveAction;
     QAction *m_clearAction;
     QAction *m_serialStartAction;
     QAction *m_serialStopAction;
@@ -70,6 +71,7 @@ private:
 
 private slots:
     void updateStatusBar();
+    void saveRecordedData();
     // void processSerialFrameDrop();
 
 };

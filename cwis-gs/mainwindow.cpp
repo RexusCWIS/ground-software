@@ -87,7 +87,9 @@ void MainWindow::clear()
 void MainWindow::createMenus()
 {
     m_fileMenu = this->menuBar()->addMenu(tr("&File"));
+    m_fileMenu->addAction(m_saveAction);
     m_fileMenu->addAction(m_clearAction);
+    m_saveAction->setShortcut(QKeySequence::Save);
 
     m_serialMenu = this->menuBar()->addMenu(tr("&Serial"));
     m_serialMenu->addAction(m_serialStartAction);
@@ -98,7 +100,10 @@ void MainWindow::createMenus()
 
 void MainWindow::createActions()
 {
-    m_clearAction = new QAction(tr("Clear"), this);
+    m_saveAction  = new QAction(tr("&Save"), this);
+    m_clearAction = new QAction(tr("&Clear"), this);
+    QObject::connect(m_saveAction, SIGNAL(triggered()),
+                     this, SLOT(saveRecordedData()));
     QObject::connect(m_clearAction, SIGNAL(triggered()),
                      this, SLOT(clear()));
 
@@ -146,4 +151,34 @@ void MainWindow::updateStatusBar()
 
     m_receivedFramesLabel->setText(tr("Frames received: %1").arg(m_framesReceived));
     m_invalidFramesLabel->setText(tr("Dropped: %1").arg(m_framesDropped));
+}
+
+void MainWindow::saveRecordedData()
+{
+    if(m_dataBuffer->isEmpty()) {
+        return;
+    }
+
+    QString filename = QFileDialog::getSaveFileName(this, tr("Save As..."), QDir::homePath(), "CSV files (*.csv)");
+
+    if(filename.isEmpty()) {
+        return;
+    }
+
+    QFile file(filename);
+    if(file.open(QFile::WriteOnly | QFile::Truncate)) {
+        QTextStream out(&file);
+
+        out << "System time\tTime [ms]\tTemperature 1\tTemperature2\tTemperature3\tPressure\tControl module status\tCamera module status\n";
+
+        QList<ControlModuleData>::iterator item;
+        for(item = m_dataBuffer->begin(); item != m_dataBuffer->end(); item++) {
+
+            out << (*item).currentTime.toString("hh:mm:ss.zzz") << "\t" << (*item).time << "\t" << (*item).temperatures[0] << "\t" <<
+                   (*item).temperatures[1] << "\t" << (*item).temperatures[2] << "\t" <<
+                   (*item).pressure << (*item).controlModuleStatus << "\t" << (*item).cameraModuleStatus << "\n";
+        }
+
+        file.close();
+    }
 }
