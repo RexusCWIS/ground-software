@@ -62,7 +62,6 @@ private:
 
     QLabel *m_serialStatusLabel;
     QLabel *m_receivedFramesLabel;
-    QLabel *m_invalidFramesLabel;
 
     int m_framesReceived;
     int m_framesDropped;

@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_layout = new QGridLayout(m_centralWidget);
 
+    /* Tab widgets allocation */
     m_graphTab  = new GraphTab();
     m_heaterTab = new HeaterControlTab();
     m_tableTab  = new TableTab();
@@ -38,11 +39,16 @@ MainWindow::MainWindow(QWidget *parent) :
     this->createMenus();
 
     this->createStatusBar();
+
+    /* Window title creation */
+    this->setUnifiedTitleAndToolBarOnMac(true);
+    this->setWindowTitle(tr("CWIS Ground Software - Chemical Waves in Soret Effect"));
 }
 
 MainWindow::~MainWindow()
 {
     delete m_graphTab;
+    delete m_heaterTab;
     delete m_tableTab;
 
     delete m_dataBuffer;
@@ -126,12 +132,11 @@ void MainWindow::createStatusBar()
 {
     m_serialStatusLabel   = new QLabel(this);
     m_receivedFramesLabel = new QLabel(this);
-    m_invalidFramesLabel  = new QLabel(this);
 
+    m_receivedFramesLabel->setAlignment(Qt::AlignRight);
 
     statusBar()->addWidget(m_serialStatusLabel, 2);
-    statusBar()->addWidget(m_receivedFramesLabel);
-    statusBar()->addWidget(m_invalidFramesLabel, 3);
+    statusBar()->addWidget(m_receivedFramesLabel, 2);
 
     m_downlinkActive = false;
     m_framesReceived = 0;
@@ -156,8 +161,7 @@ void MainWindow::updateStatusBar()
         m_serialStatusLabel->setText(tr("Serial communication status: Stopped"));
     }
 
-    m_receivedFramesLabel->setText(tr("Frames received: %1").arg(m_framesReceived));
-    m_invalidFramesLabel->setText(tr("Dropped: %1").arg(m_framesDropped));
+    m_receivedFramesLabel->setText(tr("Frames received: %1 dropped: %2").arg(m_framesReceived).arg(m_framesDropped));
 }
 
 void MainWindow::saveRecordedData()
