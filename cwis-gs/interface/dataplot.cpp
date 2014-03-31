@@ -87,6 +87,10 @@ void DataPlot::updateRange(double max)
 }
 
 void DataPlot::displayToolTipOnSelectedGraph()
-{
+{   
+    QList<QCPGraph *> selected = this->selectedGraphs();
 
+    if(selected.isEmpty()) {
+        return;
+    }
 }
