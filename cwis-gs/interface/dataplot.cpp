@@ -68,7 +68,7 @@ void DataPlot::updateRange(double max)
     }
 
     else {
-        xAxis->setRangeUpper(max + m_autoRangeOffset);
+        xAxis->setRange(0, max + m_autoRangeOffset);
     }
 
     this->replot();
