@@ -28,6 +28,9 @@ StatusPanel::StatusPanel(QWidget *parent) :
     m_dateLabel->setAlignment(Qt::AlignCenter);
     m_analogClock  = new ClockWidget(this);
     m_digitalClock = new DigitalClockWidget(this);
+    m_chronometer  = new ChronometerWidget(this);
+    QObject::connect(m_digitalClock, SIGNAL(refreshed()),
+                     m_chronometer, SLOT(refresh()));
 
     m_controlStatusBox = new QGroupBox(tr("Control Module"), this);
     m_rexusSignalsBox  = new QGroupBox(tr("RXSM signals"), this);
@@ -47,6 +50,8 @@ StatusPanel::StatusPanel(QWidget *parent) :
     m_laserStatusFlag = new StatusFlag(m_controlStatusBox);
 
     m_loStatusFlag   = new StatusFlag(m_rexusSignalsBox);
+    QObject::connect(m_loStatusFlag, SIGNAL(toggled(bool)),
+                     this, SLOT(startChronometer(bool)));
     m_sodsStatusFlag = new StatusFlag(m_rexusSignalsBox);
     m_soeStatusFlag  = new StatusFlag(m_rexusSignalsBox);
 
@@ -81,6 +86,7 @@ StatusPanel::StatusPanel(QWidget *parent) :
     //m_layout->addWidget(m_logoLabel);
     m_layout->addWidget(m_dateLabel);
     m_layout->addWidget(m_analogClock);
+    m_layout->addWidget(m_chronometer);
     m_layout->addWidget(m_digitalClock);
     m_layout->addWidget(m_controlStatusBox);
     m_layout->addWidget(m_cameraStatusBox);
@@ -106,5 +112,12 @@ void StatusPanel::updateNumberOfImages(int numberOfImages)
 {
     if(numberOfImages > 0) {
         m_cameraImagesStatus->setText(tr("%1").arg(numberOfImages));
+    }
+}
+
+void StatusPanel::startChronometer(bool triggered)
+{
+    if(triggered) {
+        m_chronometer->start();
     }
 }

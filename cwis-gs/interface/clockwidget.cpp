@@ -44,7 +44,6 @@
 #include <QPoint>
 #include <QColor>
 #include <QTimer>
-#include <QTime>
 
 ClockWidget::ClockWidget(QWidget *parent) :
     QWidget(parent)
@@ -134,7 +133,7 @@ QSize ClockWidget::sizeHint() const
 DigitalClockWidget::DigitalClockWidget(QWidget *parent) :
     QLabel(parent)
 {
-    QFont font("Helvetica [Cronyx]", 16, QFont::Bold);
+    QFont font("Helvetica [Cronyx]", 16);
     this->setFont(font);
 
     this->setAlignment(Qt::AlignCenter);
@@ -148,6 +147,33 @@ DigitalClockWidget::DigitalClockWidget(QWidget *parent) :
 
 void DigitalClockWidget::refresh()
 {
-    QTime time = QTime::currentTime();
-    this->setText(time.toString());
+    this->setText(QTime::currentTime().toString());
+    emit refreshed();
+}
+
+ChronometerWidget::ChronometerWidget(QWidget *parent) :
+    QLabel(parent)
+{
+    QFont font("Helvetica [Cronyx]", 18, QFont::Bold);
+    this->setFont(font);
+
+    this->setAlignment(Qt::AlignCenter);
+
+    this->setText("T+0");
+
+    m_started = false;
+}
+
+void ChronometerWidget::start()
+{
+    m_startTime = QTime::currentTime();
+    m_started = true;
+}
+
+void ChronometerWidget::refresh()
+{
+    if(m_started) {
+        this->setText(tr("T+%1").arg(m_startTime.secsTo(QTime::currentTime())));
+        emit refreshed();
+    }
 }

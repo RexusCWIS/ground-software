@@ -29,6 +29,7 @@ private:
     QLabel *m_dateLabel;
     ClockWidget *m_analogClock;
     DigitalClockWidget *m_digitalClock;
+    ChronometerWidget  *m_chronometer;
 
     QGroupBox *m_controlStatusBox;
     QGroupBox *m_rexusSignalsBox;
@@ -58,6 +59,9 @@ private:
 
     StatusFlag *m_cameraPowerStatusFlag;
     QLabel *m_cameraImagesStatus;
+
+private slots:
+    void startChronometer(bool triggered);
 };
 
 #endif // STATUSPANEL_H

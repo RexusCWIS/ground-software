@@ -13,6 +13,7 @@ public:
     bool getStatus(void) const;
 
 signals:
+    void toggled(bool);
 
 public slots:
 

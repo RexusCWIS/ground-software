@@ -8,8 +8,6 @@ StatusFlag::StatusFlag(QWidget *parent) :
 
 void StatusFlag::setStatus(bool status) {
 
-    m_status = status;
-
     if(status) {
         this->setText("ON");
         this->setStyleSheet("QLabel {color : green; }");
@@ -19,6 +17,12 @@ void StatusFlag::setStatus(bool status) {
         this->setText("OFF");
         this->setStyleSheet("QLabel {color : red; }");
     }
+
+    if(m_status != status) {
+        emit toggled(status);
+    }
+
+    m_status = status;
 }
 
 bool StatusFlag::getStatus() const {
