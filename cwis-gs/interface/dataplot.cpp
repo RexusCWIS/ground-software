@@ -10,6 +10,9 @@ DataPlot::DataPlot(QWidget *parent) :
 
     this->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
     this->axisRect()->setRangeDrag(Qt::Horizontal);
+
+    QObject::connect(this, SIGNAL(selectionChangedByUser()),
+                     this, SLOT(updateLegend()));
 }
 
 void DataPlot::setAutoRangeValue(double range)
@@ -148,4 +151,23 @@ void DataPlot::displayToolTipOnSelectedGraph(QMouseEvent *event)
                            arg(time, 0, 'f', 2).
                            arg(value, 0, 'f', 2));
     }
+}
+
+void DataPlot::updateLegend()
+{
+    QList<QCPAbstractLegendItem*> selectedLegendItems = legend->selectedItems();
+
+    for(int index = 0; index < selectedLegendItems.size(); index++) {
+        selectedLegendItems[index]->setSelected(false);
+    }
+
+    QList<QCPGraph *> list = this->selectedGraphs();
+
+    if(list.isEmpty()) {
+        return;
+    }
+
+    QCPGraph *selected = list.first();
+    QCPPlottableLegendItem *selectedItem = legend->itemWithPlottable(selected);
+    selectedItem->setSelected(true);
 }

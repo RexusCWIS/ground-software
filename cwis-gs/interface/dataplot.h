@@ -29,6 +29,7 @@ protected:
 
 protected slots:
     void displayToolTipOnSelectedGraph(QMouseEvent *event);
+    void updateLegend();
 };
 
 #endif // DATAPLOT_H

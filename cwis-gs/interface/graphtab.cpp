@@ -103,6 +103,9 @@ void GraphTab::plotSetup(void)
     QFont legendFont = this->font();
     legendFont.setPointSize(9);
     m_plot->legend->setFont(legendFont);
+    legendFont.setItalic(true);
+    m_plot->legend->setSelectedFont(legendFont);
+    m_plot->legend->setSelectedTextColor(QColor(Qt::black));
 
     m_plot->xAxis->setLabel("Time [s]");
     m_plot->xAxis->setRange(0, 50);
@@ -127,6 +130,7 @@ void GraphTab::plotSetup(void)
     m_plot->graph(1)->setPen(QPen(Qt::darkRed));
     m_plot->graph(1)->setLineStyle(QCPGraph::lsNone);
     m_plot->graph(1)->setScatterStyle(QCPScatterStyle::ssDisc);
+    m_plot->graph(1)->setSelectable(false);
     m_plot->graph(1)->removeFromLegend();
 
     /* Cell temperature 2 line */
@@ -140,6 +144,7 @@ void GraphTab::plotSetup(void)
     m_plot->graph(3)->setPen(QPen(Qt::darkCyan));
     m_plot->graph(3)->setLineStyle(QCPGraph::lsNone);
     m_plot->graph(3)->setScatterStyle(QCPScatterStyle::ssDisc);
+    m_plot->graph(3)->setSelectable(false);
     m_plot->graph(3)->removeFromLegend();
 
     /* Room temperature line */
@@ -153,6 +158,7 @@ void GraphTab::plotSetup(void)
     m_plot->graph(5)->setPen(QPen(Qt::darkGreen));
     m_plot->graph(5)->setLineStyle(QCPGraph::lsNone);
     m_plot->graph(5)->setScatterStyle(QCPScatterStyle::ssDisc);
+    m_plot->graph(5)->setSelectable(false);
     m_plot->graph(5)->removeFromLegend();
 
     /* Pressure line */
@@ -166,6 +172,7 @@ void GraphTab::plotSetup(void)
     m_plot->graph(7)->setPen(QPen(Qt::darkMagenta));
     m_plot->graph(7)->setLineStyle(QCPGraph::lsNone);
     m_plot->graph(7)->setScatterStyle(QCPScatterStyle::ssDisc);
+    m_plot->graph(7)->setSelectable(false);
     m_plot->graph(7)->removeFromLegend();
 
     /* Title */
