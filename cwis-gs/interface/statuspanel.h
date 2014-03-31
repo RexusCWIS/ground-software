@@ -19,6 +19,8 @@ public:
 
     void updateStatus(int controlModule, int cameraModule);
     void updateNumberOfImages(int numberOfImages);
+
+    void clear(void);
 signals:
 
 public slots:

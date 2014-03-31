@@ -87,6 +87,7 @@ void MainWindow::clear()
 
     if(reply == QMessageBox::Yes) {
         m_dataBuffer->clear();
+        m_statusPanel->clear();
         m_tableTab->setRowCount(0);
         m_heaterTab->clear();
         m_graphTab->clear();

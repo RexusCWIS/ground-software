@@ -38,7 +38,7 @@ public:
     ChronometerWidget(QWidget *parent);
 
     void start();
-
+    void reset();
 signals:
     void refreshed();
 

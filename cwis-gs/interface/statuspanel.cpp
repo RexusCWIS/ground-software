@@ -115,6 +115,18 @@ void StatusPanel::updateNumberOfImages(int numberOfImages)
     }
 }
 
+void StatusPanel::clear()
+{
+    m_chronometer->reset();
+
+    m_powerStatusFlag->setStatus(false);
+    m_laserStatusFlag->setStatus(false);
+    m_cameraPowerStatusFlag->setStatus(false);
+    m_loStatusFlag->setStatus(false);
+    m_sodsStatusFlag->setStatus(false);
+    m_soeStatusFlag->setStatus(false);
+}
+
 void StatusPanel::startChronometer(bool triggered)
 {
     if(triggered) {

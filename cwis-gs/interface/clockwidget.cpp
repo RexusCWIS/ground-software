@@ -159,15 +159,19 @@ ChronometerWidget::ChronometerWidget(QWidget *parent) :
 
     this->setAlignment(Qt::AlignCenter);
 
-    this->setText("T+0");
-
-    m_started = false;
+    this->reset();
 }
 
 void ChronometerWidget::start()
 {
     m_startTime = QTime::currentTime();
     m_started = true;
+}
+
+void ChronometerWidget::reset()
+{
+    m_started = false;
+    this->setText("T+0");
 }
 
 void ChronometerWidget::refresh()
