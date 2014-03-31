@@ -159,14 +159,15 @@ void MainWindow::saveRecordedData()
         return;
     }
 
-    QString filename = QFileDialog::getSaveFileName(this, tr("Save As..."), QDir::homePath(), "CSV files (*.csv)");
+    /** @bug On Mac OS X, the filter field is ignored. This is due to Qt. */
+    QString filename = QFileDialog::getSaveFileName(this, tr("Save As..."), QDir::homePath(), tr("CSV files (*.csv);;All files (*)"));
 
     if(filename.isEmpty()) {
         return;
     }
 
     QFile file(filename);
-    if(file.open(QFile::WriteOnly | QFile::Truncate)) {
+    if(file.open(QFile::WriteOnly | QFile::Truncate | QFile::Text)) {
         QTextStream out(&file);
 
         out << "System time\tTime [ms]\tTemperature 1\tTemperature2\tTemperature3\tPressure\tControl module status\tCamera module status\n";

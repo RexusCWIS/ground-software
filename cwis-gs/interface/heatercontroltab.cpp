@@ -112,10 +112,5 @@ void HeaterControlTab::plotSetup()
 
     m_plot->setAutoRange(50, 5);
 
-    m_plot->xAxis->setAutoSubTicks(false);
-    m_plot->xAxis->setSubTickCount(10);
-    m_plot->xAxis->setAutoTickStep(false);
-    m_plot->xAxis->setTickStep(10.0);
-
     m_plot->replot();
 }
