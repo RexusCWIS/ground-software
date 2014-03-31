@@ -12,6 +12,8 @@ public:
     void setAutoRangeValue(double range);
     void setAutoRangeOffset(double offset);
 
+    void activateMouseOverToolTip(bool on);
+
     void enterEvent(QEvent *event);
     void leaveEvent(QEvent *event);
 
@@ -26,7 +28,7 @@ protected:
     double m_autoRangeOffset;
 
 protected slots:
-    void displayToolTipOnSelectedGraph();
+    void displayToolTipOnSelectedGraph(QMouseEvent *event);
 };
 
 #endif // DATAPLOT_H

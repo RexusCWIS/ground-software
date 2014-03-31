@@ -98,7 +98,7 @@ void GraphTab::plotSetup(void)
 {
     m_plot = new DataPlot(this);
 
-    m_plot->setMouseTracking(true);
+    m_plot->activateMouseOverToolTip(true);
 
     QFont legendFont = this->font();
     legendFont.setPointSize(9);
