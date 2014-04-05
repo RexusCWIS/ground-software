@@ -14,6 +14,8 @@
 
 #include "experiment/controlmoduledata.h"
 
+#include "application/controlmoduleserialportlistener.h"
+
 #include "serial/serialportconfig.h"
 #include "serial/serialportdialog.h"
 #include "test/serialsim.h"
@@ -62,12 +64,14 @@ private:
     QAction *m_serialStopAction;
 
     SerialPortConfig m_currentSerialConfig;
+    SerialFrameDescriptor m_sfd;
     SerialPortDialog *m_serialConfigDlg;
-    bool m_serialIsConfigured;
+    ControlModuleSerialPortListener *m_spListener;
     SerialSim *m_sim;
 
     QLabel *m_serialStatusLabel;
     QLabel *m_receivedFramesLabel;
+    QLabel *m_serialDeviceLabel;
 
     int m_framesReceived;
     int m_framesDropped;

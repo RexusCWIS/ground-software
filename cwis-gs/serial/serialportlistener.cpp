@@ -11,7 +11,10 @@
 SerialPortListener::SerialPortListener(QObject *parent) :
             QThread(parent) {
 
-    m_stop = false;
+    m_stop   = false;
+    m_active = false;
+    m_configured = false;
+    m_validFrames   = 0;
     m_invalidFrames = 0;
     m_recordedData  = new QVector<unsigned char>(0);
 }
@@ -32,6 +35,8 @@ SerialPortListener::SerialPortListener(QObject *parent,
     m_stopBits = stopBits;
 
     m_stop = false;
+    m_active = false;
+    m_configured = true;
     m_invalidFrames = 0;
     m_recordedData  = new QVector<unsigned char>(0);
 
@@ -49,6 +54,7 @@ SerialPortListener::SerialPortListener(QObject *parent,
     this->setSerialFrameDescriptor(sfd);
 
     m_stop = false;
+    m_active = false;
     m_invalidFrames = 0;
     m_recordedData  = new QVector<unsigned char>(0);
 
@@ -64,7 +70,10 @@ SerialPortListener::~SerialPortListener() {
 void SerialPortListener::start() {
 
     m_stop = false;
-    QThread::start();
+
+    if(!this->isRunning()) {
+        QThread::start();
+    }
 }
 
 void SerialPortListener::stop() {
@@ -72,6 +81,17 @@ void SerialPortListener::stop() {
     m_stop = true;
     while(isRunning())
         ;
+    m_active = false;
+}
+
+bool SerialPortListener::isActive() const
+{
+    return m_active;
+}
+
+bool SerialPortListener::isConfigured() const
+{
+    return m_configured;
 }
 
 void SerialPortListener::setSerialFrameDescriptor(const SerialFrameDescriptor &sfd) {
@@ -81,13 +101,23 @@ void SerialPortListener::setSerialFrameDescriptor(const SerialFrameDescriptor &s
 
 void SerialPortListener::setSerialPortConfig(const SerialPortConfig &config) {
 
-    stop();
+    bool running = this->isRunning();
+
+    if(running) {
+        this->stop();
+    }
+
     m_serialPort = config.device;
     m_baudrate   = config.baudrate;
     m_dataBits   = config.dataBits;
     m_parity     = config.parity;
     m_stopBits   = config.stopBits;
-    start();
+
+    m_configured = true;
+
+    if(running) {
+        this->start();
+    }
 }
 
 void SerialPortListener::clearRecordedData(void) {
@@ -158,7 +188,10 @@ void SerialPortListener::run() {
         while(outOfSync && !m_stop) {
 
             while((serial.bytesAvailable() < syncFrameSize) && !m_stop) {
-                serial.waitForReadyRead(100);
+                if(!serial.waitForReadyRead(100)) {
+                    emit timeout();
+                    m_active = false;
+                }
             }
             serial.read((char *) frame, 1);
 
@@ -173,13 +206,18 @@ void SerialPortListener::run() {
         }
 
         while((serial.bytesAvailable() < (frameSize - syncFrameSize)) && !m_stop) {
-            serial.waitForReadyRead(100);
+            if(!serial.waitForReadyRead(100)) {
+                emit timeout();
+                m_active = false;
+            }
         }
 
         /* Exit the thread loop if the m_stop signal was sent */
         if(m_stop) {
             break;
         }
+
+        m_active = true;
 
         /* Read the rest of the frame */
         serial.read((char *) &frame[syncFrameSize], frameSize - syncFrameSize);

@@ -3,7 +3,8 @@
 #include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent)
+    QMainWindow(parent),
+    m_sfd(20, "UU", SerialFrameDescriptor::CRC16_CCITT)
 {
     m_dataBuffer = new QList<ControlModuleData>();
 
@@ -27,15 +28,20 @@ MainWindow::MainWindow(QWidget *parent) :
     m_centralWidget->setLayout(m_layout);
     this->setCentralWidget(m_centralWidget);
 
-    m_sim = new SerialSim(this);
-    m_serialConfigDlg = new SerialPortDialog();
-    m_serialIsConfigured = false;
+    m_spListener = new ControlModuleSerialPortListener(this);
+    m_spListener->setSerialFrameDescriptor(m_sfd);
 
-    QObject::connect(m_sim, SIGNAL(newData(ControlModuleData)),
+    // m_sim = new SerialSim(this);
+    m_serialConfigDlg = new SerialPortDialog();
+    m_currentSerialConfig.device = tr("");
+
+    QObject::connect(m_spListener, SIGNAL(newData(ControlModuleData)),
                      this, SLOT(newData(ControlModuleData)));
-    QObject::connect(m_sim, SIGNAL(started()),
+    QObject::connect(m_spListener, SIGNAL(timeout()),
                      this, SLOT(updateStatusBar()));
-    QObject::connect(m_sim, SIGNAL(finished()),
+    QObject::connect(m_spListener, SIGNAL(started()),
+                     this, SLOT(updateStatusBar()));
+    QObject::connect(m_spListener, SIGNAL(finished()),
                      this, SLOT(updateStatusBar()));
 
     this->createActions();
@@ -50,6 +56,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    m_spListener->stop();
+
     delete m_graphTab;
     delete m_heaterTab;
     delete m_tableTab;
@@ -127,7 +135,7 @@ void MainWindow::createActions()
     QObject::connect(m_clearAction, SIGNAL(triggered()),
                      this, SLOT(clear()));
 
-    m_serialConfigAction = new QAction(tr("&Configuration"), this);
+    m_serialConfigAction = new QAction(tr("Configuration"), this);
     m_serialStartAction  = new QAction(tr("Sta&rt"), this);
     m_serialStopAction   = new QAction(tr("S&top"), this);
     m_serialConfigAction->setMenuRole(QAction::NoRole);
@@ -143,11 +151,18 @@ void MainWindow::createStatusBar()
 {
     m_serialStatusLabel   = new QLabel(this);
     m_receivedFramesLabel = new QLabel(this);
+    m_serialDeviceLabel   = new QLabel(this);
 
-    m_receivedFramesLabel->setAlignment(Qt::AlignRight);
+    m_receivedFramesLabel->setAlignment(Qt::AlignCenter);
 
-    statusBar()->addWidget(m_serialStatusLabel, 2);
-    statusBar()->addWidget(m_receivedFramesLabel, 2);
+    m_serialDeviceLabel->setAlignment(Qt::AlignRight);
+    QFont font = m_serialDeviceLabel->font();
+    font.setItalic(true);
+    m_serialDeviceLabel->setFont(font);
+
+    statusBar()->addWidget(m_serialStatusLabel, 1);
+    statusBar()->addWidget(m_receivedFramesLabel, 1);
+    statusBar()->addWidget(m_serialDeviceLabel, 1);
 
     m_downlinkActive = false;
     m_framesReceived = 0;
@@ -158,9 +173,9 @@ void MainWindow::createStatusBar()
 
 void MainWindow::updateStatusBar()
 {
-    if(m_sim->isRunning()) {
+    if(m_spListener->isRunning()) {
 
-        if(m_sim->isActive()) {
+        if(m_spListener->isActive()) {
             m_serialStatusLabel->setText(tr("Serial communication status: Active"));
         }
 
@@ -174,6 +189,7 @@ void MainWindow::updateStatusBar()
     }
 
     m_receivedFramesLabel->setText(tr("Frames received: %1 dropped: %2").arg(m_framesReceived).arg(m_framesDropped));
+    m_serialDeviceLabel->setText(m_currentSerialConfig.device);
 }
 
 void MainWindow::saveRecordedData()
@@ -221,7 +237,7 @@ bool MainWindow::serialConfigDlg()
                     m_currentSerialConfig.dataBits << "\nParity: " << m_currentSerialConfig.parity <<
                     "\nStop bits: " << m_currentSerialConfig.stopBits;
 
-        m_serialIsConfigured = true;
+        m_spListener->setSerialPortConfig(m_currentSerialConfig);
     }
 
     return configured;
@@ -229,14 +245,19 @@ bool MainWindow::serialConfigDlg()
 
 void MainWindow::startSerialCommunication()
 {
-    if(!m_serialIsConfigured) {
+    if(!m_spListener->isConfigured()) {
         if(this->serialConfigDlg()) {
-
+            m_spListener->setSerialPortConfig(m_currentSerialConfig);
+            m_spListener->start();
         }
+    }
+
+    else {
+        m_spListener->start();
     }
 }
 
 void MainWindow::stopSerialCommunication()
 {
-
+    m_spListener->stop();
 }

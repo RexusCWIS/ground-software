@@ -92,6 +92,10 @@ public:
      */
     void stop(void);
 
+    bool isActive() const;
+
+    bool isConfigured() const;
+
     /**
      * @brief Sets the @ref SerialFrameDescriptor used for the application.
      * @param sfd
@@ -150,6 +154,9 @@ public slots:
      */
     int getNumberOfInvalidFrames(void) const;
 
+signals:
+    void timeout(void);
+
 protected:
 
     /**
@@ -205,6 +212,10 @@ protected:
 
     /** @brief Boolean value used to stop the data reception thread. */
     volatile bool m_stop;
+
+    bool m_active;
+
+    bool m_configured;
 };
 
 #endif // SERIALPORTLISTENER_H
