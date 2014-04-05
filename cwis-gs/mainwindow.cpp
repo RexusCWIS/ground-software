@@ -111,6 +111,7 @@ void MainWindow::clear()
     m_framesReceived = 0;
     m_framesDropped  = 0;
     this->updateStatusBar();
+    statusBar()->showMessage(tr("Cleared all acquired data."), 2);
 }
 
 void MainWindow::createMenus()
@@ -216,17 +217,18 @@ void MainWindow::saveRecordedData()
     if(file.open(QFile::WriteOnly | QFile::Truncate | QFile::Text)) {
         QTextStream out(&file);
 
-        out << "System time\tTime [ms]\tTemperature 1\tTemperature2\tTemperature3\tPressure\tControl module status\tCamera module status\n";
+        out << "System time\tTime [ms]\tTemperature 1\tTemperature2\tTemperature3\tPressure\tHeating\tControl module status\tCamera module status\n";
 
         QList<ControlModuleData>::iterator item;
         for(item = m_dataBuffer->begin(); item != m_dataBuffer->end(); item++) {
 
             out << (*item).currentTime.toString("hh:mm:ss.zzz") << "\t" << (*item).time << "\t" << (*item).temperatures[0] << "\t" <<
                    (*item).temperatures[1] << "\t" << (*item).temperatures[2] << "\t" <<
-                   (*item).pressure << "\t" << (*item).controlModuleStatus << "\t" << (*item).cameraModuleStatus << "\n";
+                   (*item).pressure << "\t" << (*item).heating << "\t" << (*item).controlModuleStatus << "\t" << (*item).cameraModuleStatus << "\n";
         }
 
         file.close();
+        statusBar()->showMessage(tr("Saved data to %1.").arg(filename), 2);
     }
 }
 
@@ -239,6 +241,7 @@ void MainWindow::saveRawData()
     }
 
     m_spListener->saveData(filename);
+    statusBar()->showMessage(tr("Saved raw data frames to %1.").arg(filename), 2);
 }
 
 void MainWindow::handleInvalidSerialFrame()

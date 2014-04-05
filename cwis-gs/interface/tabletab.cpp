@@ -18,6 +18,7 @@ TableTab::TableTab(QWidget *parent) :
     header.append(TEMPERATURE2_STRING);
     header.append(TEMPERATURE3_STRING);
     header.append(PRESSURE_STRING);
+    header.append(tr("Heating"));
     header.append(tr("Control status"));
     header.append(tr("Camera status"));
     header.append(tr("Number of images"));
@@ -38,6 +39,7 @@ void TableTab::addData(const ControlModuleData &data) {
     QTableWidgetItem *roomTemp = new QTableWidgetItem(tr("%1").arg(data.getTemperature(1)));
     QTableWidgetItem *temp3    = new QTableWidgetItem(tr("%1").arg(data.getTemperature(2)));
     QTableWidgetItem *pressure = new QTableWidgetItem(tr("%1").arg(data.getPressure()));
+    QTableWidgetItem *heating  = new QTableWidgetItem(tr("%1").arg(data.getHeating()));
     QTableWidgetItem *controlStatus = new QTableWidgetItem(tr("%1").arg(data.controlModuleStatus));
     QTableWidgetItem *cameraStatus  = new QTableWidgetItem(tr("%1").arg(data.cameraModuleStatus));
     QTableWidgetItem *nbOfImages    = new QTableWidgetItem(tr("%1").arg(data.nbOfImages));
@@ -48,9 +50,10 @@ void TableTab::addData(const ControlModuleData &data) {
     this->setItem(row, 3, roomTemp);
     this->setItem(row, 4, temp3);
     this->setItem(row, 5, pressure);
-    this->setItem(row, 6, controlStatus);
-    this->setItem(row, 7, cameraStatus);
-    this->setItem(row, 8, nbOfImages);
+    this->setItem(row, 6, heating);
+    this->setItem(row, 7, controlStatus);
+    this->setItem(row, 8, cameraStatus);
+    this->setItem(row, 9, nbOfImages);
 
     this->scrollToBottom();
 }

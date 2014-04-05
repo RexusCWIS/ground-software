@@ -18,23 +18,29 @@ void HeaterControlTab::addData(const ControlModuleData &data)
     double time = data.getTime();
     double cellTemp1 = data.getTemperature(0);
     double cellTemp2 = data.getTemperature(1);
+    double heating = data.getHeating();
 
-    /* Cell temperature */
+    /* Cell temperature 1 */
     m_plot->graph(0)->addData(time, cellTemp1);
     m_plot->graph(1)->clearData();
     m_plot->graph(1)->addData(time, cellTemp1);
 
-    /* Room temperature */
+    /* Cell temperature 2 */
     m_plot->graph(2)->addData(time, cellTemp2);
     m_plot->graph(3)->clearData();
     m_plot->graph(3)->addData(time, cellTemp2);
+
+    /* Heating */
+    m_plot->graph(4)->addData(time, heating);
+    m_plot->graph(5)->clearData();
+    m_plot->graph(5)->addData(time, heating);
 
     m_plot->updateRange(time);
 }
 
 void HeaterControlTab::clear()
 {
-    for(int index = 0; index < 4; index++) {
+    for(int index = 0; index < 6; index++) {
         m_plot->graph(index)->clearData();
     }
 
@@ -84,13 +90,13 @@ void HeaterControlTab::plotSetup()
 
     /* Cell temperature 1 line */
     m_plot->addGraph();
-    m_plot->graph(0)->setPen(QPen(Qt::darkRed));
+    m_plot->graph(0)->setPen(QPen(Qt::darkGreen));
     m_plot->graph(0)->setName(TEMPERATURE1_STRING);
     m_plot->graph(0)->addToLegend();
 
     /* Cell temperature 1 dot */
     m_plot->addGraph();
-    m_plot->graph(1)->setPen(QPen(Qt::darkRed));
+    m_plot->graph(1)->setPen(QPen(Qt::darkGreen));
     m_plot->graph(1)->setLineStyle(QCPGraph::lsNone);
     m_plot->graph(1)->setScatterStyle(QCPScatterStyle::ssDisc);
     m_plot->graph(1)->removeFromLegend();
@@ -107,6 +113,19 @@ void HeaterControlTab::plotSetup()
     m_plot->graph(3)->setLineStyle(QCPGraph::lsNone);
     m_plot->graph(3)->setScatterStyle(QCPScatterStyle::ssDisc);
     m_plot->graph(3)->removeFromLegend();
+
+    /* Heating line */
+    m_plot->addGraph(m_plot->xAxis, m_plot->yAxis2);
+    m_plot->graph(4)->setPen(QPen(Qt::red));
+    m_plot->graph(4)->setName(tr("Heating PWM duty cycle (%)"));
+    m_plot->graph(4)->addToLegend();
+
+    /* Heating dot */
+    m_plot->addGraph(m_plot->xAxis, m_plot->yAxis2);
+    m_plot->graph(5)->setPen(QPen(Qt::red));
+    m_plot->graph(5)->setLineStyle(QCPGraph::lsNone);
+    m_plot->graph(5)->setScatterStyle(QCPScatterStyle::ssDisc);
+    m_plot->graph(5)->removeFromLegend();
 
     /* Title */
     m_plot->plotLayout()->insertRow(0);

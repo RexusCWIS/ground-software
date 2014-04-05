@@ -37,10 +37,11 @@ void ControlModuleSerialPortListener::parseData(const unsigned char *frame) {
     data.temperatures[1] = (((unsigned int) frame[9]) << 8) + ((unsigned int) frame[8]);
     data.temperatures[2] = (((unsigned int) frame[11]) << 8) + ((unsigned int) frame[10]);
     data.pressure = (((unsigned int) frame[13]) << 8) + ((unsigned int) frame[12]);
+    data.heating  = (unsigned int) frame[14];
 
     data.nbOfImages  = (((unsigned int) frame[17]) << 8) + ((unsigned int) frame[16]);
     data.framerate   = (unsigned int) frame[18];
-    data.controlModuleStatus = frame[14];
+    data.controlModuleStatus = frame[15];
     data.cameraModuleStatus  = frame[19];
 
     data.currentTime = QTime::currentTime();

@@ -13,8 +13,7 @@
 #include "interface/statuspanel.h"
 
 #include "experiment/controlmoduledata.h"
-
-#include "application/controlmoduleserialportlistener.h"
+#include "experiment/controlmoduleserialportlistener.h"
 
 #include "serial/serialportconfig.h"
 #include "serial/serialportdialog.h"

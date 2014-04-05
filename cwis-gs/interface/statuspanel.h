@@ -44,6 +44,7 @@ private:
 
     QLabel *m_powerStatusLabel;
     QLabel *m_laserStatusLabel;
+    QLabel *m_heaterStatusLabel;
 
     QLabel *m_loStatusLabel;
     QLabel *m_sodsStatusLabel;
@@ -54,6 +55,7 @@ private:
 
     StatusFlag *m_powerStatusFlag;
     StatusFlag *m_laserStatusFlag;
+    StatusFlag *m_heaterStatusFlag;
 
     StatusFlag *m_loStatusFlag;
     StatusFlag *m_sodsStatusFlag;

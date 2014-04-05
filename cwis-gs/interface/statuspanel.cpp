@@ -36,8 +36,9 @@ StatusPanel::StatusPanel(QWidget *parent) :
     m_rexusSignalsBox  = new QGroupBox(tr("RXSM signals"), this);
     m_cameraStatusBox  = new QGroupBox(tr("Camera module"), this);
 
-    m_powerStatusLabel = new QLabel(tr("Power"), m_controlStatusBox);
-    m_laserStatusLabel = new QLabel(tr("Laser"), m_controlStatusBox);
+    m_powerStatusLabel  = new QLabel(tr("Power"), m_controlStatusBox);
+    m_laserStatusLabel  = new QLabel(tr("Laser"), m_controlStatusBox);
+    m_heaterStatusLabel = new QLabel(tr("Heater"), m_controlStatusBox);
 
     m_loStatusLabel   = new QLabel(tr("LO"), m_rexusSignalsBox);
     m_sodsStatusLabel = new QLabel(tr("SODS"), m_rexusSignalsBox);
@@ -46,8 +47,9 @@ StatusPanel::StatusPanel(QWidget *parent) :
     m_cameraPowerLabel  = new QLabel(tr("Power"), m_cameraStatusBox);
     m_cameraImagesLabel = new QLabel(tr("Images"), m_cameraStatusBox);
 
-    m_powerStatusFlag = new StatusFlag(m_controlStatusBox);
-    m_laserStatusFlag = new StatusFlag(m_controlStatusBox);
+    m_powerStatusFlag  = new StatusFlag(m_controlStatusBox);
+    m_laserStatusFlag  = new StatusFlag(m_controlStatusBox);
+    m_heaterStatusFlag = new StatusFlag(m_controlStatusBox);
 
     m_loStatusFlag   = new StatusFlag(m_rexusSignalsBox);
     QObject::connect(m_loStatusFlag, SIGNAL(toggled(bool)),
@@ -66,6 +68,8 @@ StatusPanel::StatusPanel(QWidget *parent) :
     m_controlStatusLayout->addWidget(m_powerStatusFlag, 0, 1);
     m_controlStatusLayout->addWidget(m_laserStatusLabel, 1, 0);
     m_controlStatusLayout->addWidget(m_laserStatusFlag, 1, 1);
+    m_controlStatusLayout->addWidget(m_heaterStatusLabel, 2, 0);
+    m_controlStatusLayout->addWidget(m_heaterStatusFlag, 2, 1);
 
     m_rexusSignalsLayout->addWidget(m_loStatusLabel, 0, 0);
     m_rexusSignalsLayout->addWidget(m_loStatusFlag, 0, 1);
@@ -102,6 +106,7 @@ void StatusPanel::updateStatus(int controlModule, int cameraModule)
 
     m_powerStatusFlag->setStatus((controlModule & CM_POWER_ON) != 0);
     m_laserStatusFlag->setStatus((controlModule & CM_LASER_ON) != 0);
+    m_heaterStatusFlag->setStatus((controlModule & CM_HEATER_ON) != 0);
     m_cameraPowerStatusFlag->setStatus((controlModule & CM_CAMERA_ON) != 0);
     m_loStatusFlag->setStatus((controlModule & CM_LO) != 0);
     m_sodsStatusFlag->setStatus((controlModule & CM_SODS) != 0);
