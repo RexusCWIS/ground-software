@@ -157,6 +157,8 @@ public slots:
 signals:
     void timeout(void);
 
+    void frameDropped();
+
 protected:
 
     /**

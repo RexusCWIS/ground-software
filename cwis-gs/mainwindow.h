@@ -83,7 +83,7 @@ private slots:
     void updateStatusBar();
     void saveRecordedData();
     void saveRawData();
-    // void processSerialFrameDrop();
+    void handleInvalidSerialFrame();
 
     bool serialConfigDlg();
     void startSerialCommunication();

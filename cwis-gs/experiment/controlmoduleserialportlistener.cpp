@@ -40,8 +40,10 @@ void ControlModuleSerialPortListener::parseData(const unsigned char *frame) {
 
     data.nbOfImages  = (((unsigned int) frame[17]) << 8) + ((unsigned int) frame[16]);
     data.framerate   = (unsigned int) frame[18];
-    data.cameraModuleStatus  = frame[14];
-    data.controlModuleStatus = frame[19];
+    data.controlModuleStatus = frame[14];
+    data.cameraModuleStatus  = frame[19];
+
+    data.currentTime = QTime::currentTime();
 
     emit newData(data);
 }

@@ -239,6 +239,7 @@ void SerialPortListener::run() {
 
         else {
             m_invalidFrames++;
+            emit frameDropped();
             qDebug() << "Invalid Frames: " << m_invalidFrames << "\n";
         }
     }

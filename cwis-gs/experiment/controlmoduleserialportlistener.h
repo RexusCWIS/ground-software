@@ -2,7 +2,7 @@
 #define CONTROLMODULESERIALPORTLISTENER_H
 
 #include "serial/serialportlistener.h"
-#include "controlmoduledata.h"
+#include "experiment/controlmoduledata.h"
 
 class ControlModuleSerialPortListener : public SerialPortListener
 {

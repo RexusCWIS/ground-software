@@ -43,6 +43,8 @@ MainWindow::MainWindow(QWidget *parent) :
                      this, SLOT(updateStatusBar()));
     QObject::connect(m_spListener, SIGNAL(finished()),
                      this, SLOT(updateStatusBar()));
+    QObject::connect(m_spListener, SIGNAL(frameDropped()),
+                     this, SLOT(handleInvalidSerialFrame()));
 
     this->createActions();
     this->createMenus();
@@ -237,6 +239,12 @@ void MainWindow::saveRawData()
     }
 
     m_spListener->saveData(filename);
+}
+
+void MainWindow::handleInvalidSerialFrame()
+{
+    m_framesDropped++;
+    this->updateStatusBar();
 }
 
 bool MainWindow::serialConfigDlg()
