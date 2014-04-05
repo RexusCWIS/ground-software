@@ -120,13 +120,13 @@ void SerialPortListener::setSerialPortConfig(const SerialPortConfig &config) {
     }
 }
 
-void SerialPortListener::clearRecordedData(void) {
+void SerialPortListener::clearData(void) {
 
     m_invalidFrames = 0;
     m_recordedData->clear();
 }
 
-void SerialPortListener::saveRecordedData(const QString &filename) const {
+void SerialPortListener::saveData(const QString &filename) const {
 
     if(m_recordedData->isEmpty()) {
         return;
@@ -135,11 +135,10 @@ void SerialPortListener::saveRecordedData(const QString &filename) const {
     QFile file(filename);
     if(file.open(QFile::WriteOnly | QFile::Truncate)) {
         QTextStream out(&file);
-        out << "Time [ms]\tTemperature 1\tTemperature2\tTemperature3\tPressure\tStatus Flags\n";
 
         for(int f = 0; f < m_recordedData->size(); f += m_sfd.size()) {
             for(int index = 0; index < m_sfd.size(); index++) {
-                out << m_recordedData->at(f * m_sfd.size() + index) << "\t";
+                out << m_recordedData->at(f * m_sfd.size() + index) << " ";
             }
 
             out << "\n";
@@ -172,11 +171,11 @@ void SerialPortListener::run() {
     serial.setParity(m_parity);
     serial.setStopBits(m_stopBits);
 
-    unsigned int syncFrameSize = m_sfd.getSynchronisationFrame().size();
-    unsigned int frameSize = m_sfd.size();
+    unsigned int syncFrameSize = 2;
+    unsigned int frameSize = 24;
     //const char* syncFrame  = m_sfd.getSynchronisationFrame().toStdString().c_str();
-    const char syncFrame[3] = "UU";
-    unsigned char frame[13];
+    const char syncFrame[2] = {'U', 'U'};
+    unsigned char frame[24];
     //unsigned char* frame = new unsigned char[frameSize]();
 
     while(!m_stop) {

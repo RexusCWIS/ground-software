@@ -4,7 +4,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    m_sfd(20, "UU", SerialFrameDescriptor::CRC16_CCITT)
+    m_sfd(24, "UU", SerialFrameDescriptor::CRC16_CCITT)
 {
     m_dataBuffer = new QList<ControlModuleData>();
 
@@ -115,6 +115,8 @@ void MainWindow::createMenus()
 {
     m_fileMenu = this->menuBar()->addMenu(tr("&File"));
     m_fileMenu->addAction(m_saveAction);
+    m_fileMenu->addAction(m_saveRawDataAction);
+    m_fileMenu->addSeparator();
     m_fileMenu->addAction(m_clearAction);
     m_saveAction->setShortcut(QKeySequence::Save);
 
@@ -129,9 +131,12 @@ void MainWindow::createMenus()
 void MainWindow::createActions()
 {
     m_saveAction  = new QAction(tr("&Save"), this);
+    m_saveRawDataAction = new QAction(tr("Save raw data"), this);
     m_clearAction = new QAction(tr("&Clear"), this);
     QObject::connect(m_saveAction, SIGNAL(triggered()),
                      this, SLOT(saveRecordedData()));
+    QObject::connect(m_saveRawDataAction, SIGNAL(triggered()),
+                     this, SLOT(saveRawData()));
     QObject::connect(m_clearAction, SIGNAL(triggered()),
                      this, SLOT(clear()));
 
@@ -221,6 +226,17 @@ void MainWindow::saveRecordedData()
 
         file.close();
     }
+}
+
+void MainWindow::saveRawData()
+{
+    QString filename = QFileDialog::getSaveFileName(this, tr("Save As..."), QDir::homePath(), tr("CSV files (*.csv);;All files (*)"));
+
+    if(filename.isEmpty()) {
+        return;
+    }
+
+    m_spListener->saveData(filename);
 }
 
 bool MainWindow::serialConfigDlg()

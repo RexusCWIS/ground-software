@@ -22,7 +22,7 @@ public:
 
     SerialFrameDescriptor();
 
-    SerialFrameDescriptor(int dataSize,
+    SerialFrameDescriptor(int frameSize,
                           const QString &synchronisationFrame,
                           SerialFrameDescriptor::CRC crcType = SerialFrameDescriptor::NO_CRC);
 

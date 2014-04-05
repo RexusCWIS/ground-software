@@ -59,6 +59,7 @@ private:
 
     QAction *m_saveAction;
     QAction *m_clearAction;
+    QAction *m_saveRawDataAction;
     QAction *m_serialConfigAction;
     QAction *m_serialStartAction;
     QAction *m_serialStopAction;
@@ -81,6 +82,7 @@ private:
 private slots:
     void updateStatusBar();
     void saveRecordedData();
+    void saveRawData();
     // void processSerialFrameDrop();
 
     bool serialConfigDlg();

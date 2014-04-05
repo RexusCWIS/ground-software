@@ -127,7 +127,7 @@ public slots:
      * using the @ref saveRecordedData method.
      * @see saveRecordedData()
      */
-    void clearRecordedData(void);
+    void clearData(void);
 
     /**
      * @brief Saves the recorded data to the given @p file.
@@ -138,7 +138,7 @@ public slots:
      * @param[in] filename Name of the save file.
      * @see clearRecordedData()
      */
-    void saveRecordedData(const QString &filename) const;
+    void saveData(const QString &filename) const;
 
     /**
      * @brief Returns the number of invalid frames detected.

@@ -1,14 +1,14 @@
 #include "serialframedescriptor.h"
 
-SerialFrameDescriptor::SerialFrameDescriptor(int dataSize,
+SerialFrameDescriptor::SerialFrameDescriptor(int frameSize,
                                              const QString &synchronisationFrame,
                                              SerialFrameDescriptor::CRC crcType) {
 
     m_syncFrame = synchronisationFrame;
-    m_dataSize  = dataSize;
+    m_dataSize  = frameSize - m_syncFrame.size() - 2;
     m_crcType   = crcType;
 
-    m_size = dataSize + m_syncFrame.size() + 2;
+    m_size = frameSize;
 }
 
 SerialFrameDescriptor::SerialFrameDescriptor() {
