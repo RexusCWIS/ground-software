@@ -14,6 +14,8 @@
 
 #include "experiment/controlmoduledata.h"
 
+#include "serial/serialportconfig.h"
+#include "serial/serialportdialog.h"
 #include "test/serialsim.h"
 
 namespace Ui {
@@ -55,9 +57,13 @@ private:
 
     QAction *m_saveAction;
     QAction *m_clearAction;
+    QAction *m_serialConfigAction;
     QAction *m_serialStartAction;
     QAction *m_serialStopAction;
 
+    SerialPortConfig m_currentSerialConfig;
+    SerialPortDialog *m_serialConfigDlg;
+    bool m_serialIsConfigured;
     SerialSim *m_sim;
 
     QLabel *m_serialStatusLabel;
@@ -73,6 +79,9 @@ private slots:
     void saveRecordedData();
     // void processSerialFrameDrop();
 
+    bool serialConfigDlg();
+    void startSerialCommunication();
+    void stopSerialCommunication();
 };
 
 #endif // MAINWINDOW_H

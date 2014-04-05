@@ -6,7 +6,7 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport serialport
 
 TARGET = cwis-gs
 TEMPLATE = app
@@ -22,7 +22,12 @@ SOURCES += main.cpp                 \
     test/serialsim.cpp              \
     interface/clockwidget.cpp       \
     interface/heatercontroltab.cpp  \
-    interface/dataplot.cpp
+    interface/dataplot.cpp \
+    serial/serialportlistener.cpp \
+    serial/serialportdialog.cpp \
+    serial/serialframedescriptor.cpp \
+    serial/crc/crc.c \
+    serial/crc/crc_table.c
 
 HEADERS  += mainwindow.h            \
     interface/tabletab.h            \
@@ -36,6 +41,11 @@ HEADERS  += mainwindow.h            \
     interface/clockwidget.h         \
     interface/heatercontroltab.h    \
     interface/dataplot.h \
-    interface.h
+    interface.h \
+    serial/serialportlistener.h \
+    serial/serialportdialog.h \
+    serial/serialportconfig.h \
+    serial/serialframedescriptor.h \
+    serial/crc/crc.h
 
 FORMS    +=

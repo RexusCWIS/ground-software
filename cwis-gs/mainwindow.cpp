@@ -28,6 +28,9 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setCentralWidget(m_centralWidget);
 
     m_sim = new SerialSim(this);
+    m_serialConfigDlg = new SerialPortDialog();
+    m_serialIsConfigured = false;
+
     QObject::connect(m_sim, SIGNAL(newData(ControlModuleData)),
                      this, SLOT(newData(ControlModuleData)));
     QObject::connect(m_sim, SIGNAL(started()),
@@ -52,6 +55,8 @@ MainWindow::~MainWindow()
     delete m_tableTab;
 
     delete m_dataBuffer;
+
+    delete m_serialConfigDlg;
 }
 
 void MainWindow::newData(ControlModuleData data)
@@ -106,6 +111,7 @@ void MainWindow::createMenus()
     m_saveAction->setShortcut(QKeySequence::Save);
 
     m_serialMenu = this->menuBar()->addMenu(tr("&Serial"));
+    m_serialMenu->addAction(m_serialConfigAction);
     m_serialMenu->addAction(m_serialStartAction);
     m_serialMenu->addAction(m_serialStopAction);
     m_serialStartAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_R));
@@ -121,12 +127,16 @@ void MainWindow::createActions()
     QObject::connect(m_clearAction, SIGNAL(triggered()),
                      this, SLOT(clear()));
 
-    m_serialStartAction = new QAction(tr("Sta&rt"), this);
-    m_serialStopAction  = new QAction(tr("S&top"), this);
+    m_serialConfigAction = new QAction(tr("&Configuration"), this);
+    m_serialStartAction  = new QAction(tr("Sta&rt"), this);
+    m_serialStopAction   = new QAction(tr("S&top"), this);
+    m_serialConfigAction->setMenuRole(QAction::NoRole);
+    QObject::connect(m_serialConfigAction, SIGNAL(triggered()),
+                     this, SLOT(serialConfigDlg()));
     QObject::connect(m_serialStartAction, SIGNAL(triggered()),
-                     m_sim, SLOT(start()));
+                     this, SLOT(startSerialCommunication()));
     QObject::connect(m_serialStopAction, SIGNAL(triggered()),
-                     m_sim, SLOT(stop()));
+                     this, SLOT(stopSerialCommunication()));
 }
 
 void MainWindow::createStatusBar()
@@ -144,6 +154,7 @@ void MainWindow::createStatusBar()
     m_framesDropped  = 0;
     this->updateStatusBar();
 }
+
 
 void MainWindow::updateStatusBar()
 {
@@ -194,4 +205,38 @@ void MainWindow::saveRecordedData()
 
         file.close();
     }
+}
+
+bool MainWindow::serialConfigDlg()
+{
+    int rvalue = m_serialConfigDlg->exec();
+
+    bool configured = (rvalue == QDialog::Accepted);
+
+    if(configured) {
+
+        m_currentSerialConfig = m_serialConfigDlg->getSerialPortConfig();
+        qDebug() << "New serial configuration:\nDevice: " << m_currentSerialConfig.device <<
+                    "\nBaudrate: " << m_currentSerialConfig.baudrate << "\nData bits: " <<
+                    m_currentSerialConfig.dataBits << "\nParity: " << m_currentSerialConfig.parity <<
+                    "\nStop bits: " << m_currentSerialConfig.stopBits;
+
+        m_serialIsConfigured = true;
+    }
+
+    return configured;
+}
+
+void MainWindow::startSerialCommunication()
+{
+    if(!m_serialIsConfigured) {
+        if(this->serialConfigDlg()) {
+
+        }
+    }
+}
+
+void MainWindow::stopSerialCommunication()
+{
+
 }
