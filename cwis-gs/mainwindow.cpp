@@ -232,6 +232,11 @@ void MainWindow::saveRecordedData()
     }
 }
 
+void MainWindow::loadRawData()
+{
+
+}
+
 void MainWindow::saveRawData()
 {
     QString filename = QFileDialog::getSaveFileName(this, tr("Save As..."), QDir::homePath(), tr("CSV files (*.csv);;All files (*)"));

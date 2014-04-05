@@ -81,6 +81,7 @@ private:
 private slots:
     void updateStatusBar();
     void saveRecordedData();
+    void loadRawData();
     void saveRawData();
     void handleInvalidSerialFrame();
 

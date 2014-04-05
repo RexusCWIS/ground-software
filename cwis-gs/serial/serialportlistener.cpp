@@ -133,12 +133,12 @@ void SerialPortListener::saveData(const QString &filename) const {
     }
 
     QFile file(filename);
-    if(file.open(QFile::WriteOnly | QFile::Truncate)) {
+    if(file.open(QFile::WriteOnly | QFile::Truncate | QFile::Text)) {
         QTextStream out(&file);
 
-        for(int f = 0; f < m_recordedData->size(); f += m_sfd.size()) {
-            for(int index = 0; index < m_sfd.size(); index++) {
-                out << m_recordedData->at(f * m_sfd.size() + index) << " ";
+        for(int f = 0; f < m_recordedData->size() - 24; f += 24) {
+            for(int index = 0; index < 24; index++) {
+                out << m_recordedData->at(f + index) << " ";
             }
 
             out << "\n";
@@ -228,7 +228,7 @@ void SerialPortListener::run() {
         if(validFrame) {
 
             m_validFrames++;
-            qDebug() << "Valid Frames: " << m_validFrames << "\n";
+            qDebug() << "Valid Frames: " << m_validFrames;
 
             parseData(frame);
 
