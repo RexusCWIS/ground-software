@@ -187,7 +187,7 @@ void GraphTab::plotSetup(void)
 
 void GraphTab::sidePanelSetup(void)
 {
-    m_sidePanelLayout = new QVBoxLayout;
+    m_sidePanelLayout = new QVBoxLayout();
 
     m_graphBox = new QGroupBox(tr("Plots"), this);
     m_checkBoxLayout = new QVBoxLayout(m_graphBox);

@@ -7,6 +7,9 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QGridLayout>
+#include <QLineEdit>
+#include <QPushButton>
 
 #include "dataplot.h"
 
@@ -23,16 +26,24 @@ public slots:
 
     void clear();
 
-    void rangeAutoScroll(bool scroll);
-
 private:
     void plotSetup();
+    void sidePanelSetup();
 
     DataPlot *m_plot;
-    int m_xAxisRange;
-    bool m_rangeAutoScroll;
 
     QHBoxLayout *m_mainLayout;
+    QVBoxLayout *m_sidePanelLayout;
+    QGridLayout *m_uplinkBoxLayout;
+
+    QGroupBox *m_uplinkBox;
+
+    QPushButton *m_rxsmLOButton;
+    QPushButton *m_rxsmSODSButton;
+    QPushButton *m_rxsmSOEButton;
+
+    QLabel *m_heaterDutyCycleTextLabel;
+    QLineEdit *m_heaterDutyCycleValueLabel;
 };
 
 #endif // HEATERCONTROLTAB_H

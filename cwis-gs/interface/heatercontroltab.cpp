@@ -6,8 +6,10 @@ HeaterControlTab::HeaterControlTab(QWidget *parent) :
     QWidget(parent)
 {
     this->plotSetup();
+    this->sidePanelSetup();
 
     m_mainLayout = new QHBoxLayout(this);
+    m_mainLayout->addLayout(m_sidePanelLayout);
     m_mainLayout->addWidget(m_plot, 1);
 
     this->setLayout(m_mainLayout);
@@ -47,23 +49,6 @@ void HeaterControlTab::clear()
     m_plot->replot();
 }
 
-void HeaterControlTab::rangeAutoScroll(bool scroll)
-{
-    m_rangeAutoScroll = scroll;
-
-    if(scroll) {
-        m_plot->xAxis->setAutoSubTicks(false);
-        m_plot->xAxis->setSubTickCount(10);
-        m_plot->xAxis->setAutoTickStep(false);
-        m_plot->xAxis->setTickStep(10.0);
-    }
-
-    else {
-        m_plot->xAxis->setAutoSubTicks(true);
-        m_plot->xAxis->setAutoTickStep(true);
-    }
-}
-
 void HeaterControlTab::plotSetup()
 {
     m_plot = new DataPlot(this);
@@ -77,7 +62,6 @@ void HeaterControlTab::plotSetup()
     m_plot->legend->setVisible(true);
 
     m_plot->xAxis->setLabel("Time [s]");
-    m_plot->xAxis->setRange(0, m_xAxisRange);
     m_plot->yAxis->setLabel("Temperature [Celsius]");
     m_plot->yAxis->setRange(0, 60);
     m_plot->yAxis->setAutoTickStep(false);
@@ -136,3 +120,33 @@ void HeaterControlTab::plotSetup()
 
     m_plot->replot();
 }
+
+void HeaterControlTab::sidePanelSetup()
+{
+    m_sidePanelLayout = new QVBoxLayout();
+
+    m_uplinkBox = new QGroupBox(tr("Uplink"), this);
+    m_uplinkBoxLayout = new QGridLayout(m_uplinkBox);
+    m_uplinkBox->setLayout(m_uplinkBoxLayout);
+
+    m_rxsmLOButton   = new QPushButton(tr("LO"), m_uplinkBox);
+    m_rxsmSODSButton = new QPushButton(tr("SODS"), m_uplinkBox);
+    m_rxsmSOEButton  = new QPushButton(tr("SOE"), m_uplinkBox);
+
+    m_heaterDutyCycleTextLabel  = new QLabel(tr("Heater duty cycle: "), m_uplinkBox);
+    m_heaterDutyCycleValueLabel = new QLineEdit(m_uplinkBox);
+
+    m_heaterDutyCycleTextLabel->setBuddy(m_heaterDutyCycleValueLabel);
+    QValidator *dutyCycleValidator = new QIntValidator(0, 255, m_uplinkBox);
+    m_heaterDutyCycleValueLabel->setValidator(dutyCycleValidator);
+
+    m_uplinkBoxLayout->addWidget(m_rxsmLOButton, 0, 0, 1, 2);
+    m_uplinkBoxLayout->addWidget(m_rxsmSODSButton, 1, 0, 1, 2);
+    m_uplinkBoxLayout->addWidget(m_rxsmSOEButton, 2, 0, 1, 2);
+    m_uplinkBoxLayout->addWidget(m_heaterDutyCycleTextLabel, 3, 0);
+    m_uplinkBoxLayout->addWidget(m_heaterDutyCycleValueLabel, 3, 1);
+
+    m_sidePanelLayout->addWidget(m_uplinkBox);
+    m_sidePanelLayout->addStretch(1);
+}
+
