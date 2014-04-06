@@ -26,6 +26,13 @@ public slots:
 
     void clear();
 
+signals:
+    void uplinkLO();
+    void uplinkSODS();
+    void uplinkSOE();
+
+    void uplinkHeater(int);
+
 private:
     void plotSetup();
     void sidePanelSetup();
@@ -44,6 +51,10 @@ private:
 
     QLabel *m_heaterDutyCycleTextLabel;
     QLineEdit *m_heaterDutyCycleValueLabel;
+
+private slots:
+    void computeUplinkDutyCycle();
+
 };
 
 #endif // HEATERCONTROLTAB_H

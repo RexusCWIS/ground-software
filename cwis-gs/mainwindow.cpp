@@ -22,6 +22,16 @@ MainWindow::MainWindow(QWidget *parent) :
     m_tabWidget->addTab(m_heaterTab, tr("Heater"));
     m_tabWidget->addTab(m_tableTab, tr("Data"));
 
+    QObject::connect(m_heaterTab, SIGNAL(uplinkLO()),
+                     this, SLOT(uplinkLO()));
+    QObject::connect(m_heaterTab, SIGNAL(uplinkSODS()),
+                     this, SLOT(uplinkSODS()));
+    QObject::connect(m_heaterTab, SIGNAL(uplinkSOE()),
+                     this, SLOT(uplinkSOE()));
+    QObject::connect(m_heaterTab, SIGNAL(uplinkHeater(int)),
+                     this, SLOT(uplinkHeater(int)));
+
+
     m_layout->addWidget(m_statusPanel, 0, 0);
     m_layout->addWidget(m_tabWidget, 0, 1);
 
@@ -178,6 +188,11 @@ void MainWindow::createStatusBar()
     this->updateStatusBar();
 }
 
+void MainWindow::uplinkRequest(const char data[], int size)
+{
+    QByteArray request(data, size);
+    m_spListener->write(request);
+}
 
 void MainWindow::updateStatusBar()
 {
@@ -253,6 +268,31 @@ void MainWindow::handleInvalidSerialFrame()
 {
     m_framesDropped++;
     this->updateStatusBar();
+}
+
+void MainWindow::uplinkLO()
+{
+    const char frame[4] = {UPLINK_RXSM_COMMAND, 0x1, 0, 0};
+    this->uplinkRequest(frame, 4);
+}
+
+void MainWindow::uplinkSODS()
+{
+    const char frame[4] = {UPLINK_RXSM_COMMAND, 0x3, 0, 0};
+    this->uplinkRequest(frame, 4);
+}
+
+void MainWindow::uplinkSOE()
+{
+    const char frame[4] = {UPLINK_RXSM_COMMAND, 0x5, 0, 0};
+    this->uplinkRequest(frame, 4);
+}
+
+void MainWindow::uplinkHeater(int dutyCycle)
+{
+    const char frame[4] = {UPLINK_HEATER_COMMAND,
+                           (char) (dutyCycle & 0xFF), 0, 0};
+    this->uplinkRequest(frame, 4);
 }
 
 bool MainWindow::serialConfigDlg()

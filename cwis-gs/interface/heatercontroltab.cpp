@@ -133,12 +133,22 @@ void HeaterControlTab::sidePanelSetup()
     m_rxsmSODSButton = new QPushButton(tr("SODS"), m_uplinkBox);
     m_rxsmSOEButton  = new QPushButton(tr("SOE"), m_uplinkBox);
 
+    QObject::connect(m_rxsmLOButton, SIGNAL(clicked()),
+                     this, SIGNAL(uplinkLO()));
+    QObject::connect(m_rxsmSODSButton, SIGNAL(clicked()),
+                     this, SIGNAL(uplinkSODS()));
+    QObject::connect(m_rxsmSOEButton, SIGNAL(clicked()),
+                     this, SIGNAL(uplinkSOE()));
+
     m_heaterDutyCycleTextLabel  = new QLabel(tr("Heater duty cycle: "), m_uplinkBox);
     m_heaterDutyCycleValueLabel = new QLineEdit(m_uplinkBox);
 
     m_heaterDutyCycleTextLabel->setBuddy(m_heaterDutyCycleValueLabel);
     QValidator *dutyCycleValidator = new QIntValidator(0, 255, m_uplinkBox);
     m_heaterDutyCycleValueLabel->setValidator(dutyCycleValidator);
+
+    QObject::connect(m_heaterDutyCycleValueLabel, SIGNAL(returnPressed()),
+                     this, SLOT(computeUplinkDutyCycle()));
 
     m_uplinkBoxLayout->addWidget(m_rxsmLOButton, 0, 0, 1, 2);
     m_uplinkBoxLayout->addWidget(m_rxsmSODSButton, 1, 0, 1, 2);
@@ -148,5 +158,11 @@ void HeaterControlTab::sidePanelSetup()
 
     m_sidePanelLayout->addWidget(m_uplinkBox);
     m_sidePanelLayout->addStretch(1);
+}
+
+void HeaterControlTab::computeUplinkDutyCycle()
+{
+    int dutyCycle = m_heaterDutyCycleValueLabel->text().toInt();
+    emit uplinkHeater(dutyCycle);
 }
 

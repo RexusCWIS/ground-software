@@ -92,9 +92,11 @@ void SerialPortListener::stop() {
 
 void SerialPortListener::write(const QByteArray &data)
 {
-    m_writeMutex.lock();
-    m_writeRequestsArray->append(data);
-    m_writeMutex.unlock();
+    if(this->isRunning()) {
+        m_writeMutex.lock();
+        m_writeRequestsArray->append(data);
+        m_writeMutex.unlock();
+    }
 }
 
 bool SerialPortListener::isActive() const

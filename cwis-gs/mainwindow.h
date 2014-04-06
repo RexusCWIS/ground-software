@@ -40,6 +40,8 @@ private:
     void createActions();
     void createStatusBar();
 
+    void uplinkRequest(const char data[], int size);
+
     QList<ControlModuleData> *m_dataBuffer;
 
     QWidget *m_centralWidget;
@@ -84,6 +86,11 @@ private slots:
     void loadRawData();
     void saveRawData();
     void handleInvalidSerialFrame();
+
+    void uplinkLO();
+    void uplinkSODS();
+    void uplinkSOE();
+    void uplinkHeater(int dutyCycle);
 
     bool serialConfigDlg();
     void startSerialCommunication();
