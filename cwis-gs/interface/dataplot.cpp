@@ -47,12 +47,14 @@ void DataPlot::enterEvent(QEvent *event)
 {
     (void) event;
     this->legend->setVisible(true);
+    this->replot();
 }
 
 void DataPlot::leaveEvent(QEvent *event)
 {
     (void) event;
     this->legend->setVisible(false);
+    this->replot();
 }
 
 void DataPlot::setAutoRange(bool on)
