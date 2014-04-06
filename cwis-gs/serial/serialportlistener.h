@@ -6,6 +6,9 @@
 
 #include <QVector>
 #include <QThread>
+#include <QMutex>
+#include <QList>
+#include <QByteArray>
 #include <QSerialPort>
 #include <QSerialPortInfo>
 
@@ -91,6 +94,8 @@ public:
      * has been called, no more data is read from the serial port.
      */
     void stop(void);
+
+    void write(const QByteArray &data);
 
     bool isActive() const;
 
@@ -189,10 +194,14 @@ protected:
      */
     virtual void parseData(const unsigned char* frame);
 
+    QMutex m_writeMutex;
+
     /**
      * @brief @ref QVector holding all received bytes.
      */
     QVector<unsigned char> *m_recordedData;
+
+    QList<QByteArray> *m_writeRequestsArray;
 
     /** @brief Description of the application-specific serial frame. */
     SerialFrameDescriptor m_sfd;

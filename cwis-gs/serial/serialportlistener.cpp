@@ -17,6 +17,7 @@ SerialPortListener::SerialPortListener(QObject *parent) :
     m_validFrames   = 0;
     m_invalidFrames = 0;
     m_recordedData  = new QVector<unsigned char>(0);
+    m_writeRequestsArray = new QList<QByteArray>();
 }
 
 SerialPortListener::SerialPortListener(QObject *parent,
@@ -40,6 +41,8 @@ SerialPortListener::SerialPortListener(QObject *parent,
     m_invalidFrames = 0;
     m_recordedData  = new QVector<unsigned char>(0);
 
+    m_writeRequestsArray = new QList<QByteArray>();
+
     this->setSerialFrameDescriptor(sfd);
 
     start();
@@ -58,6 +61,8 @@ SerialPortListener::SerialPortListener(QObject *parent,
     m_invalidFrames = 0;
     m_recordedData  = new QVector<unsigned char>(0);
 
+    m_writeRequestsArray = new QList<QByteArray>();
+
     start();
 }
 
@@ -65,6 +70,7 @@ SerialPortListener::~SerialPortListener() {
 
     stop();
     delete m_recordedData;
+    delete m_writeRequestsArray;
 }
 
 void SerialPortListener::start() {
@@ -82,6 +88,13 @@ void SerialPortListener::stop() {
     while(isRunning())
         ;
     m_active = false;
+}
+
+void SerialPortListener::write(const QByteArray &data)
+{
+    m_writeMutex.lock();
+    m_writeRequestsArray->append(data);
+    m_writeMutex.unlock();
 }
 
 bool SerialPortListener::isActive() const
@@ -164,7 +177,7 @@ void SerialPortListener::run() {
     bool outOfSync  = true,
          validFrame = true;
 
-    serial.open(QIODevice::ReadOnly);
+    serial.open(QIODevice::ReadWrite);
 
     serial.setBaudRate(m_baudrate);
     serial.setDataBits(m_dataBits);
@@ -242,6 +255,14 @@ void SerialPortListener::run() {
             emit frameDropped();
             qDebug() << "Invalid Frames: " << m_invalidFrames << "\n";
         }
+
+        /* Write requests */
+        m_writeMutex.lock();
+        while(!m_writeRequestsArray->isEmpty()) {
+            QByteArray request = m_writeRequestsArray->takeFirst();
+            serial.write(request);
+        }
+        m_writeMutex.unlock();
     }
 
     //delete [] frame;
