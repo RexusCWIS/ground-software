@@ -7,6 +7,16 @@ PIController::PIController(double kp, double ki, double dt) :
     m_integratorSaturated  = 0;
 }
 
+void PIController::setKP(double kp)
+{
+    m_kp = kp;
+}
+
+void PIController::setKI(double ki)
+{
+    m_ki = ki;
+}
+
 void PIController::setIntegratorSaturation(double lower, double upper)
 {
     m_integratorSaturationLowerBound = lower;
@@ -53,7 +63,7 @@ double PIController::saturation(double value, double lower, double upper)
     return value;
 }
 
-double PIController::integratorSaturation()
+void PIController::integratorSaturation()
 {
     if(m_integral > m_integratorSaturationUpperBound) {
         m_integral = m_integratorSaturationUpperBound;

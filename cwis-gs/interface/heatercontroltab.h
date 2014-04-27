@@ -14,6 +14,7 @@
 #include "dataplot.h"
 
 #include "experiment/controlmoduledata.h"
+#include "experiment/picontroller.h"
 
 class HeaterControlTab : public QWidget
 {
@@ -39,11 +40,18 @@ private:
 
     DataPlot *m_plot;
 
+    PIController *m_piController;
+    double m_piSetpoint;
+    bool m_simulatePIControl;
+    bool m_remoteHeaterControl;
+
     QHBoxLayout *m_mainLayout;
     QVBoxLayout *m_sidePanelLayout;
     QGridLayout *m_uplinkBoxLayout;
+    QGridLayout *m_piControlBoxLayout;
 
     QGroupBox *m_uplinkBox;
+    QGroupBox *m_piControlBox;
 
     QPushButton *m_rxsmLOButton;
     QPushButton *m_rxsmSODSButton;
@@ -52,9 +60,25 @@ private:
     QLabel *m_heaterDutyCycleTextLabel;
     QLineEdit *m_heaterDutyCycleValueLabel;
 
+    QLabel *m_piKpTextLabel;
+    QLabel *m_piKiTextLabel;
+    QLabel *m_piSetpointTextLabel;
+    QLabel *m_piIntegratorSaturationLabel;
+
+    QLineEdit *m_piKpValueLabel;
+    QLineEdit *m_piKiValueLabel;
+    QLineEdit *m_piSetpointValueLabel;
+
+    QLabel *m_piIntegratorSaturationValue;
+
+    QCheckBox *m_piRemoteControlCheckBox;
+
 private slots:
     void computeUplinkDutyCycle();
-
+    void setPIKp();
+    void setPIKi();
+    void setPISetpoint();
+    void activatePIControlSimulation(bool on);
 };
 
 #endif // HEATERCONTROLTAB_H

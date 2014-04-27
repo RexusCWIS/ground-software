@@ -44,7 +44,6 @@ private:
 
     QGroupBox *m_graphBox;
     QGroupBox *m_dataBox;
-    QGroupBox *m_piControlBox;
 
     QRadioButton *m_globalView;
     QRadioButton *m_autoScrollView;
