@@ -28,7 +28,8 @@ SOURCES += main.cpp                 \
     serial/serialframedescriptor.cpp \
     serial/crc/crc.c \
     serial/crc/crc_table.c \
-    experiment/controlmoduleserialportlistener.cpp
+    experiment/controlmoduleserialportlistener.cpp \
+    experiment/picontroller.cpp
 
 HEADERS  += mainwindow.h            \
     interface/tabletab.h            \
@@ -48,6 +49,7 @@ HEADERS  += mainwindow.h            \
     serial/serialportconfig.h \
     serial/serialframedescriptor.h \
     serial/crc/crc.h \
-    experiment/controlmoduleserialportlistener.h
+    experiment/controlmoduleserialportlistener.h \
+    experiment/picontroller.h
 
 FORMS    +=

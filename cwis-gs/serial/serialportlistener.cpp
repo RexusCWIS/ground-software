@@ -262,6 +262,7 @@ void SerialPortListener::run() {
         m_writeMutex.lock();
         while(!m_writeRequestsArray->isEmpty()) {
             QByteArray request = m_writeRequestsArray->takeFirst();
+            qDebug() << "Message: " << (int) request.at(0) << " " << (int) request.at(1);
             serial.write(request);
         }
         m_writeMutex.unlock();
