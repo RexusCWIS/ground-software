@@ -18,7 +18,7 @@ public:
 
 private:
     double saturation(double value, double lower, double upper);
-    double integratorSaturation();
+    void integratorSaturation();
 
     double m_kp;
     double m_ki;

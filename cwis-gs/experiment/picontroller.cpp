@@ -55,13 +55,13 @@ double PIController::saturation(double value, double lower, double upper)
 
 double PIController::integratorSaturation()
 {
-    if(m_integral > m_upperSaturationBound) {
-        m_integral = m_upperSaturationBound;
+    if(m_integral > m_integratorSaturationUpperBound) {
+        m_integral = m_integratorSaturationUpperBound;
         m_integratorSaturated = 1;
     }
 
-    else if(m_integral < m_lowerSaturationBound) {
-        m_integral = m_lowerSaturationBound;
+    else if(m_integral < m_integratorSaturationLowerBound) {
+        m_integral = m_integratorSaturationLowerBound;
         m_integratorSaturated = -1;
     }
 
