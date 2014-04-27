@@ -17,6 +17,16 @@ void PIController::setKI(double ki)
     m_ki = ki;
 }
 
+double PIController::kp() const
+{
+    return m_kp;
+}
+
+double PIController::ki() const
+{
+    return m_ki;
+}
+
 void PIController::setIntegratorSaturation(double lower, double upper)
 {
     m_integratorSaturationLowerBound = lower;

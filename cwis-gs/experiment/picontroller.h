@@ -10,6 +10,10 @@ public:
 
     void setKI(double ki);
 
+    double kp() const;
+
+    double ki() const;
+
     void setIntegratorSaturation(double lower, double upper);
 
     void setOutputSaturation(double lower, double upper);
