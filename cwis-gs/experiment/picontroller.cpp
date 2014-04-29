@@ -5,6 +5,9 @@ PIController::PIController(double kp, double ki, double dt) :
 {
     m_integral = 0;
     m_integratorSaturated  = 0;
+    m_saturateOutput = false;
+
+    m_rawOutput = 0.0;
 }
 
 void PIController::setKP(double kp)
@@ -27,6 +30,16 @@ double PIController::ki() const
     return m_ki;
 }
 
+double PIController::rawOutput() const
+{
+    return m_rawOutput;
+}
+
+double PIController::integratorValue() const
+{
+    return m_integral;
+}
+
 void PIController::setIntegratorSaturation(double lower, double upper)
 {
     m_integratorSaturationLowerBound = lower;
@@ -43,21 +56,19 @@ void PIController::setOutputSaturation(double lower, double upper)
 
 double PIController::loop(double error)
 {
-    double setpoint;
-
-    if((error * m_integratorSaturated) < 0) {
+    if((error * m_integratorSaturated) <= 0) {
         m_integral += m_ki * m_dt * error;
     }
 
     this->integratorSaturation();
 
-    setpoint = m_kp * error + m_integral;
+    m_rawOutput = m_kp * error + m_integral;
 
     if(m_saturateOutput) {
-        this->saturation(setpoint, m_outputSaturationLowerBound, m_outputSaturationUpperBound);
+        return this->saturation(m_rawOutput, m_outputSaturationLowerBound, m_outputSaturationUpperBound);
     }
 
-    return setpoint;
+    return m_rawOutput;
 }
 
 double PIController::saturation(double value, double lower, double upper)

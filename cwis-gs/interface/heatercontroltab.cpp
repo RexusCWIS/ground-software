@@ -5,10 +5,11 @@
 HeaterControlTab::HeaterControlTab(QWidget *parent) :
     QWidget(parent)
 {
-    m_piController = new PIController(0, 0, 100);
-    m_piSetpoint = 0;
+    m_piController = new PIController(27.0, 3.0, 100.0);
+    m_piController->setOutputSaturation(0.0, 255.0);
+    m_piController->setIntegratorSaturation(0.0, 255.0);
+    m_piSetpoint = 35;
     m_simulatePIControl   = false;
-    m_remoteHeaterControl = false;
 
     this->plotSetup();
     this->sidePanelSetup();
@@ -26,6 +27,7 @@ void HeaterControlTab::addData(const ControlModuleData &data)
     double cellTemp1 = data.getTemperature(0);
     double cellTemp2 = data.getTemperature(1);
     double heating = data.getHeating();
+    double simHeating = 0.0;
 
     /* Cell temperature 1 */
     m_plot->graph(0)->addData(time, cellTemp1);
@@ -41,6 +43,23 @@ void HeaterControlTab::addData(const ControlModuleData &data)
     m_plot->graph(4)->addData(time, heating);
     m_plot->graph(5)->clearData();
     m_plot->graph(5)->addData(time, heating);
+
+    if(m_simulatePIControl) {
+
+        simHeating = m_piController->loop(m_piSetpoint - cellTemp1) / 2.55;
+        m_piOutputValueLabel->setText(tr("%1 %").arg(simHeating, 0, 'f', 2));
+        m_piIntegratorSaturationValue->setText(tr("%1").arg(m_piController->integratorValue(), 0, 'f', 2));
+
+        m_plot->graph(6)->addData(time, simHeating);
+        m_plot->graph(7)->clearData();
+        m_plot->graph(7)->addData(time, simHeating);
+
+        if(m_piRemoteControlCheckBox->isChecked()) {
+
+            m_heaterDutyCycleValueLabel->setText(tr("%1").arg((int) simHeating));
+            emit uplinkHeater(simHeating);
+        }
+    }
 
     m_plot->updateRange(time);
 }
@@ -118,7 +137,7 @@ void HeaterControlTab::plotSetup()
 
     /* Simulated heating line */
     m_plot->addGraph(m_plot->xAxis, m_plot->yAxis2);
-    m_plot->graph(6)->setPen(QPen(Qt::red));
+    m_plot->graph(6)->setPen(QPen(Qt::yellow));
     m_plot->graph(6)->setName(tr("Heating simulation (%)"));
     m_plot->graph(6)->setVisible(false);
     m_plot->graph(6)->removeFromLegend();
@@ -185,12 +204,14 @@ void HeaterControlTab::sidePanelSetup()
     m_piKpTextLabel = new QLabel(tr("Kp"), m_piControlBox);
     m_piKiTextLabel = new QLabel(tr("Ki"), m_piControlBox);
     m_piSetpointTextLabel = new QLabel(tr("Setpoint"), m_piControlBox);
-    m_piIntegratorSaturationLabel = new QLabel(tr("Integrator: "), m_piControlBox);
+    m_piOutputTextLabel = new QLabel(tr("Simulated output"), m_piControlBox);
+    m_piIntegratorSaturationLabel = new QLabel(tr("Integrator"), m_piControlBox);
 
-    m_piKpValueLabel = new QLineEdit(m_piControlBox);
-    m_piKiValueLabel = new QLineEdit(m_piControlBox);
-    m_piSetpointValueLabel = new QLineEdit(m_piControlBox);
+    m_piKpValueLabel = new QLineEdit(tr("%1").arg(m_piController->kp()), m_piControlBox);
+    m_piKiValueLabel = new QLineEdit(tr("%1").arg(m_piController->ki()), m_piControlBox);
+    m_piSetpointValueLabel = new QLineEdit(tr("%1").arg(m_piSetpoint), m_piControlBox);
 
+    m_piOutputValueLabel = new QLabel(tr("N/A"), this);
     m_piIntegratorSaturationValue = new QLabel(tr("N/A"), this);
 
     m_piRemoteControlCheckBox = new QCheckBox(tr("Remote control"), this);
@@ -208,6 +229,8 @@ void HeaterControlTab::sidePanelSetup()
                      this, SLOT(setPIKi()));
     QObject::connect(m_piSetpointValueLabel, SIGNAL(returnPressed()),
                      this, SLOT(setPISetpoint()));
+    QObject::connect(m_piRemoteControlCheckBox, SIGNAL(toggled(bool)),
+                     this, SLOT(remotePIControl(bool)));
 
     m_piControlBoxLayout->addWidget(m_piRemoteControlCheckBox, 0, 0, 1, 2, Qt::AlignCenter);
     m_piControlBoxLayout->addWidget(m_piKpTextLabel, 1, 0);
@@ -216,8 +239,10 @@ void HeaterControlTab::sidePanelSetup()
     m_piControlBoxLayout->addWidget(m_piKiValueLabel, 2, 1);
     m_piControlBoxLayout->addWidget(m_piSetpointTextLabel, 3, 0);
     m_piControlBoxLayout->addWidget(m_piSetpointValueLabel, 3, 1);
-    m_piControlBoxLayout->addWidget(m_piIntegratorSaturationLabel, 4, 0);
-    m_piControlBoxLayout->addWidget(m_piIntegratorSaturationValue, 4, 1);
+    m_piControlBoxLayout->addWidget(m_piOutputTextLabel, 4, 0);
+    m_piControlBoxLayout->addWidget(m_piOutputValueLabel, 4, 1);
+    m_piControlBoxLayout->addWidget(m_piIntegratorSaturationLabel, 5, 0);
+    m_piControlBoxLayout->addWidget(m_piIntegratorSaturationValue, 5, 1);
 
     m_sidePanelLayout->addWidget(m_uplinkBox);
     m_sidePanelLayout->addWidget(m_piControlBox);
@@ -228,6 +253,11 @@ void HeaterControlTab::computeUplinkDutyCycle()
 {
     int dutyCycle = m_heaterDutyCycleValueLabel->text().toInt();
     emit uplinkHeater(dutyCycle);
+}
+
+void HeaterControlTab::remotePIControl(bool on)
+{
+    m_heaterDutyCycleValueLabel->setReadOnly(on);
 }
 
 void HeaterControlTab::setPIKp()
@@ -243,14 +273,24 @@ void HeaterControlTab::setPIKi()
 void HeaterControlTab::setPISetpoint()
 {
     m_piSetpoint = m_piSetpointValueLabel->text().toDouble();
+    m_piSetpoint = (m_piSetpoint + 10.0) * 1024.0 / 70.0;
 }
 
 void HeaterControlTab::activatePIControlSimulation(bool on)
 {
     m_simulatePIControl = on;
 
-    if(!on) {
-        m_remoteHeaterControl = false;
+    m_plot->graph(6)->setVisible(on);
+    m_plot->graph(7)->setVisible(on);
+
+    if(on) {
+        m_plot->graph(6)->addToLegend();
+        m_heaterDutyCycleValueLabel->setReadOnly(m_piRemoteControlCheckBox->isChecked());
+    }
+
+    else {
+        m_plot->graph(6)->removeFromLegend();
+        this->remotePIControl(false);
     }
 }
 

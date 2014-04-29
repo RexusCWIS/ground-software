@@ -14,6 +14,10 @@ public:
 
     double ki() const;
 
+    double rawOutput() const;
+
+    double integratorValue() const;
+
     void setIntegratorSaturation(double lower, double upper);
 
     void setOutputSaturation(double lower, double upper);
@@ -28,6 +32,8 @@ private:
     double m_ki;
     double m_dt;
     double m_integral;
+
+    double m_rawOutput;
 
     int m_integratorSaturated;
     double m_integratorSaturationLowerBound;

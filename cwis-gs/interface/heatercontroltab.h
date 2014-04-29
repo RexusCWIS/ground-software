@@ -43,7 +43,6 @@ private:
     PIController *m_piController;
     double m_piSetpoint;
     bool m_simulatePIControl;
-    bool m_remoteHeaterControl;
 
     QHBoxLayout *m_mainLayout;
     QVBoxLayout *m_sidePanelLayout;
@@ -63,18 +62,21 @@ private:
     QLabel *m_piKpTextLabel;
     QLabel *m_piKiTextLabel;
     QLabel *m_piSetpointTextLabel;
+    QLabel *m_piOutputTextLabel;
     QLabel *m_piIntegratorSaturationLabel;
 
     QLineEdit *m_piKpValueLabel;
     QLineEdit *m_piKiValueLabel;
     QLineEdit *m_piSetpointValueLabel;
 
+    QLabel *m_piOutputValueLabel;
     QLabel *m_piIntegratorSaturationValue;
 
     QCheckBox *m_piRemoteControlCheckBox;
 
 private slots:
     void computeUplinkDutyCycle();
+    void remotePIControl(bool on);
     void setPIKp();
     void setPIKi();
     void setPISetpoint();
