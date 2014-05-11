@@ -243,7 +243,6 @@ void SerialPortListener::run() {
         if(validFrame) {
 
             m_validFrames++;
-            qDebug() << "Valid Frames: " << m_validFrames;
 
             parseData(frame);
 
