@@ -7,7 +7,7 @@ HeaterControlTab::HeaterControlTab(QWidget *parent) :
 {
     m_piController = new PIController(3.0, 0.00005, 100.0);
     m_piController->setOutputSaturation(0.0, 255.0);
-    m_piController->setIntegratorSaturation(0.0, 1023.0);
+    m_piController->setIntegratorSaturation(0.0, 255.0);
     m_piSetpoint = 0;
     m_simulatePIControl   = false;
 
@@ -67,15 +67,23 @@ void HeaterControlTab::addData(const ControlModuleData &data)
     }
 
     m_plot->updateRange(time);
+
+    m_temp1ValueLabel->setText(tr("%1").arg(cellTemp1, 0, 'f', 1) +
+                               QString::fromUtf8(" \u00B0C"));
+    m_temp2ValueLabel->setText(tr("%1").arg(cellTemp2, 0, 'f', 1) +
+                               QString::fromUtf8(" \u00B0C"));
 }
 
 void HeaterControlTab::clear()
 {
-    for(int index = 0; index < 8; index++) {
+    for(int index = 0; index < 10; index++) {
         m_plot->graph(index)->clearData();
     }
 
     m_plot->replot();
+
+    m_temp1ValueLabel->setText(tr("N/A"));
+    m_temp2ValueLabel->setText(tr("N/A"));
 }
 
 void HeaterControlTab::plotSetup()
@@ -175,7 +183,7 @@ void HeaterControlTab::plotSetup()
     m_plot->plotLayout()->addElement(0, 0, new QCPPlotTitle(m_plot, "Heater control"));
     m_plot->setMinimumSize(400, 300);
 
-    m_plot->setAutoRange(50, 5);
+    m_plot->setAutoRange(100, 5);
 
     m_plot->replot();
 }
@@ -264,8 +272,32 @@ void HeaterControlTab::sidePanelSetup()
     m_piControlBoxLayout->addWidget(m_piIntegratorSaturationLabel, 5, 0);
     m_piControlBoxLayout->addWidget(m_piIntegratorSaturationValue, 5, 1);
 
+    m_dataBox = new QGroupBox(trUtf8("Real-time values"), this);
+    m_dataBoxLayout = new QGridLayout(m_dataBox);
+    m_dataBox->setLayout(m_dataBoxLayout);
+
+    m_temp1TextLabel = new QLabel(TEMPERATURE1_STRING, m_dataBox);
+    m_temp2TextLabel = new QLabel(TEMPERATURE2_STRING, m_dataBox);
+    m_temp1ValueLabel = new QLabel(m_dataBox);
+    m_temp2ValueLabel = new QLabel(m_dataBox);
+    m_temp1TextLabel->setBuddy(m_temp1ValueLabel);
+    m_temp2TextLabel->setBuddy(m_temp2ValueLabel);
+
+    QFont font = m_temp1ValueLabel->font();
+    font.setBold(true);
+    m_temp1ValueLabel->setFont(font);
+    m_temp2ValueLabel->setFont(font);
+    m_temp1ValueLabel->setText(tr("N/A"));
+    m_temp2ValueLabel->setText(tr("N/A"));
+
+    m_dataBoxLayout->addWidget(m_temp1TextLabel, 0, 0);
+    m_dataBoxLayout->addWidget(m_temp1ValueLabel, 0, 1);
+    m_dataBoxLayout->addWidget(m_temp2TextLabel, 1, 0);
+    m_dataBoxLayout->addWidget(m_temp2ValueLabel, 1, 1);
+
     m_sidePanelLayout->addWidget(m_uplinkBox);
     m_sidePanelLayout->addWidget(m_piControlBox);
+    m_sidePanelLayout->addWidget(m_dataBox);
     m_sidePanelLayout->addStretch(1);
 }
 

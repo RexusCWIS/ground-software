@@ -44,7 +44,10 @@ StatusPanel::StatusPanel(QWidget *parent) :
     m_sodsStatusLabel = new QLabel(tr("SODS"), m_rexusSignalsBox);
     m_soeStatusLabel  = new QLabel(tr("SOE"), m_rexusSignalsBox);
 
-    m_cameraPowerLabel  = new QLabel(tr("Power"), m_cameraStatusBox);
+    m_cameraModuleLabel  = new QLabel(tr("Power"), m_cameraStatusBox);
+    m_cameraPowerLabel   = new QLabel(tr("Camera"), m_cameraStatusBox);
+    m_cameraAcquisitionLabel  = new QLabel(tr("Acquisition"), m_cameraStatusBox);
+    m_cameraCopyLabel    = new QLabel(tr("Copy"), m_cameraStatusBox);
     m_cameraImagesLabel = new QLabel(tr("Images"), m_cameraStatusBox);
 
     m_powerStatusFlag  = new StatusFlag(m_controlStatusBox);
@@ -57,7 +60,10 @@ StatusPanel::StatusPanel(QWidget *parent) :
     m_sodsStatusFlag = new StatusFlag(m_rexusSignalsBox);
     m_soeStatusFlag  = new StatusFlag(m_rexusSignalsBox);
 
-    m_cameraPowerStatusFlag = new StatusFlag(m_cameraStatusBox);
+    m_cameraModuleStatusFlag = new StatusFlag(m_cameraStatusBox);
+    m_cameraPowerStatusFlag  = new StatusFlag(m_cameraStatusBox);
+    m_cameraAcquisitionStatusFlag = new StatusFlag(m_cameraStatusBox);
+    m_cameraCopyStatusFlag   = new StatusFlag(m_cameraStatusBox);
     m_cameraImagesStatus = new QLabel(m_cameraStatusBox);
 
     m_controlStatusLayout = new QGridLayout(m_controlStatusBox);
@@ -78,10 +84,16 @@ StatusPanel::StatusPanel(QWidget *parent) :
     m_rexusSignalsLayout->addWidget(m_soeStatusLabel, 2, 0);
     m_rexusSignalsLayout->addWidget(m_soeStatusFlag, 2, 1);
 
-    m_cameraStatusLayout->addWidget(m_cameraPowerLabel, 0, 0);
-    m_cameraStatusLayout->addWidget(m_cameraPowerStatusFlag, 0, 1);
-    m_cameraStatusLayout->addWidget(m_cameraImagesLabel, 1, 0);
-    m_cameraStatusLayout->addWidget(m_cameraImagesStatus, 1, 1);
+    m_cameraStatusLayout->addWidget(m_cameraModuleLabel, 0, 0);
+    m_cameraStatusLayout->addWidget(m_cameraModuleStatusFlag, 0, 1);
+    m_cameraStatusLayout->addWidget(m_cameraPowerLabel, 1, 0);
+    m_cameraStatusLayout->addWidget(m_cameraPowerStatusFlag, 1, 1);
+    m_cameraStatusLayout->addWidget(m_cameraAcquisitionLabel, 2, 0);
+    m_cameraStatusLayout->addWidget(m_cameraAcquisitionStatusFlag, 2, 1);
+    m_cameraStatusLayout->addWidget(m_cameraCopyLabel, 3, 0);
+    m_cameraStatusLayout->addWidget(m_cameraCopyStatusFlag, 3, 1);
+    m_cameraStatusLayout->addWidget(m_cameraImagesLabel, 4, 0);
+    m_cameraStatusLayout->addWidget(m_cameraImagesStatus, 4, 1);
 
     m_controlStatusBox->setLayout(m_controlStatusLayout);
     m_rexusSignalsBox->setLayout(m_rexusSignalsLayout);
@@ -107,7 +119,10 @@ void StatusPanel::updateStatus(int controlModule, int cameraModule)
     m_powerStatusFlag->setStatus((controlModule & CM_POWER_ON) != 0);
     m_laserStatusFlag->setStatus((controlModule & CM_LASER_ON) != 0);
     m_heaterStatusFlag->setStatus((controlModule & CM_HEATER_ON) != 0);
-    m_cameraPowerStatusFlag->setStatus((controlModule & CM_CAMERA_ON) != 0);
+    m_cameraModuleStatusFlag->setStatus((cameraModule & OBDH_POWER_ON) != 0);
+    m_cameraPowerStatusFlag->setStatus((cameraModule & OBDH_CAMERA_ON) != 0);
+    m_cameraAcquisitionStatusFlag->setStatus((cameraModule & OBDH_ACQUIRING) != 0);
+    m_cameraCopyStatusFlag->setStatus((cameraModule & OBDH_COPYING) != 0);
     m_loStatusFlag->setStatus((controlModule & CM_LO) != 0);
     m_sodsStatusFlag->setStatus((controlModule & CM_SODS) != 0);
     m_soeStatusFlag->setStatus((controlModule & CM_SOE) != 0);
@@ -126,7 +141,11 @@ void StatusPanel::clear()
 
     m_powerStatusFlag->setStatus(false);
     m_laserStatusFlag->setStatus(false);
+    m_heaterStatusFlag->setStatus(false);
+    m_cameraModuleStatusFlag->setStatus(false);
     m_cameraPowerStatusFlag->setStatus(false);
+    m_cameraAcquisitionStatusFlag->setStatus(false);
+    m_cameraCopyStatusFlag->setStatus(false);
     m_loStatusFlag->setStatus(false);
     m_sodsStatusFlag->setStatus(false);
     m_soeStatusFlag->setStatus(false);

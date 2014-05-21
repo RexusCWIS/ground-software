@@ -222,7 +222,7 @@ void MainWindow::saveRecordedData()
     }
 
     /** @bug On Mac OS X, the filter field is ignored. This is due to Qt. */
-    QString filename = QFileDialog::getSaveFileName(this, tr("Save As..."), QDir::homePath(), tr("CSV files (*.csv);;All files (*)"));
+    QString filename = QFileDialog::getSaveFileName(this, tr("Save As..."), QDir::homePath(), tr("Text files (*.txt);;All files (*)"));
 
     if(filename.isEmpty()) {
         return;
@@ -254,7 +254,7 @@ void MainWindow::loadRawData()
 
 void MainWindow::saveRawData()
 {
-    QString filename = QFileDialog::getSaveFileName(this, tr("Save As..."), QDir::homePath(), tr("CSV files (*.csv);;All files (*)"));
+    QString filename = QFileDialog::getSaveFileName(this, tr("Save As..."), QDir::homePath(), tr("Text files (*.txt);;All files (*)"));
 
     if(filename.isEmpty()) {
         return;

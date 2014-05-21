@@ -39,7 +39,7 @@ void ControlModuleSerialPortListener::parseData(const unsigned char *frame) {
     data.pressure = (((unsigned int) frame[13]) << 8) + ((unsigned int) frame[12]);
     data.heating  = (unsigned int) frame[14];
 
-    data.nbOfImages  = (((unsigned int) frame[17]) << 8) + ((unsigned int) frame[16]);
+    data.nbOfImages  = (((unsigned int) frame[16]) << 8) + ((unsigned int) frame[17]);
     data.framerate   = (unsigned int) frame[18];
     data.controlModuleStatus = frame[15];
     data.cameraModuleStatus  = frame[19];

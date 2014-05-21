@@ -50,7 +50,10 @@ private:
     QLabel *m_sodsStatusLabel;
     QLabel *m_soeStatusLabel;
 
+    QLabel *m_cameraModuleLabel;
     QLabel *m_cameraPowerLabel;
+    QLabel *m_cameraAcquisitionLabel;
+    QLabel *m_cameraCopyLabel;
     QLabel *m_cameraImagesLabel;
 
     StatusFlag *m_powerStatusFlag;
@@ -61,8 +64,12 @@ private:
     StatusFlag *m_sodsStatusFlag;
     StatusFlag *m_soeStatusFlag;
 
+    StatusFlag *m_cameraModuleStatusFlag;
     StatusFlag *m_cameraPowerStatusFlag;
+    StatusFlag *m_cameraAcquisitionStatusFlag;
+    StatusFlag *m_cameraCopyStatusFlag;
     QLabel *m_cameraImagesStatus;
+
 
 private slots:
     void startChronometer(bool triggered);

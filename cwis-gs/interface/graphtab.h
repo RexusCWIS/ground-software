@@ -30,6 +30,7 @@ public slots:
     void showRoomTemperature(bool show);
     void showTemperature3(bool show);
     void showPressure(bool show);
+    void showHeating(bool show);
 
 private:
     void plotSetup(void);
@@ -57,11 +58,15 @@ private:
     QLabel *m_temp2TextLabel;
     QLabel *m_temp3TextLabel;
     QLabel *m_pressureTextLabel;
+    QLabel *m_gradientTextLabel;
+    QLabel *m_heatingTextLabel;
 
     QLabel *m_temp1ValueLabel;
     QLabel *m_temp2ValueLabel;
     QLabel *m_temp3ValueLabel;
     QLabel *m_pressureValueLabel;
+    QLabel *m_gradientValueLabel;
+    QLabel *m_heatingValueLabel;
 };
 
 #endif // GRAPHTAB_H

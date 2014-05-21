@@ -22,6 +22,7 @@ void GraphTab::addData(const ControlModuleData &data)
     double temp2 = data.getTemperature(1);
     double temp3 = data.getTemperature(2);
     double pressure = data.getPressure();
+    double heating = data.getHeating();
 
     /* Cell temperature */
     m_plot->graph(0)->addData(time, temp1);
@@ -54,6 +55,9 @@ void GraphTab::addData(const ControlModuleData &data)
     m_temp3ValueLabel->setText(tr("%1").arg(temp3, 0, 'f', 1) +
                                QString::fromUtf8(" \u00B0C"));
     m_pressureValueLabel->setText(tr("%1 atm").arg(pressure, 0, 'f', 2));
+    m_gradientValueLabel->setText(tr("%1").arg((temp1 - temp3), 0, 'f', 1) +
+                               QString::fromUtf8(" \u00B0C"));
+    m_heatingValueLabel->setText(tr("%1%").arg(heating, 0, 'f', 1));
 }
 
 void GraphTab::clear()
@@ -68,6 +72,8 @@ void GraphTab::clear()
     m_temp2ValueLabel->setText(tr("N/A"));
     m_temp3ValueLabel->setText(tr("N/A"));
     m_pressureValueLabel->setText(tr("N/A"));
+    m_gradientValueLabel->setText(tr("N/A"));
+    m_heatingValueLabel->setText(tr("N/A"));
 }
 
 void GraphTab::showCellTemperature(bool show)
@@ -94,6 +100,12 @@ void GraphTab::showPressure(bool show)
     m_plot->graph(7)->setVisible(show);
 }
 
+void GraphTab::showHeating(bool show)
+{
+    m_plot->graph(8)->setVisible(show);
+    m_plot->graph(9)->setVisible(show);
+}
+
 void GraphTab::plotSetup(void)
 {
     m_plot = new DataPlot(this);
@@ -108,7 +120,7 @@ void GraphTab::plotSetup(void)
     m_plot->legend->setSelectedTextColor(QColor(Qt::black));
 
     m_plot->xAxis->setLabel("Time [s]");
-    m_plot->xAxis->setRange(0, 50);
+    m_plot->xAxis->setRange(0, 100);
     m_plot->yAxis->setLabel("Temperature [Celsius]");
     m_plot->yAxis->setRange(0, 60);
     m_plot->yAxis->setAutoTickStep(false);
@@ -180,7 +192,7 @@ void GraphTab::plotSetup(void)
     m_plot->plotLayout()->addElement(0, 0, new QCPPlotTitle(m_plot, "Experiment Timeline"));
     m_plot->setMinimumSize(400, 300);
 
-    m_plot->setAutoRange(50, 5);
+    m_plot->setAutoRange(100, 5);
 
     m_plot->replot();
 }
@@ -236,16 +248,22 @@ void GraphTab::sidePanelSetup(void)
     m_temp2TextLabel = new QLabel(TEMPERATURE2_STRING, m_dataBox);
     m_temp3TextLabel = new QLabel(TEMPERATURE3_STRING, m_dataBox);
     m_pressureTextLabel = new QLabel(PRESSURE_STRING, m_dataBox);
+    m_gradientTextLabel = new QLabel(tr("Temperature gradient"), m_dataBox);
+    m_heatingTextLabel  = new QLabel(tr("Heating"), m_dataBox);
 
     m_temp1ValueLabel = new QLabel(m_dataBox);
     m_temp2ValueLabel = new QLabel(m_dataBox);
     m_temp3ValueLabel = new QLabel(m_dataBox);
     m_pressureValueLabel = new QLabel(m_dataBox);
+    m_gradientValueLabel = new QLabel(m_dataBox);
+    m_heatingValueLabel  = new QLabel(m_dataBox);
 
     m_temp1TextLabel->setBuddy(m_temp1ValueLabel);
     m_temp2TextLabel->setBuddy(m_temp2ValueLabel);
     m_temp3TextLabel->setBuddy(m_temp3ValueLabel);
     m_pressureTextLabel->setBuddy(m_pressureValueLabel);
+    m_gradientTextLabel->setBuddy(m_gradientValueLabel);
+    m_heatingTextLabel->setBuddy(m_heatingValueLabel);
 
     QFont font = m_temp1ValueLabel->font();
     font.setBold(true);
@@ -253,6 +271,8 @@ void GraphTab::sidePanelSetup(void)
     m_temp2ValueLabel->setFont(font);
     m_temp3ValueLabel->setFont(font);
     m_pressureValueLabel->setFont(font);
+    m_gradientValueLabel->setFont(font);
+    m_heatingValueLabel->setFont(font);
 
     /* Avoid ulterior size changes due to larger texts */
     m_pressureValueLabel->setText("1.00 atm");
@@ -263,6 +283,8 @@ void GraphTab::sidePanelSetup(void)
     m_temp2ValueLabel->setText(tr("N/A"));
     m_temp3ValueLabel->setText(tr("N/A"));
     m_pressureValueLabel->setText(tr("N/A"));
+    m_gradientValueLabel->setText(tr("N/A"));
+    m_heatingValueLabel->setText(tr("N/A"));
 
     m_dataBoxLayout->addWidget(m_temp1TextLabel, 0, 0);
     m_dataBoxLayout->addWidget(m_temp1ValueLabel, 0, 1);
@@ -272,6 +294,10 @@ void GraphTab::sidePanelSetup(void)
     m_dataBoxLayout->addWidget(m_temp3ValueLabel, 2, 1);
     m_dataBoxLayout->addWidget(m_pressureTextLabel, 3, 0);
     m_dataBoxLayout->addWidget(m_pressureValueLabel, 3, 1);
+    m_dataBoxLayout->addWidget(m_gradientTextLabel, 4, 0);
+    m_dataBoxLayout->addWidget(m_gradientValueLabel, 4, 1);
+    m_dataBoxLayout->addWidget(m_heatingTextLabel, 5, 0);
+    m_dataBoxLayout->addWidget(m_heatingValueLabel, 5, 1);
 
     m_sidePanelLayout->addWidget(m_graphBox);
     m_sidePanelLayout->addWidget(m_dataBox);

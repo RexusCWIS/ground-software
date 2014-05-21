@@ -48,9 +48,11 @@ private:
     QVBoxLayout *m_sidePanelLayout;
     QGridLayout *m_uplinkBoxLayout;
     QGridLayout *m_piControlBoxLayout;
+    QGridLayout *m_dataBoxLayout;
 
     QGroupBox *m_uplinkBox;
     QGroupBox *m_piControlBox;
+    QGroupBox *m_dataBox;
 
     QPushButton *m_rxsmLOButton;
     QPushButton *m_rxsmSODSButton;
@@ -64,6 +66,8 @@ private:
     QLabel *m_piSetpointTextLabel;
     QLabel *m_piOutputTextLabel;
     QLabel *m_piIntegratorSaturationLabel;
+    QLabel *m_temp1TextLabel;
+    QLabel *m_temp2TextLabel;
 
     QLineEdit *m_piKpValueLabel;
     QLineEdit *m_piKiValueLabel;
@@ -71,6 +75,8 @@ private:
 
     QLabel *m_piOutputValueLabel;
     QLabel *m_piIntegratorSaturationValue;
+    QLabel *m_temp1ValueLabel;
+    QLabel *m_temp2ValueLabel;
 
     QCheckBox *m_piRemoteControlCheckBox;
 

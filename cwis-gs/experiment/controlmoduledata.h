@@ -18,6 +18,11 @@
 #define CM_SODS         (1 << 5)
 #define CM_SOE          (1 << 6)
 
+#define OBDH_POWER_ON   (1 << 0)
+#define OBDH_CAMERA_ON  (1 << 1)
+#define OBDH_ACQUIRING  (1 << 2)
+#define OBDH_COPYING    (1 << 3)
+
 struct ControlModuleData {
     QTime currentTime;
     unsigned int time;
