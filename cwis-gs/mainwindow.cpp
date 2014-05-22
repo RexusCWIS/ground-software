@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_sfd(24, "UU", SerialFrameDescriptor::CRC16_CCITT)
 {
     m_dataBuffer = new QList<ControlModuleData>();
+    m_newData = false;
 
     m_centralWidget = new QWidget(this);
     m_statusPanel = new StatusPanel(this);
@@ -99,6 +100,8 @@ void MainWindow::newData(ControlModuleData data)
     m_downlinkActive = true;
     m_framesReceived++;
     this->updateStatusBar();
+
+    m_newData = true;
 }
 
 void MainWindow::clear()
@@ -124,6 +127,7 @@ void MainWindow::clear()
     m_framesDropped  = 0;
     this->updateStatusBar();
     statusBar()->showMessage(tr("Cleared all acquired data."), 2);
+    m_newData = false;
 }
 
 void MainWindow::createMenus()
@@ -250,6 +254,7 @@ void MainWindow::saveRecordedData()
 
         file.close();
         statusBar()->showMessage(tr("Saved data to %1.").arg(filename), 2);
+        m_newData = false;
     }
 }
 
@@ -381,4 +386,27 @@ void MainWindow::startSerialCommunication()
 void MainWindow::stopSerialCommunication()
 {
     m_spListener->stop();
+}
+
+void MainWindow::closeEvent(QCloseEvent *event) {
+
+    if(m_newData) {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::warning(this, tr("Application"),
+                                     tr("You have not saved the data.\n"
+                                        "Save it?"),
+                                     QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+
+        switch(reply) {
+        case QMessageBox::Save:
+            this->saveRecordedData();
+            this->saveRawData();
+        case QMessageBox::Discard:
+            event->accept();
+            break;
+        default:
+            event->ignore();
+            break;
+        }
+    }
 }

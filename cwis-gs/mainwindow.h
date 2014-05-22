@@ -36,6 +36,7 @@ public slots:
     void clear();
 
 private:
+    void closeEvent(QCloseEvent *event);
     void createMenus();
     void createActions();
     void createStatusBar();
@@ -80,6 +81,7 @@ private:
     int m_framesDropped;
 
     bool m_downlinkActive;
+    bool m_newData;
 
 private slots:
     void updateStatusBar();
