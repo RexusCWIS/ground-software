@@ -31,6 +31,7 @@ signals:
     void uplinkLO();
     void uplinkSODS();
     void uplinkSOE();
+    void uplinkLaser(bool);
 
     void uplinkHeater(int);
 
@@ -57,6 +58,8 @@ private:
     QPushButton *m_rxsmLOButton;
     QPushButton *m_rxsmSODSButton;
     QPushButton *m_rxsmSOEButton;
+
+    QCheckBox *m_laserCheckBox;
 
     QLabel *m_heaterDutyCycleTextLabel;
     QLineEdit *m_heaterDutyCycleValueLabel;

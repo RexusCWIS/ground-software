@@ -90,6 +90,7 @@ private slots:
     void uplinkLO();
     void uplinkSODS();
     void uplinkSOE();
+    void uplinkLaser(bool);
     void uplinkHeater(int dutyCycle);
 
     bool serialConfigDlg();

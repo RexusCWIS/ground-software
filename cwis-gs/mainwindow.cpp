@@ -28,6 +28,8 @@ MainWindow::MainWindow(QWidget *parent) :
                      this, SLOT(uplinkSODS()));
     QObject::connect(m_heaterTab, SIGNAL(uplinkSOE()),
                      this, SLOT(uplinkSOE()));
+    QObject::connect(m_heaterTab, SIGNAL(uplinkLaser(bool)),
+                     this, SLOT(uplinkLaser(bool)));
     QObject::connect(m_heaterTab, SIGNAL(uplinkHeater(int)),
                      this, SLOT(uplinkHeater(int)));
 
@@ -285,6 +287,14 @@ void MainWindow::uplinkSODS()
 void MainWindow::uplinkSOE()
 {
     const char frame[4] = {UPLINK_RXSM_COMMAND, 0x5, 0, 0};
+    this->uplinkRequest(frame, 4);
+}
+
+void MainWindow::uplinkLaser(bool on)
+{
+    char command = (on) ? 0xFF : 0x0;
+
+    const char frame[4] = {UPLINK_LASER_COMMAND, command, 0, 0};
     this->uplinkRequest(frame, 4);
 }
 

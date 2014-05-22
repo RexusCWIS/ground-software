@@ -6,6 +6,7 @@
 /* Uplink command bytes */
 #define UPLINK_HEATER_COMMAND   0x00
 #define UPLINK_RXSM_COMMAND     0x0F
+#define UPLINK_LASER_COMMAND    0xCC
 #define UPLINK_CAMERA_COMMAND   0xF0
 #define UPLINK_CONFIG_COMMAND   0xFF
 
