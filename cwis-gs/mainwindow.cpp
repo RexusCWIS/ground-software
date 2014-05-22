@@ -131,6 +131,7 @@ void MainWindow::createMenus()
     m_fileMenu = this->menuBar()->addMenu(tr("&File"));
     m_fileMenu->addAction(m_saveAction);
     m_fileMenu->addAction(m_saveRawDataAction);
+    m_fileMenu->addAction(m_loadRawDataAction);
     m_fileMenu->addSeparator();
     m_fileMenu->addAction(m_clearAction);
     m_saveAction->setShortcut(QKeySequence::Save);
@@ -147,11 +148,14 @@ void MainWindow::createActions()
 {
     m_saveAction  = new QAction(tr("&Save"), this);
     m_saveRawDataAction = new QAction(tr("Save raw data"), this);
+    m_loadRawDataAction = new QAction(tr("Load raw data"), this);
     m_clearAction = new QAction(tr("&Clear"), this);
     QObject::connect(m_saveAction, SIGNAL(triggered()),
                      this, SLOT(saveRecordedData()));
     QObject::connect(m_saveRawDataAction, SIGNAL(triggered()),
                      this, SLOT(saveRawData()));
+    QObject::connect(m_loadRawDataAction, SIGNAL(triggered()),
+                     this, SLOT(loadRawData()));
     QObject::connect(m_clearAction, SIGNAL(triggered()),
                      this, SLOT(clear()));
 
@@ -251,7 +255,42 @@ void MainWindow::saveRecordedData()
 
 void MainWindow::loadRawData()
 {
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open raw data file"), QDir::homePath(), tr("Text files (*.txt);;All files (*)"));
 
+    if(filename.isEmpty()) {
+        return;
+    }
+
+    QFile file(filename);
+    if(file.open(QFile::ReadOnly | QFile::Text)) {
+        QTextStream in(&file);
+
+        QString line;
+        ControlModuleData data;
+
+        while(!in.atEnd()) {
+            line = in.readLine();
+            QStringList elements = line.split(" ");
+
+            data.time = (((unsigned int) elements.at(5).toInt()) << 24) + (((unsigned int) elements.at(4).toInt()) << 16) +
+                    (((unsigned int) elements.at(3).toInt()) << 8) + ((unsigned int) elements.at(2).toInt());
+
+            data.temperatures[0] = (((unsigned int) elements.at(7).toInt()) << 8) + ((unsigned int) elements.at(6).toInt());
+            data.temperatures[1] = (((unsigned int) elements.at(9).toInt()) << 8) + ((unsigned int) elements.at(8).toInt());
+            data.temperatures[2] = (((unsigned int) elements.at(11).toInt()) << 8) + ((unsigned int) elements.at(10).toInt());
+            data.pressure = (((unsigned int) elements.at(13).toInt()) << 8) + ((unsigned int) elements.at(12).toInt());
+            data.heating  = (unsigned int) elements.at(14).toInt();
+
+            data.nbOfImages  = (((unsigned int) elements.at(16).toInt()) << 8) + ((unsigned int) elements.at(17).toInt());
+            data.framerate   = (unsigned int) elements.at(18).toInt();
+            data.controlModuleStatus = elements.at(15).toInt();
+            data.cameraModuleStatus  = elements.at(19).toInt();
+
+            data.currentTime = QTime::currentTime();
+
+            this->newData(data);
+        }
+    }
 }
 
 void MainWindow::saveRawData()

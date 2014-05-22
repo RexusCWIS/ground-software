@@ -62,7 +62,7 @@ void DataPlot::setAutoRange(bool on)
     m_autoRange = on;
 
     if(m_autoRange) {
-        this->setInteractions(QCP::iSelectPlottables);
+        this->setInteractions(QCP::iRangeDrag | QCP::iSelectPlottables);
         this->xAxis->setAutoTickStep(false);
         this->xAxis->setTickStep(m_autoRangeValue/5.0);
         this->xAxis->setAutoSubTicks(false);
