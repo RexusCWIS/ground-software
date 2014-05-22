@@ -60,11 +60,28 @@ The \emph{real-time values} box on the left displays the values for the temperat
 
 \subsection{Heater tab}
 
-The heater tab allows the user to interact with the experiment by using the uplink channel.
+\begin{figure}[!h]
+\center
+\includegraphics[width=15cm]{images/gs_heater_tab.png}
+\label{image:gs_heater_tab}
+\caption{Heater tab}
+\end{figure}
+
+The heater tab (figure \ref{image:gs_heater_tab}) allows the user to interact with the experiment by using the uplink channel.
+It displays the top temperatures and the heating PWM.
+It also integrates a PI control simulation.
+See \ref{subsection:automatic_heater_control}.
 
 \subsection{Data tab}
 
-The data tab displays each data frame in its textual form.
+\begin{figure}[!h]
+\center
+\includegraphics[width=15cm]{images/gs_data_tab.png}
+\label{image:gs_data_tab}
+\caption{Data tab}
+\end{figure}
+
+The data tab (figure \ref{image:gs_data_tab}) displays each data frame in its textual form.
 
 \section{Using the ground software}
 
@@ -89,6 +106,13 @@ Please note that the serial USB adapter must be connected to the computer before
 
 The data can be saved in two formats. The standard saving method, using the \textbf{File/Save} menu, saves the data in a formatted file for easy parsing. The second method saves the raw data from the serial frames (see \ref{section:downlink}), thus saving all information received from the module.
 
+\subsection{Loading raw data}
+
+By using the \textbf{File/Load raw data} menu, you can load and visualize previously acquired raw data.
+Open the file and the data is automatically loaded in the different tabs.
+
+Please note that this functionality must not be used while acquiring data.
+
 \subsection{Basic uplink commands}
 
 The \emph{heater tab} provides basic uplink commands to send various signals to the module.
@@ -101,6 +125,7 @@ The user can:
 \end{itemize}
 
 \subsection{Automatic heater control}
+\label{subsection:automatic_heater_control}
 
 A more advanced use of the uplink channel is the automatic heater control.
 The ground software integrates a simulator of the PI control loop.
