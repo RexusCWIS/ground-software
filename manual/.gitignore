@@ -2,3 +2,7 @@
 *.out
 *.synctex.gz
 *.toc
+*.log
+*.pdf
+*.fls
+*.fdb_latexmk
