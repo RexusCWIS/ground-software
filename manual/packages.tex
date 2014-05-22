@@ -6,3 +6,15 @@
 \usepackage{tabularx}
 \usepackage{multirow}   % multiple line rows and columns in tabulars
 \usepackage{graphicx}   % required to include images
+
+\usepackage{fancyhdr}
+\fancypagestyle{myheadings}{
+    \lhead[]{\leftmark}
+    \chead[]{}
+    \rhead[]{\thesection}
+
+    \lfoot[]{}
+    \cfoot[]{\thepage}
+    \rfoot[]{}
+
+}
