@@ -149,6 +149,8 @@ void StatusPanel::clear()
     m_loStatusFlag->setStatus(false);
     m_sodsStatusFlag->setStatus(false);
     m_soeStatusFlag->setStatus(false);
+
+    m_cameraImagesStatus->setText(tr(""));
 }
 
 void StatusPanel::startChronometer(bool triggered)

@@ -23,6 +23,8 @@ signals:
 public slots:
 
 private:
+    void showEvent(QShowEvent *event);
+
     QComboBox *m_deviceSelector;
     QComboBox *m_baudrateSelector;
     QComboBox *m_dataBitsSelector;
@@ -41,6 +43,9 @@ private:
     QGridLayout *m_selectorsLayout;
     QHBoxLayout *m_buttonsLayout;
     QVBoxLayout *m_mainLayout;
+
+private slots:
+    void updateSerialDevicesList();
 };
 
 #endif // SERIALPORTDIALOG_H

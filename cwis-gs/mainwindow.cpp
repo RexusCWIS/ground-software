@@ -394,14 +394,11 @@ void MainWindow::closeEvent(QCloseEvent *event) {
         QMessageBox::StandardButton reply;
         reply = QMessageBox::warning(this, tr("Application"),
                                      tr("You have not saved the data.\n"
-                                        "Save it?"),
-                                     QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+                                        "Quit?"),
+                                     QMessageBox::Yes | QMessageBox::No);
 
         switch(reply) {
-        case QMessageBox::Save:
-            this->saveRecordedData();
-            this->saveRawData();
-        case QMessageBox::Discard:
+        case QMessageBox::Yes:
             event->accept();
             break;
         default:

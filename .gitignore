@@ -17,3 +17,6 @@ build-*
 
 # Qt files
 *.pro.user*
+
+# Mac backup file
+.DS_Store

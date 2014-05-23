@@ -18,12 +18,7 @@ SerialPortDialog::SerialPortDialog(QWidget *parent) :
     m_paritySelector   = new QComboBox();
     m_stopBitsSelector = new QComboBox();
 
-    foreach(const QSerialPortInfo &info, QSerialPortInfo::availablePorts()) {
-
-        if(!info.isBusy()) {
-            m_deviceSelector->addItem(info.portName());
-        }
-    }
+    this->updateSerialDevicesList();
 
     m_baudrateSelector->insertItem(m_baudrateSelector->count(), "1200 bps", QSerialPort::Baud1200);
     m_baudrateSelector->insertItem(m_baudrateSelector->count(), "2400 bps", QSerialPort::Baud2400);
@@ -99,4 +94,23 @@ SerialPortConfig SerialPortDialog::getSerialPortConfig() const {
     config.stopBits = (QSerialPort::StopBits) m_stopBitsSelector->itemData(m_stopBitsSelector->currentIndex()).toInt();
 
     return config;
+}
+
+void SerialPortDialog::showEvent(QShowEvent *event)
+{
+    QDialog::showEvent(event);
+
+    this->updateSerialDevicesList();
+}
+
+void SerialPortDialog::updateSerialDevicesList()
+{
+    m_deviceSelector->clear();
+
+    foreach(const QSerialPortInfo &info, QSerialPortInfo::availablePorts()) {
+
+        if(!info.isBusy()) {
+            m_deviceSelector->addItem(info.portName());
+        }
+    }
 }
