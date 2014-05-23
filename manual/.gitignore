@@ -6,3 +6,6 @@
 *.pdf
 *.fls
 *.fdb_latexmk
+
+# Scons file
+*.dblite
