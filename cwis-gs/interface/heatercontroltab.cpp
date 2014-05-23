@@ -205,7 +205,6 @@ void HeaterControlTab::sidePanelSetup()
     m_rxsmLOButton   = new QPushButton(tr("LO"), m_uplinkBox);
     m_rxsmSODSButton = new QPushButton(tr("SODS"), m_uplinkBox);
     m_rxsmSOEButton  = new QPushButton(tr("SOE"), m_uplinkBox);
-    m_laserCheckBox  = new QCheckBox(tr("Laser"), m_uplinkBox);
 
     QObject::connect(m_rxsmLOButton, SIGNAL(clicked()),
                      this, SIGNAL(uplinkLO()));
@@ -213,7 +212,12 @@ void HeaterControlTab::sidePanelSetup()
                      this, SIGNAL(uplinkSODS()));
     QObject::connect(m_rxsmSOEButton, SIGNAL(clicked()),
                      this, SIGNAL(uplinkSOE()));
-    QObject::connect(m_laserCheckBox, SIGNAL(toggled(bool)),
+
+    m_laserOnButton  = new QRadioButton(tr("Laser On"), m_uplinkBox);
+    m_laserOffButton = new QRadioButton(tr("Laser Off"), m_uplinkBox);
+
+    m_laserOffButton->setChecked(true);
+    QObject::connect(m_laserOnButton, SIGNAL(toggled(bool)),
                      this, SIGNAL(uplinkLaser(bool)));
 
     m_heaterDutyCycleTextLabel  = new QLabel(tr("Heater duty cycle: "), m_uplinkBox);
@@ -229,9 +233,10 @@ void HeaterControlTab::sidePanelSetup()
     m_uplinkBoxLayout->addWidget(m_rxsmLOButton, 0, 0, 1, 2);
     m_uplinkBoxLayout->addWidget(m_rxsmSODSButton, 1, 0, 1, 2);
     m_uplinkBoxLayout->addWidget(m_rxsmSOEButton, 2, 0, 1, 2);
-    m_uplinkBoxLayout->addWidget(m_heaterDutyCycleTextLabel, 3, 0);
-    m_uplinkBoxLayout->addWidget(m_heaterDutyCycleValueLabel, 3, 1);
-    m_uplinkBoxLayout->addWidget(m_laserCheckBox, 4, 0, 1, 2);
+    m_uplinkBoxLayout->addWidget(m_laserOnButton, 3, 0, 1, 2, Qt::AlignCenter);
+    m_uplinkBoxLayout->addWidget(m_laserOffButton, 4, 0, 1, 2, Qt::AlignCenter);
+    m_uplinkBoxLayout->addWidget(m_heaterDutyCycleTextLabel, 5, 0);
+    m_uplinkBoxLayout->addWidget(m_heaterDutyCycleValueLabel, 5, 1);
 
     m_piKpTextLabel = new QLabel(tr("Kp"), m_piControlBox);
     m_piKiTextLabel = new QLabel(tr("Ki"), m_piControlBox);

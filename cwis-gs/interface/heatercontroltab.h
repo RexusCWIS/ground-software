@@ -59,10 +59,11 @@ private:
     QPushButton *m_rxsmSODSButton;
     QPushButton *m_rxsmSOEButton;
 
-    QCheckBox *m_laserCheckBox;
-
     QLabel *m_heaterDutyCycleTextLabel;
     QLineEdit *m_heaterDutyCycleValueLabel;
+
+    QRadioButton *m_laserOnButton;
+    QRadioButton *m_laserOffButton;
 
     QLabel *m_piKpTextLabel;
     QLabel *m_piKiTextLabel;
